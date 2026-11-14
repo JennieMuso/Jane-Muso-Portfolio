@@ -15,15 +15,33 @@ window.addEventListener('resize', fitDisplayTitles);
 
 const menuButton = document.querySelector('.menu-toggle');
 const mobileNav = document.getElementById('mobile-nav');
-menuButton.addEventListener('click', () => {
-  const open = menuButton.getAttribute('aria-expanded') !== 'true';
+let menuCloseTimer;
+mobileNav.inert = true;
+function setMobileMenu(open, returnFocus = false) {
+  clearTimeout(menuCloseTimer);
   menuButton.setAttribute('aria-expanded', String(open));
-  mobileNav.hidden = !open;
+  menuButton.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  document.body.classList.toggle('menu-open', open);
+  if (open) {
+    mobileNav.hidden = false;
+    mobileNav.inert = false;
+    requestAnimationFrame(() => mobileNav.classList.add('is-open'));
+    mobileNav.querySelector('a')?.focus({ preventScroll: true });
+  } else {
+    mobileNav.classList.remove('is-open');
+    mobileNav.inert = true;
+    menuCloseTimer = setTimeout(() => { mobileNav.hidden = true; }, 480);
+    if (returnFocus) menuButton.focus({ preventScroll: true });
+  }
+}
+menuButton.addEventListener('click', () => setMobileMenu(menuButton.getAttribute('aria-expanded') !== 'true'));
+mobileNav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMobileMenu(false)));
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') setMobileMenu(false, true);
 });
-mobileNav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-  mobileNav.hidden = true;
-  menuButton.setAttribute('aria-expanded', 'false');
-}));
+window.matchMedia('(min-width: 801px)').addEventListener('change', event => {
+  if (event.matches && menuButton.getAttribute('aria-expanded') === 'true') setMobileMenu(false);
+});
 
 const solutionPanels = [...document.querySelectorAll('.solution')];
 solutionPanels.forEach(panel => panel.addEventListener('toggle', () => {

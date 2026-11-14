@@ -1,0 +1,104 @@
+@media (max-width: 800px) {
+  body.menu-open { overflow: hidden; }
+  .header { position: relative; z-index: 50; }
+  .menu-toggle {
+    display: grid;
+    place-items: center;
+    width: 58px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: var(--red);
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    z-index: 51;
+  }
+  .menu-toggle-lines { display: grid; gap: 6px; }
+  .menu-toggle-lines span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: currentColor;
+    transform-origin: center;
+    transition: transform .42s cubic-bezier(.16,1,.3,1);
+  }
+  .menu-toggle[aria-expanded="true"] .menu-toggle-lines span:first-child { transform: translateY(4px) rotate(45deg); }
+  .menu-toggle[aria-expanded="true"] .menu-toggle-lines span:last-child { transform: translateY(-4px) rotate(-45deg); }
+  .mobile-nav {
+    display: block;
+    position: fixed;
+    z-index: 40;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    padding: 0;
+    overflow-y: auto;
+    background: #fff;
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    opacity: 0;
+    transform: translateY(-18px);
+    pointer-events: none;
+    transition: opacity .4s ease, transform .48s cubic-bezier(.16,1,.3,1);
+  }
+  .mobile-nav[hidden] { display: none; }
+  .mobile-nav.is-open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  .mobile-nav-panel {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: 108px clamp(18px, 4vw, 42px) 28px;
+  }
+  .mobile-nav-links { display: flex; flex-direction: column; }
+  .mobile-nav-links a {
+    display: block;
+    width: 100%;
+    padding: 2px 0 4px;
+    border-bottom: 1px solid #d8d2ca;
+    font: 600 clamp(52px, 8.5vw, 84px)/1 Oswald, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: -.025em;
+    transition: color .2s ease, padding-left .35s cubic-bezier(.16,1,.3,1);
+  }
+  .mobile-nav-links a:hover,
+  .mobile-nav-links a:focus-visible,
+  .mobile-nav-links a[aria-current="page"] { color: var(--red); }
+  .mobile-nav-links a:hover { padding-left: 12px; }
+  .mobile-work-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    align-self: flex-start;
+    gap: 25px;
+    margin-top: 25px;
+    padding-bottom: 9px;
+    border-bottom: 2px solid currentColor;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--red);
+  }
+  .mobile-work-link span[aria-hidden="true"] { position: relative; display: inline-block; width: 17px; height: 17px; font-size: 0; }
+  .mobile-work-link span[aria-hidden="true"]::before { content: ""; position: absolute; left: 0; top: 8px; width: 16px; height: 1.5px; background: currentColor; transform: rotate(-45deg); }
+  .mobile-work-link span[aria-hidden="true"]::after { content: ""; position: absolute; right: 1px; top: 1px; width: 8px; height: 8px; border-top: 1.5px solid currentColor; border-right: 1.5px solid currentColor; }
+  .mobile-socials { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: auto; padding-top: 35px; }
+  .mobile-socials p { margin: 0; font-size: 13px; font-weight: 700; }
+  .mobile-social-links { display: flex; gap: 8px; }
+  .mobile-social-links a { display: grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--ink); transition: color .2s, background .2s; }
+  .mobile-social-links a:hover,
+  .mobile-social-links a:focus-visible { color: #fff; background: var(--ink); }
+  .mobile-social-links svg { width: 18px; height: 18px; display: block; }
+}
+@media (max-width: 800px) and (max-height: 720px) {
+  .mobile-nav-panel { padding-top: 76px; padding-bottom: 18px; }
+  .mobile-nav-links a { font-size: 48px; line-height: .95; }
+  .mobile-work-link { margin-top: 14px; }
+  .mobile-socials { padding-top: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu-toggle-lines span,
+  .mobile-nav,
+  .mobile-nav-links a { transition: none; }
+}
