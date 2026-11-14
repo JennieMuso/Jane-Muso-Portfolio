@@ -7,7 +7,7 @@ const links = [
   { label: 'Work', href: '/work/', key: 'work' },
   { label: 'Blog', href: '/blog/', key: 'blog' },
   { label: 'Shop', href: '/shop/', key: 'shop' },
-  { label: 'Contact', href: '/#contact', key: 'contact' }
+  { label: 'Contact', href: '/contact/', key: 'contact' }
 ];
 ---
 <header class="header" aria-label="Main navigation">
@@ -22,7 +22,7 @@ const links = [
     <div class="mobile-nav-links">
       {links.map(({ label, href, key }) => <a href={href} aria-current={current === key ? 'page' : undefined}>{label}</a>)}
     </div>
-    <a class="mobile-work-link" href="/#contact">Work with me <Icon name="ArrowUpRight" size={18} /></a>
+    <a class="mobile-work-link" href="/contact/">Work with me <Icon name="ArrowUpRight" size={18} /></a>
     <div class="mobile-socials">
       <p>Keep in touch on socials</p>
       <div class="mobile-social-links">

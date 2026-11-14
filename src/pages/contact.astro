@@ -1,0 +1,75 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from '../components/Icon.astro';
+---
+<Layout
+  title="Contact — Jennie Muso"
+  description="Tell Jennie Muso about your business and the website, app, or digital experience you want to create."
+  current="contact"
+  styles={['fonts.css', 'styles.css', 'editorial.css', 'projects.css', 'reference-layout.css', 'refinements.css', 'contact.css']}
+  bodyClass="contact-page"
+>
+  <section class="contact-hero" aria-labelledby="contact-page-title">
+    <div class="contact-page-meta"><span>Jennie Muso / Founder & Designer</span><span>Open to thoughtful collaborations</span><span>Contact / Start here</span></div>
+    <h1 id="contact-page-title">LET’S TALK<span>.</span><br>ABOUT IT<span>.</span></h1>
+    <div class="contact-hero-stage">
+      <div class="contact-hero-note">
+        <p>Good work starts with a good conversation. Tell me what you’re making, what’s getting in the way, and what you want people to feel when they find you.</p>
+        <a class="contact-hero-link" href="#project-brief">Tell me about your idea <Icon name="ArrowUpRight" size={20} /></a>
+        <span class="contact-hero-caption">A little curiosity makes the best work.</span>
+      </div>
+      <div class="contact-illustration" aria-label="Illustration of a woman designer writing and working at a laptop, surrounded by her interests">
+        <img src="/assets/contact-illustration.webp" alt="Illustrated woman designer writing in a notebook beside her laptop" width="1536" height="1024" />
+        <span class="interest interest-writing"><Icon name="PencilLine" size={30} /><span>WRITING <small>01 / WORDS</small></span></span>
+        <span class="interest interest-cooking"><Icon name="CookingPot" size={30} /><span>COOKING <small>02 / FLAVOUR</small></span></span>
+        <span class="interest interest-robotics"><Icon name="Robot" size={30} /><span>ROBOTS <small>03 / MAKING</small></span></span>
+        <span class="interest interest-racing"><Icon name="FlagCheckered" size={30} /><span>F1 RACING <small>04 / MOTION</small></span></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="project-brief" id="project-brief" aria-labelledby="project-brief-title">
+    <div class="project-brief-intro">
+      <span class="brief-number">A PROJECT BEGINS HERE / 01—07</span>
+      <h2 id="project-brief-title">TELL ME<br>WHAT’S ON<br>YOUR MIND<span>.</span></h2>
+      <p>Whether your idea is fully formed or still a few notes on a page, I’d love to hear it. The details below help me understand what matters most to you.</p>
+      <div class="brief-direct"><span>Prefer to keep it simple?</span><a href="mailto:hello@jenniemuso.com">Email me directly <Icon name="ArrowUpRight" size={18} /></a></div>
+    </div>
+
+    <form class="project-form" id="project-form" action="mailto:hello@jenniemuso.com" method="post" enctype="text/plain">
+      <div class="form-field">
+        <label for="full-name"><span>01 / FULL NAME <span class="required">*</span></span></label>
+        <input id="full-name" name="fullName" type="text" autocomplete="name" placeholder="Your name" required maxlength="120" />
+      </div>
+      <div class="form-field">
+        <label for="email"><span>02 / EMAIL ADDRESS <span class="required">*</span></span></label>
+        <input id="email" name="email" type="email" autocomplete="email" placeholder="you@yourbusiness.com" required maxlength="254" />
+      </div>
+      <div class="form-field">
+        <label for="business"><span>03 / YOUR BUSINESS <span class="required">*</span></span><span class="label-hint">What do you do?</span></label>
+        <textarea id="business" name="business" rows="3" placeholder="Tell me what you’re building and who it’s for." required maxlength="1800"></textarea>
+      </div>
+      <div class="form-field form-select-field">
+        <label for="service"><span>04 / WHAT CAN I HELP WITH? <span class="required">*</span></span></label>
+        <div class="select-wrap"><select id="service" name="service" required><option value="" disabled selected>Choose a service</option><option>Website or app design</option><option>UX design</option><option>No-code website build</option><option>Custom website development</option><option>Design and development together</option><option>Something else — let’s talk</option></select><Icon name="CaretDown" size={20} /></div>
+      </div>
+      <div class="form-field">
+        <label for="budget"><span>05 / BUDGET</span><span class="label-hint">An estimate is fine</span></label>
+        <input id="budget" name="budget" type="text" inputmode="text" placeholder="An amount and currency, or ‘let’s discuss’" maxlength="120" />
+      </div>
+      <div class="form-field form-select-field">
+        <label for="timeline"><span>06 / TIMING</span></label>
+        <div class="select-wrap"><select id="timeline" name="timeline"><option value="" selected>When are you hoping to start?</option><option>As soon as possible</option><option>In the next 1–2 months</option><option>In 3–6 months</option><option>I’m flexible</option></select><Icon name="CaretDown" size={20} /></div>
+      </div>
+      <div class="form-field">
+        <label for="project-details"><span>07 / THE BIG PICTURE <span class="required">*</span></span><span class="label-hint">Dream a little</span></label>
+        <textarea id="project-details" name="projectDetails" rows="5" placeholder="What would you love this project to make possible? Any links, goals, or questions I should know about?" required maxlength="4000"></textarea>
+      </div>
+      <div class="form-submit-row"><p>Submitting opens an email draft with your answers. Send the draft to complete your enquiry.</p><button type="submit">Prepare my enquiry <Icon name="ArrowUpRight" size={22} /></button></div>
+      <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <section class="contact-outro" aria-labelledby="contact-outro-title"><p>THE NEXT GOOD THING / STARTS WITH A HELLO</p><h2 id="contact-outro-title">SEE YOU IN<br>MY INBOX<span>.</span></h2><a href="mailto:hello@jenniemuso.com">hello@jenniemuso.com <Icon name="ArrowUpRight" size={22} /></a></section>
+  <script src="/contact.js" defer></script>
+</Layout>
