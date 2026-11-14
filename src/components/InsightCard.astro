@@ -1,0 +1,15 @@
+---
+import Icon from './Icon.astro';
+import type { Article } from '../data/articles';
+
+const { article, featured = false } = Astro.props as { article: Article; featured?: boolean };
+---
+<a class:list={['insight', featured && 'insight-featured']} href={`/blog/${article.slug}/`} aria-label={`Read ${article.title}`}>
+  <div class="insight-media"><img src={article.hero} alt={article.heroAlt} loading="lazy" /></div>
+  <div class="insight-details">
+    <span class="insight-category">{article.topic}</span>
+    <h3>{article.title}</h3>
+    <p>{article.excerpt}</p>
+    <span class="insight-view">View details <Icon name="ArrowUpRight" size={17} /></span>
+  </div>
+</a>

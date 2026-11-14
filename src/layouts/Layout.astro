@@ -2,7 +2,9 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
-const { title, description, current = 'home', styles = [], bodyClass = '' } = Astro.props;
+const { title, description, current = 'home', styles = [], bodyClass = '', image, type = 'website' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const socialImage = image ? new URL(image, Astro.site).href : undefined;
 ---
 <!doctype html>
 <html lang="en">
@@ -11,6 +13,13 @@ const { title, description, current = 'home', styles = [], bodyClass = '' } = As
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#f3f0e8" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {socialImage && <meta property="og:image" content={socialImage} />}
+    <meta name="twitter:card" content={socialImage ? 'summary_large_image' : 'summary'} />
     <link rel="icon" type="image/png" href="/assets/jennie-favicon.png" />
     <title>{title}</title>
     {styles.map((sheet) => <link rel="stylesheet" href={`/${sheet}`} />)}
