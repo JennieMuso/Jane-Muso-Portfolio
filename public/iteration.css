@@ -47,12 +47,6 @@
 .insight-action { position: absolute; right: 2px; bottom: 2px; width: 50px; height: 50px; border: 1px solid var(--red); border-radius: 0; display: grid; place-items: center; background: transparent; color: var(--red); font: 24px Arial,sans-serif; transition: color .25s, background .25s; }
 .insight:hover .insight-action,.insight:focus-visible .insight-action { background: var(--red); color: var(--paper); }
 .insights-more { margin-top: 48px; }
-a span[aria-hidden="true"]:not(.insight-action) { display: inline-block; flex: none; position: relative; width: 18px; height: 18px; font-size: 0; vertical-align: middle; }
-a span[aria-hidden="true"]:not(.insight-action)::before { content: ""; position: absolute; width: 17px; height: 1.5px; left: 0; top: 9px; background: currentColor; transform: rotate(-45deg); }
-a span[aria-hidden="true"]:not(.insight-action)::after { content: ""; position: absolute; width: 8px; height: 8px; right: 1px; top: 1px; border-top: 1.5px solid currentColor; border-right: 1.5px solid currentColor; }
-a .insight-action { font-size: 0; }
-.insight-action::before { content: ""; position: absolute; width: 19px; height: 1.5px; left: 15px; top: 25px; background: currentColor; transform: rotate(-45deg); }
-.insight-action::after { content: ""; position: absolute; width: 9px; height: 9px; right: 15px; top: 15px; border-top: 1.5px solid currentColor; border-right: 1.5px solid currentColor; }
 .blog-articles { border-top: 1px solid rgba(25,21,21,.42); }
 .blog-article { border-bottom: 1px solid rgba(25,21,21,.42); padding: 38px 0; align-items: stretch; }
 .blog-article:nth-child(even) .blog-article-image { order: 0; }
@@ -90,8 +84,6 @@ a .insight-action { font-size: 0; }
   .insight h3 { font-size: 36px; margin: 18px 0 18px; }
   .insight p { font-size: 15px; }
   .insight-action { width: 42px; height: 42px; bottom: 0; }
-  .insight-action::before { left: 12px; top: 21px; }
-  .insight-action::after { right: 12px; top: 11px; }
   .blog-article { padding: 35px 0; }
   .contact-main { grid-template-columns: minmax(0,1fr) auto; gap: 6px; align-items: start; }
   .contact h2 { font-size: 11.5vw; }

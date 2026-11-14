@@ -1,0 +1,12 @@
+---
+import ArrowUpRight from '@phosphor-icons/core/assets/regular/arrow-up-right.svg';
+import ArrowUp from '@phosphor-icons/core/assets/regular/arrow-up.svg';
+import GithubLogo from '@phosphor-icons/core/assets/regular/github-logo.svg';
+import LinkedinLogo from '@phosphor-icons/core/assets/regular/linkedin-logo.svg';
+import XLogo from '@phosphor-icons/core/assets/regular/x-logo.svg';
+
+const icons = { ArrowUpRight, ArrowUp, GithubLogo, LinkedinLogo, XLogo };
+const { name, size = 20, class: className = '' } = Astro.props;
+const Graphic = icons[name];
+---
+<span class:list={['phosphor-icon', className]} aria-hidden="true"><Graphic width={size} height={size} /></span>

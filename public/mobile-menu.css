@@ -80,9 +80,6 @@
     font-weight: 700;
     color: var(--red);
   }
-  .mobile-work-link span[aria-hidden="true"] { position: relative; display: inline-block; width: 17px; height: 17px; font-size: 0; }
-  .mobile-work-link span[aria-hidden="true"]::before { content: ""; position: absolute; left: 0; top: 8px; width: 16px; height: 1.5px; background: currentColor; transform: rotate(-45deg); }
-  .mobile-work-link span[aria-hidden="true"]::after { content: ""; position: absolute; right: 1px; top: 1px; width: 8px; height: 8px; border-top: 1.5px solid currentColor; border-right: 1.5px solid currentColor; }
   .mobile-socials { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: auto; padding-top: 35px; }
   .mobile-socials p { margin: 0; font-size: 13px; font-weight: 700; }
   .mobile-social-links { display: flex; gap: 8px; }
