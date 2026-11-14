@@ -1,0 +1,66 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../../components/Icon.astro';
+import { projects, projectAsset, type Project } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+const { project } = Astro.props as { project: Project };
+const index = projects.findIndex((item) => item.slug === project.slug);
+const next = projects[(index + 1) % projects.length];
+---
+<Layout title={`${project.name} — Work by Jennie Muso`} description={`${project.name}: ${project.intro} A website design and development case study by Jennie Muso.`} current="work" styles={['fonts.css', 'styles.css', 'case-study.css']} bodyClass={`case-study case-${project.slug}`}>
+  <article style={`--case-accent:${project.accent};--case-canvas:${project.canvas}`}>
+    <header class="case-heading">
+      <div class="case-index"><a href="/work/"><Icon name="ArrowLeft" size={16} /> All work</a><span>{String(index + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')} &nbsp; {project.eyebrow}</span></div>
+      <h1>{project.name}<span>.</span></h1>
+      <div class="case-heading-bottom"><span>Website design &amp; development</span><span>Scroll to explore <Icon name="ArrowDown" size={17} /></span></div>
+    </header>
+
+    <figure class="case-hero parallax-frame">
+      <img src={projectAsset(project, 'hero')} alt={project.heroAlt} fetchpriority="high" data-parallax />
+      <figcaption><span>{project.eyebrow}</span><span>Jennie Muso / Selected work</span></figcaption>
+    </figure>
+
+    <section class="case-overview" aria-labelledby="case-overview-title">
+      <div class="case-facts">
+        <div class="case-fact-title"><span class="case-label">01 / The project</span><h2 id="case-overview-title">{project.name}</h2></div>
+        <div class="case-fact-block"><h3>Disciplines</h3><ul>{project.disciplines.map((item) => <li><Icon name="ArrowUpRight" size={17} /> {item}</li>)}</ul></div>
+        <div class="case-fact-block"><h3>Technology</h3><ul class="case-stack">{project.stack.map((item) => <li>{item}</li>)}</ul></div>
+        <a class="case-visit" href={project.liveUrl} target="_blank" rel="noopener noreferrer">Visit the live website <Icon name="ArrowUpRight" size={20} /></a>
+      </div>
+      <div class="case-story"><p class="case-lede">{project.intro}</p>{project.story.map((paragraph) => <p>{paragraph}</p>)}</div>
+    </section>
+
+    <section class="case-showcase" aria-label="Website views">
+      <div class="case-section-top"><span class="case-label">02 / The experience</span><p>{project.designNote}</p></div>
+      <div class="case-device-scene">
+        <div class="case-browser" data-reveal>
+          <div class="browser-chrome"><span class="browser-dots"><i></i><i></i><i></i></span><span>{new URL(project.liveUrl).hostname}</span><Icon name="ArrowUpRight" size={14} /></div>
+          <img src={projectAsset(project, 'desktop')} alt={`${project.name} website homepage shown in a desktop browser`} loading="lazy" />
+        </div>
+        <div class="case-phone" data-reveal><div class="phone-speaker"></div><img src={projectAsset(project, 'mobile')} alt={`${project.name} website homepage on a phone`} loading="lazy" /></div>
+        {project.slug === 'jin-restaurant' && <>
+          <span class="floating-food food-one" aria-hidden="true"><img src={projectAsset(project, 'detail')} alt="" /></span>
+          <span class="floating-food food-two" aria-hidden="true"><img src={projectAsset(project, 'secondary')} alt="" /></span>
+        </>}
+      </div>
+      <div class="case-image-caption"><span>01 / Homepage</span><span>Desktop &amp; mobile</span></div>
+    </section>
+
+    <section class="case-gallery" aria-label="More project details">
+      <div class="case-gallery-heading"><span class="case-label">03 / A closer look</span><h2>BUILT TO<br />BE FELT<span>.</span></h2></div>
+      <figure class="case-gallery-main parallax-frame"><img src={projectAsset(project, 'detail')} alt={project.detailCaption} loading="lazy" data-parallax /><figcaption>{project.detailCaption}</figcaption></figure>
+      <div class="case-gallery-grid">
+        <figure class="case-shot case-shot-page" data-reveal><img src={projectAsset(project, 'interior')} alt={`${project.name} interior page design`} loading="lazy" /><figcaption>Inside the website / another page</figcaption></figure>
+        <figure class="case-shot case-shot-image" data-reveal><img src={projectAsset(project, 'secondary')} alt={project.secondaryCaption} loading="lazy" /><figcaption>{project.secondaryCaption}</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="case-outro"><span class="case-label">Explore the project</span><a href={project.liveUrl} target="_blank" rel="noopener noreferrer">SEE IT LIVE <Icon name="ArrowUpRight" size={34} /></a></section>
+    <a class="case-next" href={`/work/${next.slug}/`}><span>Next project / {String((index + 1) % projects.length + 1).padStart(2, '0')}</span><strong>{next.name}<Icon name="ArrowUpRight" size={36} /></strong></a>
+  </article>
+  <script src="/case-study.js" defer></script>
+</Layout>
