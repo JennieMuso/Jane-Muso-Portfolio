@@ -1,0 +1,4 @@
+/* A consistent display weight across pages; the homepage wordmark keeps its heavier cut. */
+main :is(h1,h2):not(#hero-title):not(.about-statement) {
+  font-weight: 600;
+}
