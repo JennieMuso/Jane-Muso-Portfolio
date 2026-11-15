@@ -1,0 +1,13 @@
+---
+import Icon from './Icon.astro';
+import ProductVisual from './ProductVisual.astro';
+import { productPath, type Product } from '../data/products';
+const { product } = Astro.props as { product: Product };
+---
+<article class:list={['shop-product', `shop-product-${product.visual ?? 'generic'}`]} data-category={product.category}>
+  <a href={productPath(product)} aria-label={`Explore ${product.name}`}>
+    <div class="shop-card-art"><ProductVisual product={product} /><span class="shop-card-cue">View details <Icon name="ArrowUpRight" size={22} /></span></div>
+    <div class="shop-card-caption"><div><span>{product.category === 'component' ? 'Framer component' : 'Framer website template'}</span><h2>{product.name}</h2></div><Icon name="ArrowUpRight" size={24} /></div>
+    <p>{product.summary}</p>
+  </a>
+</article>

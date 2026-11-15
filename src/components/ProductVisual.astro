@@ -1,0 +1,17 @@
+---
+import type { Product } from '../data/products';
+const { product } = Astro.props as { product: Product };
+---
+<div class:list={['product-visual', `product-visual-${product.visual ?? 'generic'}`]} aria-hidden="true">
+  {product.visual === 'macula' ? <>
+    <img class="macula-image" src={product.coverImage} alt="" />
+    <div class="macula-veil"></div><img class="macula-revealed" src={product.coverImage} alt="" /><div class="macula-orbit"></div>
+    <span class="macula-mark">MACULA<br /><em>REVEAL</em></span>
+  </> : product.visual === 'onanni' ? <>
+    <img class="onanni-image" src={product.coverImage} alt="" />
+    <div class="onanni-overlay"><span>ONANNI</span><strong>VILLA</strong><small>A place to stay a little longer.</small></div>
+  </> : <>
+    {product.coverImage && <img class="product-cover-image" src={product.coverImage} alt="" />}
+    <span class="product-generic-name">{product.name}</span>
+  </>}
+</div>
