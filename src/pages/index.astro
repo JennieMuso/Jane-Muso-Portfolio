@@ -6,6 +6,8 @@ import Faq from '../components/Faq.astro';
 import { articles } from '../data/articles';
 import { homeFaqs } from '../data/faqs';
 import { contentUpdated, faqSchema, graph, organizationSchema, personSchema, siteUrl } from '../data/seo';
+const aboutStatement = 'I design with intention, working with service businesses in the UAE and Kenya. I turn what makes them valuable into websites that feel clear, distinctive, and easy to trust.';
+const aboutWords = aboutStatement.split(' ');
 const schema = graph(
   organizationSchema,
   personSchema,
@@ -14,7 +16,7 @@ const schema = graph(
   faqSchema(homeFaqs)
 );
 ---
-<Layout title='Jennie Muso — Creative Portfolio' description='Selected websites by Jennie Muso: Veyra Cargo, Bayline Legal, JIN Restaurant, and Nacre Dental. Web design, UX and creative development.' current='home' styles={['fonts.css','styles.css','editorial.css','projects.css','reference-layout.css','refinements.css','final-touches.css','latest.css','insights.css','preview-fixes.css','iteration.css','content-updates.css','faq.css']} schema={schema} modified={contentUpdated}>
+<Layout title='Jennie Muso — Creative Portfolio' description='Jennie Muso designs websites for service businesses in the UAE and Kenya. Explore Veyra Cargo, Bayline Legal, JIN Restaurant, and Nacre Dental.' current='home' styles={['fonts.css','styles.css','editorial.css','projects.css','reference-layout.css','refinements.css','final-touches.css','latest.css','insights.css','preview-fixes.css','iteration.css','content-updates.css','faq.css']} schema={schema} modified={contentUpdated}>
 
       <section class="hero editorial-hero" id="work" aria-labelledby="hero-title">
         <div class="hero-meta"><span>Jennie Muso / digital designer & maker</span><span>Website design & development</span><span>Selected projects</span></div>
@@ -40,7 +42,11 @@ const schema = graph(
         </div>
       </section>
 
-      <section class="manifesto about-story" id="about" aria-labelledby="about-title"><div class="about-top"><span class="about-photo"><img src="/assets/jennie-portrait-preview.jpg" alt="Portrait of Jennie Muso at a desk with a tablet" width="1086" height="1448" loading="lazy"></span><span class="about-name">Jennie Muso<br>Founder & Designer</span></div><h2 id="about-title" class="about-statement" aria-label="I design with intention, bringing structure and expression together to make websites that speak clearly and feel unmistakably yours. I bring curiosity to every brief, making the complex feel clear, considered, and worth remembering."><span class="reveal-word revealed">I</span> <span class="reveal-word revealed">design</span> <span class="reveal-word revealed">with</span> <span class="reveal-word revealed">intention,</span> <span class="reveal-word">bringing</span> <span class="reveal-word">structure</span> <span class="reveal-word">and</span> <span class="reveal-word">expression</span> <span class="reveal-word">together</span> <span class="reveal-word">to</span> <span class="reveal-word">make</span> <span class="reveal-word">websites</span> <span class="reveal-word">that</span> <span class="reveal-word">speak</span> <span class="reveal-word">clearly</span> <span class="reveal-word">and</span> <span class="reveal-word">feel</span> <span class="reveal-word">unmistakably</span> <span class="reveal-word">yours.</span> <span class="reveal-word">I</span> <span class="reveal-word">bring</span> <span class="reveal-word">curiosity</span> <span class="reveal-word">to</span> <span class="reveal-word">every</span> <span class="reveal-word">brief,</span> <span class="reveal-word">making</span> <span class="reveal-word">the</span> <span class="reveal-word">complex</span> <span class="reveal-word">feel</span> <span class="reveal-word">clear,</span> <span class="reveal-word">considered,</span> <span class="reveal-word">and</span> <span class="reveal-word">worth</span> <span class="reveal-word">remembering.</span></h2><a class="text-link about-link" href="/contact/">Work with me <Icon name="ArrowUpRight" size={20} /></a></section>
+      <section class="manifesto about-story" id="about" aria-labelledby="about-title">
+        <div class="about-top"><span class="about-photo"><img src="/assets/jennie-portrait-preview.jpg" alt="Portrait of Jennie Muso at a desk with a tablet" width="1086" height="1448" loading="lazy"></span><span class="about-name">Jennie Muso<br>Founder & Designer</span></div>
+        <h2 id="about-title" class="about-statement" aria-label={aboutStatement}>{aboutWords.map((word, index) => <><span class:list={['reveal-word', { revealed: index < 4 }]}>{word}</span>{index < aboutWords.length - 1 ? ' ' : ''}</>)}</h2>
+        <a class="text-link about-link" href="https://www.linkedin.com/in/jane-muthoni-muchiri/" target="_blank" rel="noopener noreferrer">Learn more about me <Icon name="ArrowUpRight" size={20} /></a>
+      </section>
 
       <section class="insights" id="insights" aria-labelledby="insights-title"><div class="insights-head"><h2 id="insights-title">THINGS I’VE<br>BEEN THINKING<br>ABOUT<span>.</span></h2><p>Notes on building digital experiences that look good, make sense, and do their job.</p></div><div class="insights-grid">
         {articles.map((article, index) => <InsightCard article={article} featured={index === 0} />)}

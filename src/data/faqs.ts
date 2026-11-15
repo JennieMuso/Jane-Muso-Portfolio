@@ -28,11 +28,11 @@ export const contactFaqs: Faq[] = [
   },
   {
     question: 'What should I include in my enquiry?',
-    answer: 'Share the kind of help you need, your goals, any useful links, your preferred timeline, and a budget range if you have one. That gives us a useful starting point for a conversation.'
+    answer: 'Share the kind of help you need, your goals, any useful links, and your preferred timeline. Choose a budget guide or enter your own amount and page count so I can understand the scope.'
   },
   {
     question: 'What if I do not know my budget yet?',
-    answer: 'An estimate is helpful, but it is optional. You can leave the budget field open or write “let’s discuss” and explain the scope in your message.'
+    answer: 'Choose the project budget closest to your plans, or enter your own amount in US dollars and the number of pages you need. The listed prices are guides, and we can discuss the final scope together.'
   },
   {
     question: 'What happens when I submit the form?',

@@ -63,10 +63,21 @@ const schema = graph(
         <label for="service"><span>04 / WHAT CAN I HELP WITH? <span class="required">*</span></span></label>
         <div class="select-wrap"><select id="service" name="service" required><option value="" disabled selected>Choose a service</option><option>Website or app design</option><option>UX design</option><option>No-code website build</option><option>Custom website development</option><option>Design and development together</option><option>Something else — let’s talk</option></select><Icon name="CaretDown" size={20} /></div>
       </div>
-      <div class="form-field">
-        <label for="budget"><span>05 / BUDGET</span><span class="label-hint">An estimate is fine</span></label>
-        <input id="budget" name="budget" type="text" inputmode="text" placeholder="An amount and currency, or ‘let’s discuss’" maxlength="120" />
-      </div>
+      <fieldset class="form-field budget-field">
+        <legend>05 / PROJECT BUDGET <span class="required">*</span></legend>
+        <p class="budget-intro">Choose the closest fit, or share your own budget and page count. These are guides; the final scope is shaped around your project.</p>
+        <div class="budget-options">
+          <label class="budget-option"><input type="radio" name="budget" value="$1,500 — starter project" required /><span><strong>$1,500</strong><small>Starter project</small></span></label>
+          <label class="budget-option"><input type="radio" name="budget" value="$2,500 — 4 pages" /><span><strong>$2,500</strong><small>4 pages</small></span></label>
+          <label class="budget-option"><input type="radio" name="budget" value="$5,000 — 5–8 pages" /><span><strong>$5,000</strong><small>5–8 pages</small></span></label>
+          <label class="budget-option"><input type="radio" name="budget" value="$8,000 — 10–14 pages" /><span><strong>$8,000</strong><small>10–14 pages</small></span></label>
+          <label class="budget-option budget-option-custom"><input type="radio" name="budget" value="custom" /><span><strong>My own budget</strong><small>Tell me what works for you</small></span></label>
+        </div>
+        <div class="budget-custom-fields" id="budget-custom-fields" hidden>
+          <div><label for="custom-budget">YOUR BUDGET / USD</label><div class="budget-input-wrap"><span aria-hidden="true">$</span><input id="custom-budget" name="customBudget" type="number" inputmode="numeric" min="1" step="1" placeholder="Your amount" disabled /></div></div>
+          <div><label for="page-count">NUMBER OF PAGES</label><input id="page-count" name="pageCount" type="number" inputmode="numeric" min="1" step="1" placeholder="Your estimate" disabled /></div>
+        </div>
+      </fieldset>
       <div class="form-field form-select-field">
         <label for="timeline"><span>06 / TIMING</span></label>
         <div class="select-wrap"><select id="timeline" name="timeline"><option value="" selected>When are you hoping to start?</option><option>As soon as possible</option><option>In the next 1–2 months</option><option>In 3–6 months</option><option>I’m flexible</option></select><Icon name="CaretDown" size={20} /></div>
