@@ -16,7 +16,7 @@ The shop currently reads published products from `src/data/products.ts`. The cat
 | `gallery` | array of images and alt text | no | Future detail media |
 | `price` | string | yes | Price display and CTA |
 | `framerUrl` | URL | yes | Marketplace source |
-| `previewUrl` | URL | yes | Direct live preview link |
+| `previewUrl` | URL | yes | Interactive in-page preview and new-tab full preview link |
 | `checkoutUrl` | URL | yes | Lemon Squeezy purchase CTA |
 | `visual` | optional presentation variant | no | Custom visual for featured products; generic cover is the default |
 

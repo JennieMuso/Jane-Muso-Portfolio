@@ -37,9 +37,9 @@ export const products: Product[] = [
   },
   {
     slug: 'macula-reveal', name: 'Macula Reveal', category: 'component',
-    summary: 'A Framer component for an image-led reveal moment.',
+    summary: 'A cursor-following reveal that brings hidden imagery into view.',
     description: [
-      'Macula Reveal is a Framer component built around a visual reveal effect. It gives imagery a more expressive entrance within a page.',
+      'Macula Reveal is a Framer component built around a cursor-following smudge reveal. It lets visitors uncover imagery as they move across the page.',
       'Open the live preview to see the motion in context before purchasing the component.'
     ],
     features: ['Framer component', 'Live interaction preview'],
