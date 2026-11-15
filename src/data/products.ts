@@ -9,6 +9,8 @@ export type Product = {
   features: string[];
   coverImage?: string;
   coverAlt?: string;
+  previewImage?: string;
+  previewMode?: 'embed' | 'image';
   gallery?: { src: string; alt: string }[];
   framerUrl: string;
   previewUrl: string;

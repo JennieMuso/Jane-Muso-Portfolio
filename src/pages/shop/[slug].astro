@@ -12,6 +12,8 @@ export function getStaticPaths() {
 const { product } = Astro.props as { product: Product };
 const index = products.findIndex((item) => item.slug === product.slug);
 const next = products[(index + 1) % products.length];
+const previewMode = product.previewMode ?? 'embed';
+const previewImage = product.previewImage ?? product.coverImage;
 const schema = graph(
   organizationSchema,
   { '@type': 'Product', name: product.name, description: product.summary, url: `${siteUrl}/shop/${product.slug}/`, image: product.coverImage ? new URL(product.coverImage, siteUrl).href : undefined, brand: { '@id': `${siteUrl}/#organization` }, offers: { '@type': 'Offer', price: product.price.replace(/[^0-9.]/g, ''), priceCurrency: 'USD', url: product.checkoutUrl } }
@@ -29,12 +31,18 @@ const schema = graph(
       <div class="product-facts"><h2 id="product-intro-title">{product.category === 'component' ? 'The component' : 'The template'}</h2><dl><div><dt>Format</dt><dd>Framer {product.category === 'component' ? 'component' : 'website template'}</dd></div><div><dt>Price</dt><dd>{product.price}</dd></div><div><dt>Preview</dt><dd>Live website</dd></div></dl></div>
       <div class="product-story"><p class="product-lede">{product.summary}</p>{product.description.map((paragraph) => <p>{paragraph}</p>)}<div class="product-actions"><a class="product-button product-button-outline" href={product.previewUrl} target="_blank" rel="noopener noreferrer">Show preview <Icon name="ArrowUpRight" size={18} /></a><a class="product-button product-button-primary" href={product.checkoutUrl} target="_blank" rel="noopener noreferrer">Buy now — {product.price} <Icon name="ArrowUpRight" size={20} /></a></div><a class="product-source-link" href={product.framerUrl} target="_blank" rel="noopener noreferrer">View on Framer <Icon name="ArrowUpRight" size={16} /></a></div>
     </section>
-    <section class="product-preview-section" id="live-preview" aria-labelledby="preview-title"><div class="product-preview-header"><div><span>Try before you buy</span><h2 id="preview-title">SEE IT<br />IN ACTION<span>.</span></h2></div><p>Try the live {product.category === 'component' ? 'component' : 'template'} here, or open the full site in a new tab.</p></div>
+    <section class="product-preview-section" id="live-preview" aria-labelledby="preview-title"><div class="product-preview-header"><div><span>Try before you buy</span><h2 id="preview-title">SEE IT<br />IN ACTION<span>.</span></h2></div><p>Explore the {product.category === 'component' ? 'component' : 'template'} here, or open the full site in a new tab.</p></div>
       <div class="live-browser">
         <div class="live-browser-bar"><span class="live-browser-address"><span class="browser-dots" aria-hidden="true"><i></i><i></i><i></i></span>{new URL(product.previewUrl).hostname}</span><span class="live-browser-actions"><span class="live-browser-sizes" role="group" aria-label="Preview size"><button class="active" type="button" data-preview-size="desktop" aria-pressed="true">Desktop</button><button type="button" data-preview-size="mobile" aria-pressed="false">Mobile</button></span><a href={product.previewUrl} target="_blank" rel="noopener noreferrer" aria-label={`Open ${product.name} preview in a new tab`}><Icon name="ArrowUpRight" size={19} /></a></span></div>
-        <div class="live-browser-stage"><div class="live-browser-window"><iframe src={product.previewUrl} title={`${product.name} interactive live preview`} loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="fullscreen"></iframe></div></div>
+        <div class:list={['live-browser-stage', { 'is-fallback': previewMode === 'image' }]} data-preview-mode={previewMode}><div class="live-browser-window">
+          <div class="preview-fallback" aria-label={`${product.name} preview image`}>
+            {previewImage ? <img src={previewImage} alt={product.coverAlt ?? `${product.name} preview artwork`} loading="lazy" /> : <ProductVisual product={product} />}
+            <div class="preview-fallback-action"><span>Explore it on the live site</span><a href={product.previewUrl} target="_blank" rel="noopener noreferrer">Show preview <Icon name="ArrowUpRight" size={22} /></a></div>
+          </div>
+          {previewMode === 'embed' && <iframe src={product.previewUrl} title={`${product.name} interactive live preview`} loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="fullscreen" tabindex="-1"></iframe>}
+        </div></div>
       </div>
-      <div class="preview-foot"><span>Live preview / {new URL(product.previewUrl).hostname}</span><a href={product.previewUrl} target="_blank" rel="noopener noreferrer">Open full preview <Icon name="ArrowUpRight" size={18} /></a></div>
+      <div class="preview-foot"><span>Live preview / {new URL(product.previewUrl).hostname}</span><div class="preview-foot-actions">{previewMode === 'embed' && <button type="button" data-preview-fallback aria-pressed="false">Preview not showing? Use image</button>}<a href={product.previewUrl} target="_blank" rel="noopener noreferrer">Open full preview <Icon name="ArrowUpRight" size={18} /></a></div></div>
     </section>
     <section class="product-includes"><div><span>In the collection</span><h2>MADE TO<br />MAKE MORE<span>.</span></h2></div><ul>{product.features.map((feature) => <li>{feature}<Icon name="ArrowUpRight" size={20} /></li>)}</ul></section>
     <section class="product-purchase"><p>Ready to make it yours?</p><h2>{product.name}<span>.</span></h2><a href={product.checkoutUrl} target="_blank" rel="noopener noreferrer">Buy now — {product.price} <Icon name="ArrowUpRight" size={24} /></a><small>Secure checkout on Lemon Squeezy.</small></section>
