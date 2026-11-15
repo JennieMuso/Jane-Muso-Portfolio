@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Icon from '../../components/Icon.astro';
 import { articles, type Article } from '../../data/articles';
+import { graph, organizationSchema, personSchema, siteUrl } from '../../data/seo';
 
 export function getStaticPaths() {
   return articles.map((article) => ({ params: { slug: article.slug }, props: { article } }));
@@ -13,8 +14,13 @@ const next = articles[(index + 1) % articles.length];
 const articleUrl = new URL(`/blog/${article.slug}/`, Astro.site).href;
 const shareUrl = encodeURIComponent(articleUrl);
 const shareTitle = encodeURIComponent(article.title);
+const schema = graph(
+  organizationSchema,
+  personSchema,
+  { '@type': 'BlogPosting', '@id': `${articleUrl}#article`, headline: article.title, description: article.excerpt, image: new URL(article.hero, siteUrl).href, url: articleUrl, author: { '@id': `${siteUrl}/#jennie-muso` }, publisher: { '@id': `${siteUrl}/#organization` }, articleSection: article.topic }
+);
 ---
-<Layout title={`${article.title} — Jennie Muso`} description={article.excerpt} current="blog" styles={['fonts.css','styles.css','editorial.css','article.css']} bodyClass="article-page" image={article.hero} type="article">
+<Layout title={`${article.title} — Jennie Muso`} description={article.excerpt} current="blog" styles={['fonts.css','styles.css','editorial.css','article.css']} bodyClass="article-page" image={article.hero} type="article" schema={schema}>
   <article>
     <header class="article-header">
       <div class="article-topline"><a href="/blog/"><Icon name="ArrowLeft" size={16} /> All insights</a><span>{article.topic} / {article.readTime}</span></div>
@@ -39,6 +45,7 @@ const shareTitle = encodeURIComponent(article.title);
           <section id={section.id} class="article-section"><span class="article-section-number">{String(sectionIndex + 1).padStart(2, '0')} / {String(article.sections.length).padStart(2, '0')}</span><h2>{section.heading}</h2>{section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}</section>
           {sectionIndex === 1 && <figure class="article-inline-image"><img src={article.inlineImage} alt={article.inlineAlt} loading="lazy" /><figcaption>{article.inlineCaption}</figcaption></figure>}
         </>)}
+        {article.references && <aside class="article-references" aria-labelledby="further-reading-title"><h2 id="further-reading-title">Further reading</h2><ul>{article.references.map((reference) => <li><a href={reference.url} target="_blank" rel="noopener noreferrer">{reference.label} <Icon name="ArrowUpRight" size={16} /></a></li>)}</ul></aside>}
         <div class="article-end"><p>Thanks for reading.</p><a href="/contact/">Have a project in mind? <Icon name="ArrowUpRight" size={20} /></a></div>
       </div>
     </div>

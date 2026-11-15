@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Icon from '../../components/Icon.astro';
 import { projects, projectAsset, type Project } from '../../data/projects';
+import { graph, organizationSchema, personSchema, siteUrl } from '../../data/seo';
 
 export function getStaticPaths() {
   return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
@@ -10,8 +11,13 @@ export function getStaticPaths() {
 const { project } = Astro.props as { project: Project };
 const index = projects.findIndex((item) => item.slug === project.slug);
 const next = projects[(index + 1) % projects.length];
+const schema = graph(
+  organizationSchema,
+  personSchema,
+  { '@type': 'CreativeWork', name: `${project.name} website`, url: `${siteUrl}/work/${project.slug}/`, image: new URL(projectAsset(project, 'hero'), siteUrl).href, description: project.intro, creator: { '@id': `${siteUrl}/#jennie-muso` }, sameAs: project.liveUrl }
+);
 ---
-<Layout title={`${project.name} — Work by Jennie Muso`} description={`${project.name}: ${project.intro} A website design and development case study by Jennie Muso.`} current="work" styles={['fonts.css', 'styles.css', 'case-study.css']} bodyClass={`case-study case-${project.slug}`}>
+<Layout title={`${project.name} — Work by Jennie Muso`} description={`${project.name}: ${project.intro} A website design and development case study by Jennie Muso.`} current="work" styles={['fonts.css', 'styles.css', 'case-study.css']} bodyClass={`case-study case-${project.slug}`} image={projectAsset(project, 'hero')} schema={schema}>
   <article style={`--case-accent:${project.accent};--case-canvas:${project.canvas}`}>
     <header class="case-heading">
       <div class="case-index"><a href="/work/"><Icon name="ArrowLeft" size={16} /> All work</a><span>{String(index + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')} &nbsp; {project.eyebrow}</span></div>

@@ -1,8 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
+import { projects } from '../data/projects';
+import { graph, organizationSchema, siteUrl } from '../data/seo';
+const schema = graph(organizationSchema, { '@type': 'CollectionPage', name: 'Selected work by Jennie Muso', url: `${siteUrl}/work/`, mainEntity: { '@type': 'ItemList', itemListElement: projects.map((project, index) => ({ '@type': 'ListItem', position: index + 1, name: project.name, url: `${siteUrl}/work/${project.slug}/` })) } });
 ---
-<Layout title='Work — Jennie Muso' description='Selected websites by Jennie Muso: Veyra Cargo, Bayline Legal, JIN Restaurant, and Nacre Dental.' current='work' styles={['fonts.css','styles.css','editorial.css','projects.css','reference-layout.css','refinements.css']} bodyClass="work-page">
+<Layout title='Work — Jennie Muso' description='Selected websites by Jennie Muso: Veyra Cargo, Bayline Legal, JIN Restaurant, and Nacre Dental.' current='work' styles={['fonts.css','styles.css','editorial.css','projects.css','reference-layout.css','refinements.css']} bodyClass="work-page" schema={schema}>
 <div class="page-intro"><h1>THE WORK.</h1><p>Four websites. Four very different businesses. Each one starts with the same question: what does this audience need to feel, understand, and do?</p></div><section class="work" id="work" aria-label="Selected websites"><div class="section-head"><h2>Selected work</h2></div><div class="work-grid">
 <article class="work-item work-item-a"><div class="work-media"><img src="/assets/case-studies/veyra-hero.webp" alt="Veyra cargo ship at the port" loading="lazy"></div><div class="work-caption"><h3>Veyra Cargo</h3><span>Website design & development</span></div><a class="work-card-link" href="/work/veyra-cargo/" aria-label="View Veyra Cargo case study"></a></article>
 <article class="work-item work-item-b"><div class="work-media"><img src="/assets/case-studies/bayline-hero.webp" alt="Bayline Legal professionals in conversation" loading="lazy"></div><div class="work-caption"><h3>Bayline Legal</h3><span>Website design & development</span></div><a class="work-card-link" href="/work/bayline-legal/" aria-label="View Bayline Legal case study"></a></article>

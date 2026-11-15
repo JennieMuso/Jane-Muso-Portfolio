@@ -12,6 +12,7 @@ export type Article = {
   inlineAlt: string;
   inlineCaption: string;
   readTime: string;
+  references?: { label: string; url: string }[];
   sections: ArticleSection[];
 };
 
@@ -70,6 +71,10 @@ export const articles: Article[] = [
     hero: '/assets/service-code.jpg', heroAlt: 'A developer working at a laptop',
     inlineImage: '/assets/case-studies/veyra-desktop.webp', inlineAlt: 'Veyra Cargo homepage viewed on a desktop screen',
     inlineCaption: 'A build should support the experience and the people who maintain it.',
+    references: [
+      { label: 'Astro documentation — Why Astro?', url: 'https://docs.astro.build/en/concepts/why-astro/' },
+      { label: 'Cloudflare Pages documentation', url: 'https://developers.cloudflare.com/pages/' }
+    ],
     sections: [
       { id: 'brief-before-tool', heading: 'Let the brief lead', paragraphs: [
         'It is easy to start with a favourite tool. The better first question is what the website must do now and how it may need to change later. A focused brochure site, a growing publication and a highly interactive product do not ask the same thing of a build.',

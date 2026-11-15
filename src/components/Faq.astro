@@ -1,0 +1,15 @@
+---
+import Icon from './Icon.astro';
+import type { Faq as FaqItem } from '../data/faqs';
+
+const { id, title, questions } = Astro.props as { id: string; title: string; questions: FaqItem[] };
+---
+<section class="faq-section" aria-labelledby={id}>
+  <div class="faq-heading"><h2 id={id}>{title}<span>.</span></h2><p>A few things worth knowing before we begin.</p></div>
+  <div class="faq-list">
+    {questions.map((item, index) => <details class="faq-item" open={index === 0}>
+      <summary><span class="faq-number">{String(index + 1).padStart(2, '0')}</span><span class="faq-question">{item.question}</span><Icon name="Plus" size={22} /></summary>
+      <p>{item.answer}</p>
+    </details>)}
+  </div>
+</section>
