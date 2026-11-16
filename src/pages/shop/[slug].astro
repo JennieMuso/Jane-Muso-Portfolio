@@ -44,7 +44,7 @@ const schema = graph(
       </div>
       <div class="preview-foot"><span>Live preview / {new URL(product.previewUrl).hostname}</span><div class="preview-foot-actions">{previewMode === 'embed' && <button type="button" data-preview-fallback aria-pressed="false">Preview not showing? Use image</button>}<a href={product.previewUrl} target="_blank" rel="noopener noreferrer">Open full preview <Icon name="ArrowUpRight" size={18} /></a></div></div>
     </section>
-    <section class="product-includes"><div><span>In the collection</span><h2>MADE TO<br />MAKE MORE<span>.</span></h2></div><ul>{product.features.map((feature) => <li>{feature}<Icon name="ArrowUpRight" size={20} /></li>)}</ul></section>
+    <section class="product-includes" aria-labelledby="product-includes-title"><div><span>{product.name}</span><h2 id="product-includes-title">WHAT YOU<br />GET<span>.</span></h2></div><ul>{product.features.map((feature) => <li>{feature}</li>)}</ul></section>
     <section class="product-purchase"><p>Ready to make it yours?</p><h2>{product.name}<span>.</span></h2><a href={product.checkoutUrl} target="_blank" rel="noopener noreferrer">Buy now — {product.price} <Icon name="ArrowUpRight" size={24} /></a><small>Secure checkout on Lemon Squeezy.</small></section>
     <a class="product-next" href={`/shop/${next.slug}/`}><span>Explore another</span><strong>{next.name}<Icon name="ArrowUpRight" size={30} /></strong></a>
   </article>
