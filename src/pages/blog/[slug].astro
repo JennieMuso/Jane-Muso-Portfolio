@@ -25,7 +25,7 @@ const schema = graph(
     <header class="article-header">
       <div class="article-topline"><a href="/blog/"><Icon name="ArrowLeft" size={16} /> All insights</a><span>{article.topic} / {article.readTime}</span></div>
       <h1>{article.title}<span>.</span></h1>
-      <div class="article-byline"><span class="article-author"><img src="/assets/jennie-portrait-preview.jpg" alt="" width="44" height="44" /><span>Jane Muso <small>Founder &amp; Designer</small></span></span><span>{String(index + 1).padStart(2, '0')} / {String(articles.length).padStart(2, '0')}</span></div>
+      <div class="article-byline"><span class="article-author"><img src="/assets/jennie-portrait-preview.jpg" alt="" width="44" height="44" /><span>Jane Muso <small>Founder &amp; Designer</small></span></span></div>
     </header>
     <figure class="article-hero"><img src={article.hero} alt={article.heroAlt} fetchpriority="high" /></figure>
     <div class="article-layout">
@@ -42,13 +42,16 @@ const schema = graph(
       <div class="article-content">
         <p class="article-deck">{article.excerpt}</p>
         {article.sections.map((section, sectionIndex) => <>
-          <section id={section.id} class="article-section"><span class="article-section-number">{String(sectionIndex + 1).padStart(2, '0')} / {String(article.sections.length).padStart(2, '0')}</span><h2>{section.heading}</h2>{section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}</section>
-          {sectionIndex === 1 && <figure class="article-inline-image"><img src={article.inlineImage} alt={article.inlineAlt} loading="lazy" /><figcaption>{article.inlineCaption}</figcaption></figure>}
+          <section id={section.id} class="article-section"><h2>{section.heading}</h2>{section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}</section>
+          {sectionIndex === 1 && <figure class="article-inline-image"><img src={article.inlineImage} alt={article.inlineAlt} loading="lazy" /></figure>}
         </>)}
         {article.references && <aside class="article-references" aria-labelledby="further-reading-title"><h2 id="further-reading-title">Further reading</h2><ul>{article.references.map((reference) => <li><a href={reference.url} target="_blank" rel="noopener noreferrer">{reference.label} <Icon name="ArrowUpRight" size={16} /></a></li>)}</ul></aside>}
         <div class="article-end"><p>Thanks for reading.</p><a href="/contact/">Have a project in mind? <Icon name="ArrowUpRight" size={20} /></a></div>
       </div>
     </div>
-    <a class="article-next" href={`/blog/${next.slug}/`}><span>Read next</span><strong>{next.title}<Icon name="ArrowUpRight" size={30} /></strong></a>
+    <a class="article-next" href={`/blog/${next.slug}/`}>
+      <img src={next.hero} alt="" loading="lazy" />
+      <span>Read next</span><strong>{next.title}<Icon name="ArrowUpRight" size={30} /></strong>
+    </a>
   </article>
 </Layout>

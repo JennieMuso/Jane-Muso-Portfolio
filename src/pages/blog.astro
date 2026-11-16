@@ -7,5 +7,9 @@ const schema = graph(personSchema, { '@type': 'Blog', name: 'Insights by Jennie 
 ---
 <Layout title="Insights — Jennie Muso" description="Writing by Jennie Muso on website strategy, design, trust and building for real people." current="blog" styles={['fonts.css','styles.css','editorial.css','projects.css','reference-layout.css','refinements.css','final-touches.css','insights.css','iteration.css','content-updates.css']} bodyClass="insights-index" schema={schema}>
   <section class="blog-intro" aria-labelledby="blog-title"><p>Notes from the studio / {String(articles.length).padStart(2, '0')} stories</p><h1 id="blog-title">INSIGHTS<span>.</span></h1><p>Ideas about design, clarity, and building for real people.</p></section>
-  <section class="insights blog-list" aria-label="Articles"><div class="insights-grid">{articles.map((article) => <InsightCard article={article} />)}</div></section>
+  <section class="insights blog-list" aria-label="Articles">
+    <div class="insights-grid">{articles.map((article, index) => <div class="blog-card-slot" data-blog-card hidden={index >= 4}><InsightCard article={article} /></div>)}</div>
+    {articles.length > 4 && <button class="blog-load-more" type="button" data-blog-load-more>Load more</button>}
+  </section>
+  <script src="/blog-list.js" defer></script>
 </Layout>

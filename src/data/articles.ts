@@ -20,7 +20,7 @@ export const articles: Article[] = [
   {
     slug: 'better-questions',
     title: 'Why a good website starts with better questions',
-    topic: 'Strategy / UX', readTime: '5 min read',
+    topic: 'User Experience', readTime: '5 min read',
     excerpt: 'Before choosing a font or a platform, get clear on the people and decisions the site needs to serve.',
     hero: '/assets/service-ux.jpg', heroAlt: 'Interface sketches being arranged on a desk',
     inlineImage: '/assets/service-web.jpg', inlineAlt: 'Design materials and screen ideas laid out for review',
@@ -43,7 +43,7 @@ export const articles: Article[] = [
   {
     slug: 'designing-trust',
     title: 'Designing trust before the first hello',
-    topic: 'Experience / Trust', readTime: '4 min read',
+    topic: 'Strategy', readTime: '4 min read',
     excerpt: 'Clear language, useful details, and thoughtful pacing help people feel ready to reach out.',
     hero: '/assets/case-studies/bayline-hero.webp', heroAlt: 'Legal professionals talking beside a window overlooking Dubai',
     inlineImage: '/assets/case-studies/bayline-interior.webp', inlineAlt: 'Bayline Legal practice areas page shown in a browser view',
@@ -66,7 +66,7 @@ export const articles: Article[] = [
   {
     slug: 'right-way-to-build',
     title: 'Choosing the right way to build',
-    topic: 'Making / Tools', readTime: '5 min read',
+    topic: 'Tool', readTime: '5 min read',
     excerpt: 'No-code and custom code are both useful. The right choice starts with what the project must become.',
     hero: '/assets/service-code.jpg', heroAlt: 'A developer working at a laptop',
     inlineImage: '/assets/case-studies/veyra-desktop.webp', inlineAlt: 'Veyra Cargo homepage viewed on a desktop screen',
