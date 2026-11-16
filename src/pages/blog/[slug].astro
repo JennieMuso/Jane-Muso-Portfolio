@@ -1,14 +1,17 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Icon from '../../components/Icon.astro';
-import { articles, type Article } from '../../data/articles';
+import type { Article } from '../../data/articles';
+import { getArticles } from '../../lib/blog';
 import { graph, organizationSchema, personSchema, siteUrl } from '../../data/seo';
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const articles = await getArticles();
   return articles.map((article) => ({ params: { slug: article.slug }, props: { article } }));
 }
 
 const { article } = Astro.props as { article: Article };
+const articles = await getArticles();
 const index = articles.findIndex((item) => item.slug === article.slug);
 const next = articles[(index + 1) % articles.length];
 const articleUrl = new URL(`/blog/${article.slug}/`, Astro.site).href;
@@ -43,7 +46,7 @@ const schema = graph(
         <p class="article-deck">{article.excerpt}</p>
         {article.sections.map((section, sectionIndex) => <>
           <section id={section.id} class="article-section"><h2>{section.heading}</h2>{section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}</section>
-          {sectionIndex === 1 && <figure class="article-inline-image"><img src={article.inlineImage} alt={article.inlineAlt} loading="lazy" /></figure>}
+          {sectionIndex === 1 && article.inlineImage && <figure class="article-inline-image"><img src={article.inlineImage} alt={article.inlineAlt} loading="lazy" /></figure>}
         </>)}
         {article.references && <aside class="article-references" aria-labelledby="further-reading-title"><h2 id="further-reading-title">Further reading</h2><ul>{article.references.map((reference) => <li><a href={reference.url} target="_blank" rel="noopener noreferrer">{reference.label} <Icon name="ArrowUpRight" size={16} /></a></li>)}</ul></aside>}
         <div class="article-end"><p>Thanks for reading.</p><a href="/contact/">Have a project in mind? <Icon name="ArrowUpRight" size={20} /></a></div>

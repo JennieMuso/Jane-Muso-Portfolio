@@ -3,11 +3,12 @@ import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
 import InsightCard from '../components/InsightCard.astro';
 import Faq from '../components/Faq.astro';
-import { articles } from '../data/articles';
+import { getArticles } from '../lib/blog';
 import { homeFaqs } from '../data/faqs';
 import { contentUpdated, faqSchema, graph, organizationSchema, personSchema, siteUrl } from '../data/seo';
 const aboutStatement = 'I design with intention, bringing structure and expression together to make websites that speak clearly and feel unmistakably yours. I bring curiosity to every brief, making the complex feel clear, considered, and worth remembering.';
 const aboutWords = aboutStatement.split(' ');
+const articles = await getArticles();
 const schema = graph(
   organizationSchema,
   personSchema,
@@ -49,7 +50,7 @@ const schema = graph(
       </section>
 
       <section class="insights" id="insights" aria-labelledby="insights-title"><div class="insights-head"><h2 id="insights-title">THINGS I’VE<br>BEEN THINKING<br>ABOUT<span>.</span></h2><p>Notes on building digital experiences that look good, make sense, and do their job.</p></div><div class="insights-grid">
-        {articles.map((article, index) => <InsightCard article={article} featured={index === 0} />)}
+        {articles.slice(0, 3).map((article, index) => <InsightCard article={article} featured={index === 0} />)}
       </div><a class="text-link insights-more" href="/blog/">View more insights <Icon name="ArrowUpRight" size={20} /></a></section>
 
       <section class="shop-teaser" id="shop" aria-labelledby="shop-title"><h2 id="shop-title">GOOD THINGS<br>TAKE SHAPE<span>.</span></h2><div class="shop-bottom"><p>Explore Framer components and website templates made to help your next idea move.</p><a class="text-link shop-link" href="/shop/">Explore the shop <Icon name="ArrowUpRight" size={20} /></a></div></section>

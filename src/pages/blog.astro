@@ -1,8 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import InsightCard from '../components/InsightCard.astro';
-import { articles } from '../data/articles';
+import { getArticles } from '../lib/blog';
 import { graph, personSchema, siteUrl } from '../data/seo';
+const articles = await getArticles();
 const schema = graph(personSchema, { '@type': 'Blog', name: 'Insights by Jennie Muso', url: `${siteUrl}/blog/`, author: { '@id': `${siteUrl}/#jennie-muso` }, blogPost: articles.map((article) => ({ '@type': 'BlogPosting', headline: article.title, url: `${siteUrl}/blog/${article.slug}/` })) });
 ---
 <Layout title="Insights — Jennie Muso" description="Writing by Jennie Muso on website strategy, design, trust and building for real people." current="blog" styles={['fonts.css','styles.css','editorial.css','projects.css','reference-layout.css','refinements.css','final-touches.css','insights.css','iteration.css','content-updates.css']} bodyClass="insights-index" schema={schema}>

@@ -7,13 +7,23 @@
     "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev --host 0.0.0.0",
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview --host 0.0.0.0",
+    "studio": "sanity dev --host 0.0.0.0",
+    "studio:build": "sanity build studio-dist",
+    "blog:import": "node scripts/import-blog.mjs",
     "deploy": "npm run build && wrangler pages deploy dist --project-name musodesigns"
   },
   "dependencies": {
     "@phosphor-icons/core": "^2.1.1",
-    "astro": "^7.4.12"
+    "@sanity/client": "^8.16.0",
+    "astro": "^7.4.12",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "sanity": "^6.23.0",
+    "styled-components": "^6.6.0"
   },
   "devDependencies": {
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2",
     "wrangler": "^4.0.0"
   }
 }
