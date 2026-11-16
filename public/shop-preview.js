@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const iframe = stage.querySelector('iframe');
   const fallbackButton = document.querySelector('[data-preview-fallback]');
+  const refreshButton = document.querySelector('[data-preview-refresh]');
   if (!iframe) return;
 
   let watchdog;
@@ -42,7 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 12000);
   };
 
-  iframe.addEventListener('load', showLive);
+  iframe.addEventListener('load', () => {
+    showLive();
+    refreshButton?.classList.remove('is-refreshing');
+    refreshButton?.removeAttribute('aria-busy');
+  });
   iframe.addEventListener('error', showFallback);
   if ('IntersectionObserver' in window) {
     const observer = new IntersectionObserver((entries) => {
@@ -64,5 +69,13 @@ document.addEventListener('DOMContentLoaded', () => {
       startWatchdog();
       iframe.src = iframe.src;
     }
+  });
+
+  refreshButton?.addEventListener('click', () => {
+    manualFallback = false;
+    refreshButton.classList.add('is-refreshing');
+    refreshButton.setAttribute('aria-busy', 'true');
+    startWatchdog();
+    iframe.src = iframe.src;
   });
 });
