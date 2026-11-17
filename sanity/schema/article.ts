@@ -10,10 +10,10 @@ export const articleSchema = defineType({
     defineField({ name: 'topic', title: 'Category', type: 'string', options: { list: ['User Experience', 'Tool', 'Strategy'] }, validation: (Rule) => Rule.required() }),
     defineField({ name: 'excerpt', title: 'Summary', type: 'text', rows: 3, validation: (Rule) => Rule.required() }),
     defineField({ name: 'readTime', title: 'Reading time', type: 'string', initialValue: '5 min read', validation: (Rule) => Rule.required() }),
-    defineField({ name: 'heroImage', title: 'Cover image', type: 'image', options: { hotspot: true }, fields: [
+    defineField({ name: 'heroImage', title: 'Cover image', description: 'Suggested: 1920 × 1080 px (16:9). Used in blog cards, the full-width article hero, and the next-read link. It crops to a squarer frame on phones, so keep the subject near the center.', type: 'image', options: { hotspot: true }, fields: [
       defineField({ name: 'alt', title: 'Image description', type: 'string', validation: (Rule) => Rule.required() })
     ], validation: (Rule) => Rule.required() }),
-    defineField({ name: 'bodyImage', title: 'Image inside article', type: 'image', options: { hotspot: true }, fields: [
+    defineField({ name: 'bodyImage', title: 'Image inside article', description: 'Suggested: 1600 × 1200 px (4:3). This image fills a wide content frame and may crop slightly on different screens.', type: 'image', options: { hotspot: true }, fields: [
       defineField({ name: 'alt', title: 'Image description', type: 'string', validation: (Rule) => Rule.required() })
     ] }),
     defineField({ name: 'sections', title: 'Article sections', type: 'array', of: [

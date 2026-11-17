@@ -12,10 +12,10 @@ export const productSchema = defineType({
     defineField({ name: 'summary', title: 'Short summary', type: 'text', rows: 2, validation: (Rule) => Rule.required() }),
     defineField({ name: 'description', title: 'Description paragraphs', type: 'array', of: [defineArrayMember({ type: 'text', rows: 4 })], validation: (Rule) => Rule.required().min(1) }),
     defineField({ name: 'features', title: 'What you get', type: 'array', of: [defineArrayMember({ type: 'string' })], validation: (Rule) => Rule.required().min(1) }),
-    defineField({ name: 'coverImage', title: 'Cover image', type: 'image', options: { hotspot: true }, fields: [
+    defineField({ name: 'coverImage', title: 'Cover image', description: 'Suggested: 1600 × 1200 px (4:3). Used on the shop card, product page hero, and next-product link. It crops into both tall and wide frames, so keep the main subject near the center.', type: 'image', options: { hotspot: true }, fields: [
       defineField({ name: 'alt', title: 'Image description', type: 'string', validation: (Rule) => Rule.required() })
     ], validation: (Rule) => Rule.required() }),
-    defineField({ name: 'previewImage', title: 'Preview fallback image', description: 'Optional. The cover image is used when this is empty.', type: 'image', options: { hotspot: true } }),
+    defineField({ name: 'previewImage', title: 'Preview fallback image', description: 'Optional. Suggested: 1600 × 1200 px (4:3). Shown when the live preview is switched to an image; the cover image is used if this is empty. Keep key details centered for mobile cropping.', type: 'image', options: { hotspot: true } }),
     defineField({ name: 'previewMode', title: 'Live preview mode', type: 'string', options: { list: [{ title: 'Embed live website', value: 'embed' }, { title: 'Show image', value: 'image' }] }, initialValue: 'embed' }),
     defineField({ name: 'previewUrl', title: 'Live preview URL', type: 'url', validation: (Rule) => Rule.required().uri({ scheme: ['https'] }) }),
     defineField({ name: 'checkoutUrl', title: 'Checkout URL', type: 'url', validation: (Rule) => Rule.required().uri({ scheme: ['https'] }) }),
