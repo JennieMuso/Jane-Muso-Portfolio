@@ -1,5 +1,6 @@
 import { createClient } from '@sanity/client';
 import type { Product } from '../data/products';
+import type { Faq } from '../data/faqs';
 
 const projectId = import.meta.env.SANITY_PROJECT_ID || 'lpyuxxi7';
 const dataset = import.meta.env.SANITY_DATASET || 'production';
@@ -11,9 +12,18 @@ type SanityProduct = Omit<Product, 'price' | 'coverImage' | 'previewImage'> & {
 };
 
 let productsPromise: Promise<Product[]> | undefined;
+let shopPagePromise: Promise<ShopPage> | undefined;
+
+export type ShopPage = { faqIntro: string; faqs: Faq[] };
 
 export function getProducts(): Promise<Product[]> {
   return productsPromise ??= loadProducts();
+}
+
+export function getShopPage(): Promise<ShopPage> {
+  return shopPagePromise ??= createClient({ projectId, dataset, apiVersion: '2025-02-19', useCdn: false }).fetch<ShopPage>(
+    `*[_id == "shop-page"][0]{faqIntro, faqs[]{question, answer}}`
+  );
 }
 
 async function loadProducts(): Promise<Product[]> {

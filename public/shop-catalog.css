@@ -31,3 +31,5 @@
 .preview-foot-actions button:hover{color:var(--red)}
 @media(max-width:600px){.preview-fallback-action{min-width:min(250px,calc(100% - 24px));padding:17px 14px}.preview-fallback-action>a{gap:18px;font-size:17px}.preview-foot{align-items:flex-start}.preview-foot-actions{flex-direction:column;align-items:flex-end;gap:11px;text-align:right}}
 @media(prefers-reduced-motion:reduce){.preview-fallback,.live-browser-window iframe{transition:none}}
+.shop-catalog-page .faq-section{padding-top:0}
+.shop-catalog-page .faq-item:first-child{border-top:0}

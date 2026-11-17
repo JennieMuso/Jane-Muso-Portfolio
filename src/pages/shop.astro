@@ -1,15 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
+import Faq from '../components/Faq.astro';
 import Icon from '../components/Icon.astro';
-import { getProducts } from '../lib/shop';
-import { graph, organizationSchema, siteUrl } from '../data/seo';
-const products = await getProducts();
+import { getProducts, getShopPage } from '../lib/shop';
+import { faqSchema, graph, organizationSchema, siteUrl } from '../data/seo';
+const [products, shopPage] = await Promise.all([getProducts(), getShopPage()]);
 const components = products.filter((product) => product.category === 'component').length;
 const templates = products.filter((product) => product.category === 'template').length;
-const schema = graph(organizationSchema, { '@type': 'CollectionPage', name: 'Framer components and templates by Jane Muso', url: `${siteUrl}/shop/`, mainEntity: { '@type': 'ItemList', itemListElement: products.map((product, index) => ({ '@type': 'ListItem', position: index + 1, name: product.name, url: `${siteUrl}/shop/${product.slug}/` })) } });
+const schema = graph(organizationSchema, { '@type': 'CollectionPage', name: 'Framer components and templates by Jane Muso', url: `${siteUrl}/shop/`, mainEntity: { '@type': 'ItemList', itemListElement: products.map((product, index) => ({ '@type': 'ListItem', position: index + 1, name: product.name, url: `${siteUrl}/shop/${product.slug}/` })) } }, faqSchema(shopPage.faqs));
 ---
-<Layout title="Shop — Jennie Muso" description="Framer components and website templates by Jane Muso. Explore live previews before you buy." current="shop" styles={['fonts.css', 'styles.css', 'shop-catalog.css']} bodyClass="shop-catalog-page" schema={schema}>
+<Layout title="Shop — Jennie Muso" description="Framer components and website templates by Jane Muso. Explore live previews before you buy." current="shop" styles={['fonts.css', 'styles.css', 'shop-catalog.css', 'faq.css']} bodyClass="shop-catalog-page" schema={schema}>
   <section class="shop-heading" aria-labelledby="shop-title">
     <div class="shop-heading-top"><span>Made by Jane Muso</span><span>Components &amp; website templates</span></div>
     <h1 id="shop-title">THE SHOP<span>.</span></h1>
@@ -25,6 +26,7 @@ const schema = graph(organizationSchema, { '@type': 'CollectionPage', name: 'Fra
     <p class="shop-results" aria-live="polite">Showing all {products.length} products</p>
     <div class="shop-grid">{products.map((product) => <ProductCard product={product} />)}</div>
   </section>
+  <Faq id="shop-faq-title" title="GOOD QUESTIONS" intro={shopPage.faqIntro} questions={shopPage.faqs} />
   <section class="shop-endnote"><p>Want to see the ideas in motion?</p><a href="https://www.framer.com/@jane-muthoni-muchiri/" target="_blank" rel="noopener noreferrer">Explore Jane’s Framer profile <Icon name="ArrowUpRight" size={23} /></a></section>
   <script src="/shop-filter.js" defer></script>
 </Layout>
