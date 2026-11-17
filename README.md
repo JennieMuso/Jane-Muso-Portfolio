@@ -29,4 +29,4 @@ For a manual deployment after Cloudflare authentication, run `npm run deploy`.
 
 ## Sanity content
 
-Blog articles, shop products, the Work page, and project case studies are edited in the Muso Designs Sanity Studio. The site reads published documents from project `lpyuxxi7`, dataset `production`, when it builds. After publishing an edit, rebuild the Cloudflare Pages site to show it online. The import scripts in `scripts/` are for initial migration and skip documents already in Sanity.
+The Home page, blog articles, shop products, the Work page, and project case studies are edited in the Muso Designs Sanity Studio. The site reads published documents from project `lpyuxxi7`, dataset `production`, when it builds. After publishing an edit, rebuild the Cloudflare Pages site to show it online. The import scripts in `scripts/` are for initial migration and skip documents already in Sanity.

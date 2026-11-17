@@ -3,60 +3,60 @@ import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
 import InsightCard from '../components/InsightCard.astro';
 import Faq from '../components/Faq.astro';
+import type { Article } from '../data/articles';
+import type { Project } from '../data/projects';
 import { getArticles } from '../lib/blog';
+import { getHomePage } from '../lib/home';
 import { getProjects } from '../lib/work';
 import { projectAsset } from '../data/projects';
-import { homeFaqs } from '../data/faqs';
 import { contentUpdated, faqSchema, graph, organizationSchema, personSchema, siteUrl } from '../data/seo';
-const aboutStatement = 'I design with intention, bringing structure and expression together to make websites that speak clearly and feel unmistakably yours. I bring curiosity to every brief, making the complex feel clear, considered, and worth remembering.';
-const aboutWords = aboutStatement.split(' ');
-const [articles, projects] = await Promise.all([getArticles(), getProjects()]);
+const [articles, projects, home] = await Promise.all([getArticles(), getProjects(), getHomePage()]);
+const aboutWords = home.aboutStatement.split(' ');
 const miniClasses = ['mini-verya', 'mini-bayline', 'mini-jin', 'mini-nacre'];
-const featuredProjects = projects.slice(0, 4);
-const homeDescription = `Jennie Muso designs websites for service businesses in the UAE and Kenya. Explore ${featuredProjects.map((project) => project.name).join(', ')}.`;
+const chosenProjects = home.featuredProjectSlugs.map((slug) => projects.find((project) => project.slug === slug)).filter((project): project is Project => Boolean(project));
+const featuredProjects = (chosenProjects.length ? chosenProjects : projects).slice(0, 4);
+const chosenArticles = home.featuredArticleSlugs.map((slug) => articles.find((article) => article.slug === slug)).filter((article): article is Article => Boolean(article));
+const featuredArticles = (chosenArticles.length ? chosenArticles : articles).slice(0, 3);
 const schema = graph(
   organizationSchema,
   personSchema,
   { '@type': 'WebSite', '@id': `${siteUrl}/#website`, name: 'Muso.designs', url: siteUrl, publisher: { '@id': `${siteUrl}/#organization` }, dateModified: contentUpdated },
   { '@type': 'WebPage', '@id': `${siteUrl}/#webpage`, url: `${siteUrl}/`, name: 'Jennie Muso — Creative Portfolio', about: { '@id': `${siteUrl}/#jennie-muso` }, dateModified: contentUpdated },
-  faqSchema(homeFaqs)
+  faqSchema(home.faqs)
 );
 ---
-<Layout title='Jennie Muso — Creative Portfolio' description={homeDescription} current='home' styles={['fonts.css','styles.css','editorial.css','projects.css','reference-layout.css','refinements.css','final-touches.css','latest.css','insights.css','preview-fixes.css','iteration.css','content-updates.css','faq.css']} schema={schema} modified={contentUpdated}>
+<Layout title='Jennie Muso — Creative Portfolio' description={home.seoDescription} current='home' styles={['fonts.css','styles.css','editorial.css','projects.css','reference-layout.css','refinements.css','final-touches.css','latest.css','insights.css','preview-fixes.css','iteration.css','content-updates.css','faq.css']} schema={schema} modified={contentUpdated}>
 
       <section class="hero editorial-hero" id="work" aria-labelledby="hero-title">
-        <div class="hero-meta"><span>Jennie Muso / digital designer & maker</span><span>Website design & development</span><span>Selected projects</span></div>
+        <div class="hero-meta">{home.heroMeta.map((label) => <span>{label}</span>)}</div>
         <h1 id="hero-title">Muso<span>.designs</span></h1>
         <div class="editorial-gallery" aria-label="Featured projects">
           {featuredProjects.map((project, index) => <figure class:list={['project-mini', miniClasses[index]]}><img src={projectAsset(project, 'hero')} alt={project.heroAlt} width="768" height="512"><figcaption><strong>{project.name}</strong><span>Website design &amp; development</span></figcaption><a class="mini-link" href={`/work/${project.slug}/`} aria-label={`View ${project.name} case study`}><span class="project-view-cue">View work <Icon name="ArrowUpRight" size={17} /></span></a></figure>)}
-          <p class="gallery-thesis">Design that looks closely.<br>Development that thinks ahead.</p>
+          <p class="gallery-thesis">{home.galleryThesis.split('\n').map((line, index) => <>{index > 0 && <br />}{line}</>)}</p>
           <a class="gallery-link" href="/work/">View more work <Icon name="ArrowUpRight" size={20} /></a>
         </div>
-        <div class="hero-foot"><span>Tools in my workflow: Astro / Cloudflare / Resend / GitHub</span></div>
+        <div class="hero-foot"><span>{home.workflowTools}</span></div>
       </section>
 
       <section class="solutions" id="solutions" aria-labelledby="solutions-title">
-        <div class="solutions-intro"><h2 id="solutions-title">WHAT I MAKE<br>POSSIBLE<span>.</span></h2><p>Your website has to do more than impress for a second. It should help the right people understand you, trust you, and take the next step.</p></div>
+        <div class="solutions-intro"><h2 id="solutions-title">{home.servicesHeading.split('\n').map((line, index) => <>{index > 0 && <br />}{line}</>)}<span>.</span></h2><p>{home.servicesIntro}</p></div>
         <div class="solutions-list">
-          <details class="solution" open><summary><span>Web & app design</span><img src="/assets/service-web.jpg" alt="" width="630" height="623" loading="lazy"></summary><div class="solution-content"><div class="solution-copy"><p>A polished screen is only the beginning. I give your business a distinctive digital presence that expresses what makes it worth choosing, then carry that idea through every page and interaction.</p><p>We start with your audience and the job the experience needs to do. From there, I shape the art direction, layout, typography, responsive screens, and the details that make the whole thing feel unmistakably yours.</p><span>For clients who want a digital presence with a point of view.</span></div></div></details>
-          <details class="solution"><summary><span>UX design</span><img src="/assets/service-ux.jpg" alt="" width="630" height="623" loading="lazy"></summary><div class="solution-content"><div class="solution-copy"><p>People should not have to work to understand your website. I map what visitors need, organise the content around their questions, and make important actions easy to find.</p><p>That means clearer navigation, stronger page flow, useful calls to action, and careful attention to mobile, accessibility, and the little moments where confidence is won or lost.</p><span>For clients who need visitors to move from curiosity to action.</span></div></div></details>
-          <details class="solution"><summary><span>No-code building</span><img src="/assets/service-nocode.jpg" alt="" width="630" height="624" loading="lazy"></summary><div class="solution-content"><div class="solution-copy"><p>Some ideas need a fast, flexible route to launch. I use visual building tools when they fit the brief, turning the approved design into a working website without adding technical complexity you do not need.</p><p>The result is considered from both sides: an experience your visitors can use and a site you can manage. The tool is chosen around the project, not the other way around.</p><span>For clients who want to launch and keep moving.</span></div></div></details>
-          <details class="solution"><summary><span>Vibe coding</span><img src="/assets/service-code.jpg" alt="" width="630" height="624" loading="lazy"></summary><div class="solution-content"><div class="solution-copy"><p>When a project needs custom behaviour or more room to grow, I take it beyond a static mockup. I use Codex and Claude Code as development collaborators while keeping the concept, decisions, and quality bar firmly human-led.</p><p>Depending on the brief, that can mean Astro or React for the experience, Cloudflare for hosting or infrastructure, Resend for email, and GitHub for versioned delivery. You get a thoughtful design and a practical build in one connected process.</p><span>For clients who need something tailored, functional, and ready to evolve.</span></div></div></details>
+          {home.services.map((service, index) => <details class="solution" open={index === 0}><summary><span>{service.title}</span><img src={service.image} alt="" width="630" height="624" loading="lazy" /></summary><div class="solution-content"><div class="solution-copy">{service.paragraphs.map((paragraph) => <p>{paragraph}</p>)}<span>{service.audience}</span></div></div></details>)}
         </div>
       </section>
 
       <section class="manifesto about-story" id="about" aria-labelledby="about-title">
-        <div class="about-top"><span class="about-photo"><img src="/assets/jennie-portrait-preview.jpg" alt="Portrait of Jennie Muso at a desk with a tablet" width="1086" height="1448" loading="lazy"></span><span class="about-name">Jennie Muso<br>Founder & Designer</span></div>
-        <h2 id="about-title" class="about-statement" aria-label={aboutStatement}>{aboutWords.map((word, index) => <><span class:list={['reveal-word', { revealed: index < 4 }]}>{word}</span>{index < aboutWords.length - 1 ? ' ' : ''}</>)}</h2>
-        <a class="text-link about-link" href="https://www.linkedin.com/in/jane-muthoni-muchiri/" target="_blank" rel="noopener noreferrer">Learn more about me <Icon name="ArrowUpRight" size={20} /></a>
+        <div class="about-top"><span class="about-photo"><img src={home.aboutPortrait} alt={home.aboutPortraitAlt} width="1086" height="1448" loading="lazy" /></span><span class="about-name">{home.aboutName}<br />{home.aboutRole}</span></div>
+        <h2 id="about-title" class="about-statement" aria-label={home.aboutStatement}>{aboutWords.map((word, index) => <><span class:list={['reveal-word', { revealed: index < 4 }]}>{word}</span>{index < aboutWords.length - 1 ? ' ' : ''}</>)}</h2>
+        <a class="text-link about-link" href={home.aboutLinkUrl} target="_blank" rel="noopener noreferrer">{home.aboutLinkLabel} <Icon name="ArrowUpRight" size={20} /></a>
       </section>
 
-      <section class="insights" id="insights" aria-labelledby="insights-title"><div class="insights-head"><h2 id="insights-title">THINGS I’VE<br>BEEN THINKING<br>ABOUT<span>.</span></h2><p>Notes on building digital experiences that look good, make sense, and do their job.</p></div><div class="insights-grid">
-        {articles.slice(0, 3).map((article, index) => <InsightCard article={article} featured={index === 0} />)}
+      <section class="insights" id="insights" aria-labelledby="insights-title"><div class="insights-head"><h2 id="insights-title">{home.insightsHeading.split('\n').map((line, index) => <>{index > 0 && <br />}{line}</>)}<span>.</span></h2><p>{home.insightsIntro}</p></div><div class="insights-grid">
+        {featuredArticles.map((article, index) => <InsightCard article={article} featured={index === 0} />)}
       </div><a class="text-link insights-more" href="/blog/">View more insights <Icon name="ArrowUpRight" size={20} /></a></section>
 
-      <section class="shop-teaser" id="shop" aria-labelledby="shop-title"><h2 id="shop-title">GOOD THINGS<br>TAKE SHAPE<span>.</span></h2><div class="shop-bottom"><p>Explore Framer components and website templates made to help your next idea move.</p><a class="text-link shop-link" href="/shop/">Explore the shop <Icon name="ArrowUpRight" size={20} /></a></div></section>
-      <Faq id="home-faq-title" title="GOOD QUESTIONS" questions={homeFaqs} />
-      <section class="contact" id="contact" aria-labelledby="contact-title"><div class="contact-main"><div class="contact-copy"><p>Have a project in mind?</p><h2 id="contact-title">LET’S MAKE<br>SOMETHING<br>MATTER<span>.</span></h2></div><div class="contact-eyes" aria-hidden="true"><span class="contact-eye"><span class="contact-pupil"></span></span><span class="contact-eye"><span class="contact-pupil"></span></span></div></div><a href="/contact/" class="contact-link">Start a conversation <Icon name="ArrowUpRight" size={20} /></a></section>
+      <section class="shop-teaser" id="shop" aria-labelledby="shop-title"><h2 id="shop-title">{home.shopHeading.split('\n').map((line, index) => <>{index > 0 && <br />}{line}</>)}<span>.</span></h2><div class="shop-bottom"><p>{home.shopIntro}</p><a class="text-link shop-link" href="/shop/">Explore the shop <Icon name="ArrowUpRight" size={20} /></a></div></section>
+      <Faq id="home-faq-title" title={home.faqHeading} intro={home.faqIntro} questions={home.faqs} />
+      <section class="contact" id="contact" aria-labelledby="contact-title"><div class="contact-main"><div class="contact-copy"><p>{home.contactKicker}</p><h2 id="contact-title">{home.contactHeading.split('\n').map((line, index) => <>{index > 0 && <br />}{line}</>)}<span>.</span></h2></div><div class="contact-eyes" aria-hidden="true"><span class="contact-eye"><span class="contact-pupil"></span></span><span class="contact-eye"><span class="contact-pupil"></span></span></div></div><a href="/contact/" class="contact-link">{home.contactLinkLabel} <Icon name="ArrowUpRight" size={20} /></a></section>
 
 </Layout>
