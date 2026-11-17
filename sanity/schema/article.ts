@@ -7,7 +7,7 @@ export const articleSchema = defineType({
   fields: [
     defineField({ name: 'title', title: 'Title', type: 'string', validation: (Rule) => Rule.required() }),
     defineField({ name: 'slug', title: 'URL slug', type: 'slug', options: { source: 'title', maxLength: 96 }, validation: (Rule) => Rule.required() }),
-    defineField({ name: 'topic', title: 'Category', type: 'string', options: { list: ['User Experience', 'Tool', 'Strategy'] }, validation: (Rule) => Rule.required() }),
+    defineField({ name: 'topic', title: 'Category', type: 'string', options: { list: ['User Experience', 'Tool', 'Strategy', 'Artificial intelligence (AI)'] }, validation: (Rule) => Rule.required() }),
     defineField({ name: 'excerpt', title: 'Summary', type: 'text', rows: 3, validation: (Rule) => Rule.required() }),
     defineField({ name: 'readTime', title: 'Reading time', type: 'string', initialValue: '5 min read', validation: (Rule) => Rule.required() }),
     defineField({ name: 'heroImage', title: 'Cover image', description: 'Suggested: 1920 × 1080 px (16:9). Used in blog cards, the full-width article hero, and the next-read link. It crops to a squarer frame on phones, so keep the subject near the center.', type: 'image', options: { hotspot: true }, fields: [

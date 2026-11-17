@@ -17,8 +17,8 @@ const client = createClient({ projectId, dataset, token, apiVersion: '2025-02-19
 if (!(await client.getDocument('shop-page'))) {
   const faqs = [
     {
-      question: 'What is the difference between a component and a template?',
-      answer: 'A component adds a specific interaction to a Framer project. A website template provides a starting layout for a complete site. Each product page shows which format you are buying.'
+      question: 'How do the shop formats differ?',
+      answer: 'Framer components add interactions to a Framer project. Website templates start a Framer site. Code components are reusable coded pieces, and coded websites are complete sites. Each product page shows its format and live preview.'
     },
     {
       question: 'Can I preview a product before buying?',
@@ -26,7 +26,7 @@ if (!(await client.getDocument('shop-page'))) {
     },
     {
       question: 'Do I need Framer to use these products?',
-      answer: 'Yes. These components and templates are made for Framer. Check the product format and live preview to see whether it suits your project.'
+      answer: 'Only products labelled Framer component or Framer website template require Framer. Code components and coded websites are separate from Framer.'
     },
     {
       question: 'Where does checkout happen?',

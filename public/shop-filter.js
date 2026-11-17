@@ -18,7 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!card.hidden) visible++;
     });
     grid?.classList.toggle('is-filtered', choice !== 'all');
-    const noun = choice === 'all' ? (visible === 1 ? 'product' : 'products') : choice === 'component' ? (visible === 1 ? 'component' : 'components') : (visible === 1 ? 'website template' : 'website templates');
+    const selectedButton = buttons.find((button) => button.dataset.filter === choice);
+    const noun = choice === 'all' ? (visible === 1 ? 'product' : 'products') : visible === 1 ? selectedButton?.dataset.singular : selectedButton?.dataset.plural;
     count.textContent = `Showing ${visible} ${noun}`;
     if (updateUrl) {
       const url = new URL(location.href);

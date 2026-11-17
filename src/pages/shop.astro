@@ -3,16 +3,16 @@ import Layout from '../layouts/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import Faq from '../components/Faq.astro';
 import Icon from '../components/Icon.astro';
+import { productCategories } from '../data/products';
 import { getProducts, getShopPage } from '../lib/shop';
 import { faqSchema, graph, organizationSchema, siteUrl } from '../data/seo';
 const [products, shopPage] = await Promise.all([getProducts(), getShopPage()]);
-const components = products.filter((product) => product.category === 'component').length;
-const templates = products.filter((product) => product.category === 'template').length;
-const schema = graph(organizationSchema, { '@type': 'CollectionPage', name: 'Framer components and templates by Jane Muso', url: `${siteUrl}/shop/`, mainEntity: { '@type': 'ItemList', itemListElement: products.map((product, index) => ({ '@type': 'ListItem', position: index + 1, name: product.name, url: `${siteUrl}/shop/${product.slug}/` })) } }, faqSchema(shopPage.faqs));
+const visibleCategories = productCategories.map((category) => ({ ...category, count: products.filter((product) => product.category === category.value).length })).filter((category) => category.count > 0);
+const schema = graph(organizationSchema, { '@type': 'CollectionPage', name: 'Components, templates, and websites by Jane Muso', url: `${siteUrl}/shop/`, mainEntity: { '@type': 'ItemList', itemListElement: products.map((product, index) => ({ '@type': 'ListItem', position: index + 1, name: product.name, url: `${siteUrl}/shop/${product.slug}/` })) } }, faqSchema(shopPage.faqs));
 ---
-<Layout title="Shop — Jennie Muso" description="Framer components and website templates by Jane Muso. Explore live previews before you buy." current="shop" styles={['fonts.css', 'styles.css', 'shop-catalog.css', 'faq.css']} bodyClass="shop-catalog-page" schema={schema}>
+<Layout title="Shop — Jennie Muso" description="Framer and code components, website templates, and coded websites by Jane Muso. Explore live previews before you buy." current="shop" styles={['fonts.css', 'styles.css', 'shop-catalog.css', 'faq.css']} bodyClass="shop-catalog-page" schema={schema}>
   <section class="shop-heading" aria-labelledby="shop-title">
-    <div class="shop-heading-top"><span>Made by Jane Muso</span><span>Components &amp; website templates</span></div>
+    <div class="shop-heading-top"><span>Made by Jane Muso</span><span>Components &amp; websites</span></div>
     <h1 id="shop-title">THE SHOP<span>.</span></h1>
     <div class="shop-heading-bottom"><p>Small pieces with big ideas. Explore the live preview, find your fit, and make something of your own.</p><a href="#shop-products">Explore the collection <Icon name="ArrowDown" size={18} /></a></div>
   </section>
@@ -20,8 +20,7 @@ const schema = graph(organizationSchema, { '@type': 'CollectionPage', name: 'Fra
     <div class="shop-collection-head"><h2>THE COLLECTION<span>.</span></h2><p>Design tools for the things you want to build next.</p></div>
     <div class="shop-tabs" role="group" aria-label="Filter products">
       <button type="button" class="active" data-filter="all" aria-pressed="true">All <span>{String(products.length).padStart(2, '0')}</span></button>
-      <button type="button" data-filter="component" aria-pressed="false">Components <span>{String(components).padStart(2, '0')}</span></button>
-      <button type="button" data-filter="template" aria-pressed="false">Website templates <span>{String(templates).padStart(2, '0')}</span></button>
+      {visibleCategories.map((category) => <button type="button" data-filter={category.value} data-singular={category.singular} data-plural={category.plural} aria-pressed="false">{category.filterLabel} <span>{String(category.count).padStart(2, '0')}</span></button>)}
     </div>
     <p class="shop-results" aria-live="polite">Showing all {products.length} products</p>
     <div class="shop-grid">{products.map((product) => <ProductCard product={product} />)}</div>

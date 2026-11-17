@@ -2,7 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Icon from '../../components/Icon.astro';
 import ProductVisual from '../../components/ProductVisual.astro';
-import type { Product } from '../../data/products';
+import { productCategoryInfo, type Product } from '../../data/products';
 import { getProducts } from '../../lib/shop';
 import { graph, organizationSchema, siteUrl } from '../../data/seo';
 
@@ -12,6 +12,7 @@ export async function getStaticPaths() {
 }
 
 const { product, next } = Astro.props as { product: Product; next: Product };
+const category = productCategoryInfo(product.category);
 const previewMode = product.previewMode ?? 'embed';
 const previewImage = product.previewImage ?? product.coverImage;
 const schema = graph(
@@ -22,16 +23,16 @@ const schema = graph(
 <Layout title={`${product.name} — Shop by Jane Muso`} description={product.summary} current="shop" styles={['fonts.css', 'styles.css', 'shop-catalog.css']} bodyClass="shop-detail-page" image={product.coverImage} schema={schema}>
   <article>
     <header class="product-heading">
-      <div class="product-topline"><a href="/shop/"><Icon name="ArrowLeft" size={16} /> The shop</a><span>{product.category === 'component' ? 'Framer component' : 'Framer website template'} / {product.price}</span></div>
+      <div class="product-topline"><a href="/shop/"><Icon name="ArrowLeft" size={16} /> The shop</a><span>{category.label} / {product.price}</span></div>
       <h1>{product.name}<span>.</span></h1>
-      <div class="product-title-foot"><span>Made by Jane Muso</span><span>Digital goods / Framer</span></div>
+      <div class="product-title-foot"><span>Made by Jane Muso</span><span>Digital goods / {category.platform}</span></div>
     </header>
     <div class="product-hero-art"><ProductVisual product={product} /></div>
     <section class="product-intro" aria-labelledby="product-intro-title">
-      <div class="product-facts"><h2 id="product-intro-title">{product.category === 'component' ? 'The component' : 'The template'}</h2><dl><div><dt>Format</dt><dd>Framer {product.category === 'component' ? 'component' : 'website template'}</dd></div><div><dt>Price</dt><dd>{product.price}</dd></div><div><dt>Preview</dt><dd>Live website</dd></div></dl></div>
+      <div class="product-facts"><h2 id="product-intro-title">{category.detailHeading}</h2><dl><div><dt>Format</dt><dd>{category.label}</dd></div><div><dt>Price</dt><dd>{product.price}</dd></div><div><dt>Preview</dt><dd>Live preview</dd></div></dl></div>
       <div class="product-story"><p class="product-lede">{product.summary}</p>{product.description.map((paragraph) => <p>{paragraph}</p>)}<div class="product-actions"><a class="product-button product-button-outline" href={product.previewUrl} target="_blank" rel="noopener noreferrer">Show preview <Icon name="ArrowUpRight" size={18} /></a><a class="product-button product-button-primary" href={product.checkoutUrl} target="_blank" rel="noopener noreferrer">Buy now — {product.price} <Icon name="ArrowUpRight" size={20} /></a></div></div>
     </section>
-    <section class="product-preview-section" id="live-preview" aria-labelledby="preview-title"><div class="product-preview-header"><div><span>Try before you buy</span><h2 id="preview-title">SEE IT<br />IN ACTION<span>.</span></h2></div><p>Explore the {product.category === 'component' ? 'component' : 'template'} here, or open the full site in a new tab.</p></div>
+    <section class="product-preview-section" id="live-preview" aria-labelledby="preview-title"><div class="product-preview-header"><div><span>Try before you buy</span><h2 id="preview-title">SEE IT<br />IN ACTION<span>.</span></h2></div><p>Explore the {category.previewNoun} here, or open the full site in a new tab.</p></div>
       <div class="live-browser">
         <div class="live-browser-bar"><span class="live-browser-address"><span class="browser-dots" aria-hidden="true"><i></i><i></i><i></i></span>{new URL(product.previewUrl).hostname}</span><span class="live-browser-actions">{previewMode === 'embed' && <button class="live-browser-refresh" type="button" data-preview-refresh aria-label={`Refresh ${product.name} preview`} title="Refresh preview"><Icon name="ArrowClockwise" size={18} /></button>}<span class="live-browser-sizes" role="group" aria-label="Preview size"><button class="active" type="button" data-preview-size="desktop" aria-pressed="true">Desktop</button><button type="button" data-preview-size="mobile" aria-pressed="false">Mobile</button></span><a href={product.previewUrl} target="_blank" rel="noopener noreferrer" aria-label={`Open ${product.name} preview in a new tab`}><Icon name="ArrowUpRight" size={19} /></a></span></div>
         <div class:list={['live-browser-stage', { 'is-fallback': previewMode === 'image' }]} data-preview-mode={previewMode}><div class="live-browser-window">

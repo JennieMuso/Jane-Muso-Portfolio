@@ -100,7 +100,7 @@ await client.create({
   insightsIntro: 'Notes on building digital experiences that look good, make sense, and do their job.',
   featuredArticles: articles.slice(0, 3).map((article, index) => ({ _type: 'reference', _key: 'article-' + index, _ref: 'article-' + article.slug })),
   shopHeading: 'GOOD THINGS\nTAKE SHAPE',
-  shopIntro: 'Explore Framer components and website templates made to help your next idea move.',
+  shopIntro: 'Explore components, website templates, and coded sites made to help your next idea move.',
   faqHeading: 'GOOD QUESTIONS',
   faqIntro: 'A few things worth knowing before we begin.',
   faqs: homeFaqs.map((faq, index) => ({ _type: 'object', _key: 'faq-' + index, ...faq })),

@@ -1,8 +1,28 @@
 // Product shape and original content used by the one-time Sanity import.
+export type ProductCategory = 'component' | 'template' | 'code-component' | 'coded-website';
+
+export const productCategories: {
+  value: ProductCategory;
+  label: string;
+  filterLabel: string;
+  singular: string;
+  plural: string;
+  detailHeading: string;
+  previewNoun: string;
+  platform: string;
+}[] = [
+  { value: 'component', label: 'Framer component', filterLabel: 'Framer components', singular: 'component', plural: 'components', detailHeading: 'The component', previewNoun: 'component', platform: 'Framer' },
+  { value: 'template', label: 'Framer website template', filterLabel: 'Website templates', singular: 'website template', plural: 'website templates', detailHeading: 'The template', previewNoun: 'template', platform: 'Framer' },
+  { value: 'code-component', label: 'Code Component', filterLabel: 'Code components', singular: 'code component', plural: 'code components', detailHeading: 'The component', previewNoun: 'component', platform: 'Code' },
+  { value: 'coded-website', label: 'Coded website', filterLabel: 'Coded websites', singular: 'coded website', plural: 'coded websites', detailHeading: 'The website', previewNoun: 'website', platform: 'Code' }
+];
+
+export const productCategoryInfo = (category: ProductCategory) => productCategories.find((item) => item.value === category) ?? productCategories[0];
+
 export type Product = {
   slug: string;
   name: string;
-  category: 'component' | 'template';
+  category: ProductCategory;
   summary: string;
   description: string[];
   features: string[];
@@ -11,7 +31,7 @@ export type Product = {
   previewImage?: string;
   previewMode?: 'embed' | 'image';
   gallery?: { src: string; alt: string }[];
-  framerUrl: string;
+  framerUrl?: string;
   previewUrl: string;
   checkoutUrl: string;
   price: string;
