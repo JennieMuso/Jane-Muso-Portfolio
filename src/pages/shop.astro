@@ -2,8 +2,9 @@
 import Layout from '../layouts/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import Icon from '../components/Icon.astro';
-import { products } from '../data/products';
+import { getProducts } from '../lib/shop';
 import { graph, organizationSchema, siteUrl } from '../data/seo';
+const products = await getProducts();
 const components = products.filter((product) => product.category === 'component').length;
 const templates = products.filter((product) => product.category === 'template').length;
 const schema = graph(organizationSchema, { '@type': 'CollectionPage', name: 'Framer components and templates by Jane Muso', url: `${siteUrl}/shop/`, mainEntity: { '@type': 'ItemList', itemListElement: products.map((product, index) => ({ '@type': 'ListItem', position: index + 1, name: product.name, url: `${siteUrl}/shop/${product.slug}/` })) } });

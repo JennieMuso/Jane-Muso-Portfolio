@@ -2,16 +2,16 @@
 import Layout from '../../layouts/Layout.astro';
 import Icon from '../../components/Icon.astro';
 import ProductVisual from '../../components/ProductVisual.astro';
-import { products, type Product } from '../../data/products';
+import type { Product } from '../../data/products';
+import { getProducts } from '../../lib/shop';
 import { graph, organizationSchema, siteUrl } from '../../data/seo';
 
-export function getStaticPaths() {
-  return products.map((product) => ({ params: { slug: product.slug }, props: { product } }));
+export async function getStaticPaths() {
+  const products = await getProducts();
+  return products.map((product, index) => ({ params: { slug: product.slug }, props: { product, next: products[(index + 1) % products.length] } }));
 }
 
-const { product } = Astro.props as { product: Product };
-const index = products.findIndex((item) => item.slug === product.slug);
-const next = products[(index + 1) % products.length];
+const { product, next } = Astro.props as { product: Product; next: Product };
 const previewMode = product.previewMode ?? 'embed';
 const previewImage = product.previewImage ?? product.coverImage;
 const schema = graph(

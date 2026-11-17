@@ -1,5 +1,4 @@
-// Product content is intentionally separate from presentation. A future Sanity
-// query can supply these fields without changing the catalog or detail routes.
+// Product shape and original content used by the one-time Sanity import.
 export type Product = {
   slug: string;
   name: string;
