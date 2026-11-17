@@ -1,7 +1,7 @@
 import { createClient } from '@sanity/client';
-import { articles as localArticles, type Article } from '../data/articles';
+import type { Article } from '../data/articles';
 
-const projectId = import.meta.env.SANITY_PROJECT_ID;
+const projectId = import.meta.env.SANITY_PROJECT_ID || 'lpyuxxi7';
 const dataset = import.meta.env.SANITY_DATASET || 'production';
 
 type SanityArticle = Omit<Article, 'hero' | 'inlineImage'> & {
@@ -16,9 +16,6 @@ export function getArticles(): Promise<Article[]> {
 }
 
 async function loadArticles(): Promise<Article[]> {
-  // The local articles keep the site buildable until a Sanity project is connected.
-  if (!projectId) return localArticles;
-
   const client = createClient({ projectId, dataset, apiVersion: '2025-02-19', useCdn: false });
   const documents = await client.fetch<SanityArticle[]>(
     `*[_type == "article" && defined(slug.current) && defined(heroImage.asset)] | order(sortOrder asc, publishedAt desc) {
