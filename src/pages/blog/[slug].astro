@@ -30,7 +30,7 @@ const schema = graph(
       <h1>{article.title}<span>.</span></h1>
       <div class="article-byline"><span class="article-author"><img src="/assets/jennie-portrait-preview.jpg" alt="" width="44" height="44" /><span>Jane Muso <small>Founder &amp; Designer</small></span></span></div>
     </header>
-    <figure class="article-hero"><img src={article.hero} alt={article.heroAlt} fetchpriority="high" /></figure>
+    <figure class="article-hero"><img src={article.hero} alt={article.heroAlt} fetchpriority="high" data-parallax data-parallax-strength="8" /></figure>
     <div class="article-layout">
       <aside class="article-rail" aria-label="Article tools">
         <div class="article-rail-inner">
@@ -57,4 +57,5 @@ const schema = graph(
       <span>Read next</span><strong>{next.title}<Icon name="ArrowUpRight" size={30} /></strong>
     </a>
   </article>
+  <script src="/hero-parallax.js" defer></script>
 </Layout>

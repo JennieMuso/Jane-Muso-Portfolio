@@ -27,12 +27,12 @@ const schema = graph(
 
     <figure class="case-hero parallax-frame">
       {project.heroVideo ? <>
-        <video data-case-hero-video data-parallax muted loop playsinline preload="metadata" poster={projectAsset(project, 'hero')} aria-label={project.heroAlt}>
+        <video data-case-hero-video data-parallax data-parallax-strength="8" muted loop playsinline preload="metadata" poster={projectAsset(project, 'hero')} aria-label={project.heroAlt}>
           <source src={project.heroVideo.url} type={project.heroVideo.mimeType} />
           <img src={projectAsset(project, 'hero')} alt={project.heroAlt} />
         </video>
         <button class="case-video-toggle" type="button" data-video-toggle hidden>Play video</button>
-      </> : <img src={projectAsset(project, 'hero')} alt={project.heroAlt} fetchpriority="high" data-parallax />}
+      </> : <img src={projectAsset(project, 'hero')} alt={project.heroAlt} fetchpriority="high" data-parallax data-parallax-strength="8" />}
       <figcaption><span>{project.eyebrow}</span><span>Jennie Muso / Selected work</span></figcaption>
     </figure>
 
@@ -72,7 +72,11 @@ const schema = graph(
     </section>
 
     <section class="case-outro"><span class="case-label">Explore the project</span><a href={project.liveUrl} target="_blank" rel="noopener noreferrer">SEE IT LIVE <Icon name="ArrowUpRight" size={34} /></a></section>
-    <a class="case-next" href={`/work/${next.slug}/`}><span>Next project / {String((index + 1) % total + 1).padStart(2, '0')}</span><strong>{next.name}<Icon name="ArrowUpRight" size={36} /></strong></a>
+    <a class="case-next" href={`/work/${next.slug}/`}>
+      <img src={projectAsset(next, 'hero')} alt="" loading="lazy" />
+      <span>Next project / {String((index + 1) % total + 1).padStart(2, '0')}</span><strong>{next.name}<Icon name="ArrowUpRight" size={36} /></strong>
+    </a>
   </article>
+  <script src="/hero-parallax.js" defer></script>
   <script src="/case-study.js" defer></script>
 </Layout>

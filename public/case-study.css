@@ -7,3 +7,9 @@
 .case-video-toggle:hover{background:rgba(0,0,0,.7)}
 .case-video-toggle:focus-visible{outline:2px solid #fff;outline-offset:3px}
 .case-video-toggle[hidden]{display:none}
+.case-hero>img,.case-hero>video{height:125%;top:-12.5%}
+.case-next{position:relative;isolation:isolate;overflow:hidden}
+.case-next::after{content:"";position:absolute;z-index:-1;inset:0;background:rgba(16,10,10,.58)}
+.case-next>img{position:absolute;z-index:-2;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.case-next:hover>img,.case-next:focus-visible>img{transform:scale(1.035)}
+@media(prefers-reduced-motion:reduce){.case-next>img{transition:none}}

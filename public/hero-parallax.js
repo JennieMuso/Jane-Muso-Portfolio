@@ -1,0 +1,12 @@
+window.addEventListener('load', () => {
+  if (!window.gsap || !window.ScrollTrigger || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  gsap.registerPlugin(ScrollTrigger);
+  document.querySelectorAll('[data-parallax]').forEach((media) => {
+    const strength = Number(media.dataset.parallaxStrength) || 4;
+    gsap.fromTo(media, { yPercent: -strength }, {
+      yPercent: strength,
+      ease: 'none',
+      scrollTrigger: { trigger: media.parentElement, start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+  });
+});
