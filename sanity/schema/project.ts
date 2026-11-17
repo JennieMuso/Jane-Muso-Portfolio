@@ -1,7 +1,7 @@
 import { defineArrayMember, defineField, defineType } from 'sanity';
 
-const imageField = (name: string, title: string) => defineField({
-  name, title, type: 'image', options: { hotspot: true },
+const imageField = (name: string, title: string, description: string) => defineField({
+  name, title, description, type: 'image', options: { hotspot: true },
   fields: [defineField({ name: 'alt', title: 'Image description', type: 'string', validation: (Rule) => Rule.required() })],
   validation: (Rule) => Rule.required()
 });
@@ -24,13 +24,13 @@ export const projectSchema = defineType({
     defineField({ name: 'canvas', title: 'Canvas color', description: 'Six-digit hex color, such as #dfe9e7.', type: 'string', validation: (Rule) => Rule.required().regex(/^#[0-9a-fA-F]{6}$/) }),
     defineField({ name: 'disciplines', title: 'Disciplines', type: 'array', of: [defineArrayMember({ type: 'string' })], validation: (Rule) => Rule.required().min(1) }),
     defineField({ name: 'stack', title: 'Technology', type: 'array', of: [defineArrayMember({ type: 'string' })] }),
-    imageField('heroImage', 'Hero poster and listing image'),
-    defineField({ name: 'heroVideo', title: 'Hero video', description: 'Optional MP4 or WebM video. It loops silently on the project page. The hero image remains the poster and fallback.', type: 'file', options: { accept: 'video/mp4,video/webm' } }),
-    imageField('desktopImage', 'Desktop screenshot'),
-    imageField('mobileImage', 'Mobile screenshot'),
-    imageField('detailImage', 'Detail image'),
-    imageField('interiorImage', 'Interior page image'),
-    imageField('secondaryImage', 'Secondary image'),
+    imageField('heroImage', 'Hero poster and listing image', 'Suggested: 1920 × 1080 px (16:9). Used across the homepage, Work listing, and case study hero. It crops differently on mobile, so keep the subject near the center.'),
+    defineField({ name: 'heroVideo', title: 'Hero video', description: 'Optional: 1920 × 1080 px (16:9) MP4 or WebM, compressed for the web. It loops silently on the case study. The hero image is its poster and fallback.', type: 'file', options: { accept: 'video/mp4,video/webm' } }),
+    imageField('desktopImage', 'Desktop screenshot', 'Suggested: 1440 × 900 px (8:5). Shown inside the large browser frame; keep important content away from the edges.'),
+    imageField('mobileImage', 'Mobile screenshot', 'Suggested: 780 × 1688 px (same shape as 390 × 844). Shown inside the tall phone frame.'),
+    imageField('detailImage', 'Detail image', 'Suggested: 1600 × 1200 px (4:3). This large image fills a wide frame on desktop and a squarer frame on phones, so allow room for cropping.'),
+    imageField('interiorImage', 'Interior page image', 'Suggested: 1440 × 900 px (8:5). Shown in the first image of the two-column detail gallery.'),
+    imageField('secondaryImage', 'Secondary image', 'Suggested: 1200 × 1200 px (square). Shown in the second gallery slot, which crops close to square on desktop.'),
     defineField({ name: 'sortOrder', title: 'Display order', description: 'Lower numbers appear first.', type: 'number', initialValue: 100 })
   ],
   preview: { select: { title: 'name', subtitle: 'eyebrow', media: 'heroImage' } }
