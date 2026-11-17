@@ -11,6 +11,7 @@
     "studio:build": "sanity build studio-dist",
     "blog:import": "node scripts/import-blog.mjs",
     "shop:import": "node scripts/import-shop.mjs",
+    "work:import": "node scripts/import-work.mjs",
     "deploy": "npm run build && wrangler pages deploy dist --project-name musodesigns"
   },
   "dependencies": {
