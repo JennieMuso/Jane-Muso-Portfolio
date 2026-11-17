@@ -1,15 +1,25 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
-import { projects } from '../data/projects';
+import { projectAsset } from '../data/projects';
+import { getProjects, getWorkPage } from '../lib/work';
 import { graph, organizationSchema, siteUrl } from '../data/seo';
+
+const [projects, workPage] = await Promise.all([getProjects(), getWorkPage()]);
+const positions = ['a', 'b', 'c', 'd'];
 const schema = graph(organizationSchema, { '@type': 'CollectionPage', name: 'Selected work by Jennie Muso', url: `${siteUrl}/work/`, mainEntity: { '@type': 'ItemList', itemListElement: projects.map((project, index) => ({ '@type': 'ListItem', position: index + 1, name: project.name, url: `${siteUrl}/work/${project.slug}/` })) } });
 ---
-<Layout title='Work — Jennie Muso' description='Selected websites by Jennie Muso: Veyra Cargo, Bayline Legal, JIN Restaurant, and Nacre Dental.' current='work' styles={['fonts.css','styles.css','editorial.css','projects.css','reference-layout.css','refinements.css']} bodyClass="work-page" schema={schema}>
-<div class="page-intro"><h1>THE WORK.</h1><p>Four websites. Four very different businesses. Each one starts with the same question: what does this audience need to feel, understand, and do?</p></div><section class="work" id="work" aria-label="Selected websites"><div class="section-head"><h2>Selected work</h2></div><div class="work-grid">
-<article class="work-item work-item-a"><div class="work-media"><img src="/assets/case-studies/veyra-hero.webp" alt="Veyra cargo ship at the port" loading="lazy"></div><div class="work-caption"><h3>Veyra Cargo</h3><span>Website design & development</span></div><a class="work-card-link" href="/work/veyra-cargo/" aria-label="View Veyra Cargo case study"></a></article>
-<article class="work-item work-item-b"><div class="work-media"><img src="/assets/case-studies/bayline-hero.webp" alt="Bayline Legal professionals in conversation" loading="lazy"></div><div class="work-caption"><h3>Bayline Legal</h3><span>Website design & development</span></div><a class="work-card-link" href="/work/bayline-legal/" aria-label="View Bayline Legal case study"></a></article>
-<article class="work-item work-item-c"><div class="work-media"><img src="/assets/case-studies/jin-hero.webp" alt="JIN restaurant dining room" loading="lazy"></div><div class="work-caption"><h3>JIN Restaurant</h3><span>Website design & development</span></div><a class="work-card-link" href="/work/jin-restaurant/" aria-label="View JIN Restaurant case study"></a></article>
-<article class="work-item work-item-d"><div class="work-media"><img src="/assets/case-studies/nacre-hero.webp" alt="A smiling woman featured on the Nacre Dental website" loading="lazy"></div><div class="work-caption"><h3>Nacre Dental</h3><span>Website design & development</span></div><a class="work-card-link" href="/work/nacre-dental/" aria-label="View Nacre Dental case study"></a></article>
-</div><div class="work-end"><p class="work-note">Four different briefs, each shaped around its audience. Select a project to explore the design, the build and the details behind it.</p><a class="text-link" href="/contact/">Discuss a project <Icon name="ArrowUpRight" size={20} /></a></div></section>
+<Layout title="Work — Jennie Muso" description={workPage.seoDescription || workPage.intro} current="work" styles={['fonts.css','styles.css','editorial.css','projects.css','reference-layout.css','refinements.css']} bodyClass="work-page" schema={schema}>
+  <div class="page-intro"><h1>{workPage.title}</h1><p>{workPage.intro}</p></div>
+  <section class="work" id="work" aria-label="Selected websites">
+    <div class="section-head"><h2>Selected work</h2></div>
+    <div class="work-grid">
+      {projects.map((project, index) => <article class:list={['work-item', `work-item-${positions[index % positions.length]}`]}>
+        <div class="work-media"><img src={projectAsset(project, 'hero')} alt={project.heroAlt} loading="lazy" /></div>
+        <div class="work-caption"><h3>{project.name}</h3><span>Website design &amp; development</span></div>
+        <a class="work-card-link" href={`/work/${project.slug}/`} aria-label={`View ${project.name} case study`}></a>
+      </article>)}
+    </div>
+    <div class="work-end"><p class="work-note">{workPage.endNote}</p><a class="text-link" href="/contact/">Discuss a project <Icon name="ArrowUpRight" size={20} /></a></div>
+  </section>
 </Layout>

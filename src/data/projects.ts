@@ -1,5 +1,5 @@
-// One record per case study. The fields are deliberately content-first so a
-// Sanity query can replace this array without changing the page template.
+// Original case studies are retained for the one-time Sanity import.
+export type ProjectImageKind = 'hero' | 'desktop' | 'mobile' | 'detail' | 'interior' | 'secondary';
 export type Project = {
   slug: string;
   name: string;
@@ -15,6 +15,8 @@ export type Project = {
   canvas: string;
   disciplines: string[];
   stack: string[];
+  images?: Partial<Record<ProjectImageKind, string>>;
+  imageAlts?: Partial<Record<ProjectImageKind, string>>;
 };
 
 export const projects: Project[] = [
@@ -84,4 +86,4 @@ export const projects: Project[] = [
   }
 ];
 
-export const projectAsset = (project: Project, kind: string) => `/assets/case-studies/${project.slug.split('-')[0]}-${kind}.webp`;
+export const projectAsset = (project: Project, kind: ProjectImageKind) => project.images?.[kind] || `/assets/case-studies/${project.slug.split('-')[0]}-${kind}.webp`;

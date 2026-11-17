@@ -4,11 +4,16 @@ import Icon from '../components/Icon.astro';
 import InsightCard from '../components/InsightCard.astro';
 import Faq from '../components/Faq.astro';
 import { getArticles } from '../lib/blog';
+import { getProjects } from '../lib/work';
+import { projectAsset } from '../data/projects';
 import { homeFaqs } from '../data/faqs';
 import { contentUpdated, faqSchema, graph, organizationSchema, personSchema, siteUrl } from '../data/seo';
 const aboutStatement = 'I design with intention, bringing structure and expression together to make websites that speak clearly and feel unmistakably yours. I bring curiosity to every brief, making the complex feel clear, considered, and worth remembering.';
 const aboutWords = aboutStatement.split(' ');
-const articles = await getArticles();
+const [articles, projects] = await Promise.all([getArticles(), getProjects()]);
+const miniClasses = ['mini-verya', 'mini-bayline', 'mini-jin', 'mini-nacre'];
+const featuredProjects = projects.slice(0, 4);
+const homeDescription = `Jennie Muso designs websites for service businesses in the UAE and Kenya. Explore ${featuredProjects.map((project) => project.name).join(', ')}.`;
 const schema = graph(
   organizationSchema,
   personSchema,
@@ -17,16 +22,13 @@ const schema = graph(
   faqSchema(homeFaqs)
 );
 ---
-<Layout title='Jennie Muso — Creative Portfolio' description='Jennie Muso designs websites for service businesses in the UAE and Kenya. Explore Veyra Cargo, Bayline Legal, JIN Restaurant, and Nacre Dental.' current='home' styles={['fonts.css','styles.css','editorial.css','projects.css','reference-layout.css','refinements.css','final-touches.css','latest.css','insights.css','preview-fixes.css','iteration.css','content-updates.css','faq.css']} schema={schema} modified={contentUpdated}>
+<Layout title='Jennie Muso — Creative Portfolio' description={homeDescription} current='home' styles={['fonts.css','styles.css','editorial.css','projects.css','reference-layout.css','refinements.css','final-touches.css','latest.css','insights.css','preview-fixes.css','iteration.css','content-updates.css','faq.css']} schema={schema} modified={contentUpdated}>
 
       <section class="hero editorial-hero" id="work" aria-labelledby="hero-title">
         <div class="hero-meta"><span>Jennie Muso / digital designer & maker</span><span>Website design & development</span><span>Selected projects</span></div>
         <h1 id="hero-title">Muso<span>.designs</span></h1>
         <div class="editorial-gallery" aria-label="Featured projects">
-          <figure class="project-mini mini-verya"><img src="/assets/case-studies/veyra-hero.webp" alt="Veyra cargo ship at the port" width="768" height="512"><figcaption><strong>Veyra Cargo</strong><span>Website design & development</span></figcaption><a class="mini-link" href="/work/veyra-cargo/" aria-label="View Veyra Cargo case study"><span class="project-view-cue">View work <Icon name="ArrowUpRight" size={17} /></span></a></figure>
-          <figure class="project-mini mini-bayline"><img src="/assets/case-studies/bayline-hero.webp" alt="Bayline Legal professionals in conversation" width="768" height="512"><figcaption><strong>Bayline Legal</strong><span>Website design & development</span></figcaption><a class="mini-link" href="/work/bayline-legal/" aria-label="View Bayline Legal case study"><span class="project-view-cue">View work <Icon name="ArrowUpRight" size={17} /></span></a></figure>
-          <figure class="project-mini mini-jin"><img src="/assets/case-studies/jin-hero.webp" alt="JIN restaurant dining scene" width="768" height="512"><figcaption><strong>JIN Restaurant</strong><span>Website design & development</span></figcaption><a class="mini-link" href="/work/jin-restaurant/" aria-label="View JIN Restaurant case study"><span class="project-view-cue">View work <Icon name="ArrowUpRight" size={17} /></span></a></figure>
-          <figure class="project-mini mini-nacre"><img src="/assets/case-studies/nacre-hero.webp" alt="Portrait from the Nacre Dental website" width="768" height="512"><figcaption><strong>Nacre Dental</strong><span>Website design & development</span></figcaption><a class="mini-link" href="/work/nacre-dental/" aria-label="View Nacre Dental case study"><span class="project-view-cue">View work <Icon name="ArrowUpRight" size={17} /></span></a></figure>
+          {featuredProjects.map((project, index) => <figure class:list={['project-mini', miniClasses[index]]}><img src={projectAsset(project, 'hero')} alt={project.heroAlt} width="768" height="512"><figcaption><strong>{project.name}</strong><span>Website design &amp; development</span></figcaption><a class="mini-link" href={`/work/${project.slug}/`} aria-label={`View ${project.name} case study`}><span class="project-view-cue">View work <Icon name="ArrowUpRight" size={17} /></span></a></figure>)}
           <p class="gallery-thesis">Design that looks closely.<br>Development that thinks ahead.</p>
           <a class="gallery-link" href="/work/">View more work <Icon name="ArrowUpRight" size={20} /></a>
         </div>

@@ -1,16 +1,16 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Icon from '../../components/Icon.astro';
-import { projects, projectAsset, type Project } from '../../data/projects';
+import { projectAsset, type Project } from '../../data/projects';
+import { getProjects } from '../../lib/work';
 import { graph, organizationSchema, personSchema, siteUrl } from '../../data/seo';
 
-export function getStaticPaths() {
-  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project, index) => ({ params: { slug: project.slug }, props: { project, index, total: projects.length, next: projects[(index + 1) % projects.length] } }));
 }
 
-const { project } = Astro.props as { project: Project };
-const index = projects.findIndex((item) => item.slug === project.slug);
-const next = projects[(index + 1) % projects.length];
+const { project, index, total, next } = Astro.props as { project: Project; index: number; total: number; next: Project };
 const schema = graph(
   organizationSchema,
   personSchema,
@@ -20,7 +20,7 @@ const schema = graph(
 <Layout title={`${project.name} — Work by Jennie Muso`} description={`${project.name}: ${project.intro} A website design and development case study by Jennie Muso.`} current="work" styles={['fonts.css', 'styles.css', 'case-study.css']} bodyClass={`case-study case-${project.slug}`} image={projectAsset(project, 'hero')} schema={schema}>
   <article style={`--case-accent:${project.accent};--case-canvas:${project.canvas}`}>
     <header class="case-heading">
-      <div class="case-index"><a href="/work/"><Icon name="ArrowLeft" size={16} /> All work</a><span>{String(index + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')} &nbsp; {project.eyebrow}</span></div>
+      <div class="case-index"><a href="/work/"><Icon name="ArrowLeft" size={16} /> All work</a><span>{String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')} &nbsp; {project.eyebrow}</span></div>
       <h1>{project.name}<span>.</span></h1>
       <div class="case-heading-bottom"><span>Website design &amp; development</span><span>Scroll to explore <Icon name="ArrowDown" size={17} /></span></div>
     </header>
@@ -45,9 +45,9 @@ const schema = graph(
       <div class="case-device-scene">
         <div class="case-browser" data-reveal>
           <div class="browser-chrome"><span class="browser-dots"><i></i><i></i><i></i></span><span>{new URL(project.liveUrl).hostname}</span><Icon name="ArrowUpRight" size={14} /></div>
-          <img src={projectAsset(project, 'desktop')} alt={`${project.name} website homepage shown in a desktop browser`} loading="lazy" />
+          <img src={projectAsset(project, 'desktop')} alt={project.imageAlts?.desktop || `${project.name} website homepage shown in a desktop browser`} loading="lazy" />
         </div>
-        <div class="case-phone" data-reveal><div class="phone-speaker"></div><img src={projectAsset(project, 'mobile')} alt={`${project.name} website homepage on a phone`} loading="lazy" /></div>
+        <div class="case-phone" data-reveal><div class="phone-speaker"></div><img src={projectAsset(project, 'mobile')} alt={project.imageAlts?.mobile || `${project.name} website homepage on a phone`} loading="lazy" /></div>
         {project.slug === 'jin-restaurant' && <>
           <span class="floating-food food-one" aria-hidden="true"><img src={projectAsset(project, 'detail')} alt="" /></span>
           <span class="floating-food food-two" aria-hidden="true"><img src={projectAsset(project, 'secondary')} alt="" /></span>
@@ -58,15 +58,15 @@ const schema = graph(
 
     <section class="case-gallery" aria-label="More project details">
       <div class="case-gallery-heading"><span class="case-label">03 / A closer look</span><h2>BUILT TO<br />BE FELT<span>.</span></h2></div>
-      <figure class="case-gallery-main parallax-frame"><img src={projectAsset(project, 'detail')} alt={project.detailCaption} loading="lazy" data-parallax /><figcaption>{project.detailCaption}</figcaption></figure>
+      <figure class="case-gallery-main parallax-frame"><img src={projectAsset(project, 'detail')} alt={project.imageAlts?.detail || project.detailCaption} loading="lazy" data-parallax /><figcaption>{project.detailCaption}</figcaption></figure>
       <div class="case-gallery-grid">
-        <figure class="case-shot case-shot-page" data-reveal><img src={projectAsset(project, 'interior')} alt={`${project.name} interior page design`} loading="lazy" /><figcaption>Inside the website / another page</figcaption></figure>
-        <figure class="case-shot case-shot-image" data-reveal><img src={projectAsset(project, 'secondary')} alt={project.secondaryCaption} loading="lazy" /><figcaption>{project.secondaryCaption}</figcaption></figure>
+        <figure class="case-shot case-shot-page" data-reveal><img src={projectAsset(project, 'interior')} alt={project.imageAlts?.interior || `${project.name} interior page design`} loading="lazy" /><figcaption>Inside the website / another page</figcaption></figure>
+        <figure class="case-shot case-shot-image" data-reveal><img src={projectAsset(project, 'secondary')} alt={project.imageAlts?.secondary || project.secondaryCaption} loading="lazy" /><figcaption>{project.secondaryCaption}</figcaption></figure>
       </div>
     </section>
 
     <section class="case-outro"><span class="case-label">Explore the project</span><a href={project.liveUrl} target="_blank" rel="noopener noreferrer">SEE IT LIVE <Icon name="ArrowUpRight" size={34} /></a></section>
-    <a class="case-next" href={`/work/${next.slug}/`}><span>Next project / {String((index + 1) % projects.length + 1).padStart(2, '0')}</span><strong>{next.name}<Icon name="ArrowUpRight" size={36} /></strong></a>
+    <a class="case-next" href={`/work/${next.slug}/`}><span>Next project / {String((index + 1) % total + 1).padStart(2, '0')}</span><strong>{next.name}<Icon name="ArrowUpRight" size={36} /></strong></a>
   </article>
   <script src="/case-study.js" defer></script>
 </Layout>
