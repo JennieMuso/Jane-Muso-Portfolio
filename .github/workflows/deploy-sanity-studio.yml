@@ -2,6 +2,13 @@ name: Deploy Sanity Studio
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - sanity.config.ts
+      - sanity/schema/**
+      - .github/workflows/deploy-sanity-studio.yml
 
 permissions:
   contents: read

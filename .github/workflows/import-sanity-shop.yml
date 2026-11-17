@@ -1,0 +1,36 @@
+name: Import Existing Shop to Sanity
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/import-sanity-shop.yml
+
+permissions:
+  contents: read
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Import products and images
+        run: npm run shop:import
+        env:
+          SANITY_PROJECT_ID: lpyuxxi7
+          SANITY_DATASET: production
+          SANITY_WRITE_TOKEN: ${{ secrets.SANITY_ORGANIZATION_TOKEN }}

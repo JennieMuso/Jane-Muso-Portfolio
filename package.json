@@ -10,6 +10,7 @@
     "studio": "sanity dev --host 0.0.0.0",
     "studio:build": "sanity build studio-dist",
     "blog:import": "node scripts/import-blog.mjs",
+    "shop:import": "node scripts/import-shop.mjs",
     "deploy": "npm run build && wrangler pages deploy dist --project-name musodesigns"
   },
   "dependencies": {
