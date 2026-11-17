@@ -1,3 +1,27 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const video = document.querySelector('[data-case-hero-video]');
+  const toggle = document.querySelector('[data-video-toggle]');
+  if (!video || !toggle) return;
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const updateToggle = () => {
+    toggle.textContent = video.paused ? 'Play video' : 'Pause video';
+    toggle.setAttribute('aria-label', video.paused ? 'Play project video' : 'Pause project video');
+  };
+  toggle.hidden = false;
+  video.addEventListener('play', updateToggle);
+  video.addEventListener('pause', updateToggle);
+  toggle.addEventListener('click', () => {
+    if (video.paused) video.play().catch(updateToggle);
+    else video.pause();
+  });
+  reducedMotion.addEventListener('change', () => {
+    if (reducedMotion.matches) video.pause();
+  });
+  if (!reducedMotion.matches) video.play().catch(updateToggle);
+  updateToggle();
+});
+
 window.addEventListener('load', () => {
   if (!window.gsap || !window.ScrollTrigger || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   gsap.registerPlugin(ScrollTrigger);

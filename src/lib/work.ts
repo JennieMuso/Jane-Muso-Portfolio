@@ -6,7 +6,8 @@ const dataset = import.meta.env.SANITY_DATASET || 'production';
 const client = createClient({ projectId, dataset, apiVersion: '2025-02-19', useCdn: false });
 
 type SanityImage = { alt?: string; asset?: { url?: string } };
-type SanityProject = Omit<Project, 'heroAlt' | 'images' | 'imageAlts'> & {
+type SanityProject = Omit<Project, 'heroAlt' | 'heroVideo' | 'images' | 'imageAlts'> & {
+  heroVideo?: { asset?: { url?: string; mimeType?: string } };
   heroImage?: SanityImage;
   desktopImage?: SanityImage;
   mobileImage?: SanityImage;
@@ -35,7 +36,7 @@ async function loadProjects(): Promise<Project[]> {
     `*[_type == "project" && defined(slug.current) && defined(heroImage.asset)] | order(sortOrder asc, name asc) {
       "slug": slug.current, name, eyebrow, liveUrl, intro, story, designNote,
       detailCaption, secondaryCaption, accent, canvas, disciplines, stack,
-      heroImage { alt, asset->{url} }, desktopImage { alt, asset->{url} },
+      heroImage { alt, asset->{url} }, heroVideo { asset->{url, mimeType} }, desktopImage { alt, asset->{url} },
       mobileImage { alt, asset->{url} }, detailImage { alt, asset->{url} },
       interiorImage { alt, asset->{url} }, secondaryImage { alt, asset->{url} }
     }`
@@ -53,6 +54,7 @@ async function loadProjects(): Promise<Project[]> {
     return {
       ...document,
       heroAlt: document.heroImage?.alt || '',
+      heroVideo: document.heroVideo?.asset?.url ? { url: document.heroVideo.asset.url, mimeType: document.heroVideo.asset.mimeType } : undefined,
       story: document.story || [],
       disciplines: document.disciplines || [],
       stack: document.stack || [],

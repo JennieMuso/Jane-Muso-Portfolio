@@ -15,6 +15,7 @@ export type Project = {
   canvas: string;
   disciplines: string[];
   stack: string[];
+  heroVideo?: { url: string; mimeType?: string };
   images?: Partial<Record<ProjectImageKind, string>>;
   imageAlts?: Partial<Record<ProjectImageKind, string>>;
 };

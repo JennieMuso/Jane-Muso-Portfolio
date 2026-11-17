@@ -26,7 +26,13 @@ const schema = graph(
     </header>
 
     <figure class="case-hero parallax-frame">
-      <img src={projectAsset(project, 'hero')} alt={project.heroAlt} fetchpriority="high" data-parallax />
+      {project.heroVideo ? <>
+        <video data-case-hero-video data-parallax muted loop playsinline preload="metadata" poster={projectAsset(project, 'hero')} aria-label={project.heroAlt}>
+          <source src={project.heroVideo.url} type={project.heroVideo.mimeType} />
+          <img src={projectAsset(project, 'hero')} alt={project.heroAlt} />
+        </video>
+        <button class="case-video-toggle" type="button" data-video-toggle hidden>Play video</button>
+      </> : <img src={projectAsset(project, 'hero')} alt={project.heroAlt} fetchpriority="high" data-parallax />}
       <figcaption><span>{project.eyebrow}</span><span>Jennie Muso / Selected work</span></figcaption>
     </figure>
 
