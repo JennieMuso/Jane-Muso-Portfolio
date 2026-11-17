@@ -2,6 +2,11 @@ name: Import Existing Blog to Sanity
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/import-sanity-blog.yml
 
 permissions:
   contents: read
