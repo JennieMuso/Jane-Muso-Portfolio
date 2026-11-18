@@ -1,0 +1,20 @@
+{
+  "version": "1.0",
+  "name": "Muso.designs",
+  "description": "Portfolio, writing, and digital products by Jennie Muso.",
+  "url": "https://musodesigns.pages.dev/",
+  "resources": [
+    {
+      "name": "Site overview for AI agents",
+      "url": "https://musodesigns.pages.dev/llms.txt",
+      "type": "text/markdown",
+      "description": "A concise guide to the site's public sections and their links."
+    },
+    {
+      "name": "XML sitemap",
+      "url": "https://musodesigns.pages.dev/sitemap.xml",
+      "type": "application/xml",
+      "description": "The public page index, including articles, projects, and products."
+    }
+  ]
+}

@@ -17,6 +17,7 @@ const needsMotion = ['home', 'work', 'blog'].includes(current);
     <meta name="description" content={description} />
     {modified && <meta name="date-modified" content={modified} />}
     <link rel="canonical" href={canonical} />
+    <link rel="ard" href="/.well-known/ard.json" type="application/json" />
     <meta property="og:type" content={type} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
