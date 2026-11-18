@@ -6,6 +6,7 @@
 
 - [Home](https://musodesigns.pages.dev/): Introduction to Jennie Muso, selected work, services, and recent writing.
 - [Work](https://musodesigns.pages.dev/work/): Website design and development case studies.
+- [Services](https://musodesigns.pages.dev/services/): Website packages, starting prices, deliverables, add-ons, and ongoing care.
 - [Blog](https://musodesigns.pages.dev/blog/): Articles about design, strategy, tools, and user experience.
 - [Shop](https://musodesigns.pages.dev/shop/): Framer and code components, templates, and websites.
 - [Contact](https://musodesigns.pages.dev/contact/): Project enquiry form and contact details.

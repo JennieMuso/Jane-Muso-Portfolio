@@ -7,6 +7,7 @@ import { contentUpdated, siteUrl } from '../data/seo';
 const staticPaths = [
   { path: '/', lastmod: contentUpdated },
   { path: '/contact/', lastmod: contentUpdated },
+  { path: '/services/', lastmod: '2026-11-18' },
   { path: '/work/' },
   { path: '/blog/' },
   { path: '/shop/' }

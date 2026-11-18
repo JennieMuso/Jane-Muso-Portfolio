@@ -44,6 +44,7 @@ const schema = graph(
         <div class="solutions-list">
           {home.services.map((service, index) => <details class="solution" open={index === 0}><summary><span>{service.title}</span><img src={imageUrl(service.image, 640)} srcset={imageSrcSet(service.image, [320, 480, 640])} sizes="(max-width: 560px) 96px, (max-width: 800px) 180px, 40vw" alt="" width="630" height="624" loading="lazy" decoding="async" /></summary><div class="solution-content"><div class="solution-copy">{service.paragraphs.map((paragraph) => <p>{paragraph}</p>)}<span>{service.audience}</span></div></div></details>)}
         </div>
+        <a class="text-link services-home-link" href="/services/">Explore website packages <Icon name="ArrowUpRight" size={20} /></a>
       </section>
 
       <section class="manifesto about-story" id="about" aria-labelledby="about-title">

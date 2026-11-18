@@ -4,6 +4,13 @@ window.addEventListener('load', () => {
   const customFields = document.getElementById('budget-custom-fields');
   const customBudget = document.getElementById('custom-budget');
   const pageCount = document.getElementById('page-count');
+  const requestedPackage = new URLSearchParams(window.location.search).get('package');
+  const selectedPackage = ['Muso Launch', 'Muso Signature', 'Muso Experience'].includes(requestedPackage) ? requestedPackage : '';
+  const packageReferral = document.getElementById('package-referral');
+  if (selectedPackage && packageReferral) {
+    packageReferral.textContent = `Interested in ${selectedPackage}? Tell me about your idea below.`;
+    packageReferral.hidden = false;
+  }
 
   const syncBudgetFields = () => {
     const isCustom = form?.querySelector('input[name="budget"]:checked')?.value === 'custom';
@@ -37,6 +44,7 @@ window.addEventListener('load', () => {
       'About their business:', value('business'),
       '',
       `Service: ${value('service')}`,
+      ...(selectedPackage ? [`Package of interest: ${selectedPackage}`] : []),
       `Budget: ${budget}`,
       `Timing: ${value('timeline') || 'Not specified'}`,
       '',
