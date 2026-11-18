@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Icon from '../../components/Icon.astro';
 import type { Article } from '../../data/articles';
 import { getArticles } from '../../lib/blog';
+import { imageUrl, imageSrcSet } from '../../lib/image';
 import { graph, organizationSchema, personSchema, siteUrl } from '../../data/seo';
 
 export async function getStaticPaths() {
@@ -28,9 +29,9 @@ const schema = graph(
     <header class="article-header">
       <div class="article-topline"><a href="/blog/"><Icon name="ArrowLeft" size={16} /> All insights</a><span>{article.topic} / {article.readTime}</span></div>
       <h1>{article.title}<span>.</span></h1>
-      <div class="article-byline"><span class="article-author"><img src="/assets/jennie-portrait-preview.jpg" alt="" width="44" height="44" /><span>Jane Muso <small>Founder &amp; Designer</small></span></span></div>
+      <div class="article-byline"><span class="article-author"><img src="/assets/jennie-favicon.png" alt="" width="44" height="44" /><span>Jane Muso <small>Founder &amp; Designer</small></span></span></div>
     </header>
-    <figure class="article-hero"><img src={article.hero} alt={article.heroAlt} fetchpriority="high" data-parallax data-parallax-strength="8" /></figure>
+    <figure class="article-hero"><img src={imageUrl(article.hero, 1920)} srcset={imageSrcSet(article.hero, [640, 960, 1440, 1920])} sizes="100vw" alt={article.heroAlt} fetchpriority="high" decoding="async" data-parallax data-parallax-strength="8" /></figure>
     <div class="article-layout">
       <aside class="article-rail" aria-label="Article tools">
         <div class="article-rail-inner">
@@ -46,14 +47,14 @@ const schema = graph(
         <p class="article-deck">{article.excerpt}</p>
         {article.sections.map((section, sectionIndex) => <>
           <section id={section.id} class="article-section"><h2>{section.heading}</h2>{section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}</section>
-          {sectionIndex === 1 && article.inlineImage && <figure class="article-inline-image"><img src={article.inlineImage} alt={article.inlineAlt} loading="lazy" /></figure>}
+          {sectionIndex === 1 && article.inlineImage && <figure class="article-inline-image"><img src={imageUrl(article.inlineImage, 1200)} srcset={imageSrcSet(article.inlineImage, [480, 800, 1200])} sizes="(max-width: 650px) 100vw, 760px" alt={article.inlineAlt} loading="lazy" decoding="async" /></figure>}
         </>)}
         {article.references && <aside class="article-references" aria-labelledby="further-reading-title"><h2 id="further-reading-title">Further reading</h2><ul>{article.references.map((reference) => <li><a href={reference.url} target="_blank" rel="noopener noreferrer">{reference.label} <Icon name="ArrowUpRight" size={16} /></a></li>)}</ul></aside>}
         <div class="article-end"><p>Thanks for reading.</p><a href="/contact/">Have a project in mind? <Icon name="ArrowUpRight" size={20} /></a></div>
       </div>
     </div>
     <a class="article-next" href={`/blog/${next.slug}/`}>
-      <img src={next.hero} alt="" loading="lazy" />
+      <img src={imageUrl(next.hero, 1600)} srcset={imageSrcSet(next.hero, [640, 960, 1280, 1600])} sizes="100vw" alt="" loading="lazy" decoding="async" />
       <span>Read next</span><strong>{next.title}<Icon name="ArrowUpRight" size={30} /></strong>
     </a>
   </article>

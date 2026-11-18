@@ -4,6 +4,7 @@ import Icon from '../../components/Icon.astro';
 import ProductVisual from '../../components/ProductVisual.astro';
 import { productCategoryInfo, type Product } from '../../data/products';
 import { getProducts } from '../../lib/shop';
+import { imageUrl, imageSrcSet } from '../../lib/image';
 import { graph, organizationSchema, siteUrl } from '../../data/seo';
 
 export async function getStaticPaths() {
@@ -27,7 +28,7 @@ const schema = graph(
       <h1>{product.name}<span>.</span></h1>
       <div class="product-title-foot"><span>Made by Jane Muso</span><span>Digital goods / {category.platform}</span></div>
     </header>
-    <div class="product-hero-art"><ProductVisual product={product} /></div>
+    <div class="product-hero-art"><ProductVisual product={product} priority /></div>
     <section class="product-intro" aria-labelledby="product-intro-title">
       <div class="product-facts"><h2 id="product-intro-title">{category.detailHeading}</h2><dl><div><dt>Format</dt><dd>{category.label}</dd></div><div><dt>Price</dt><dd>{product.price}</dd></div><div><dt>Preview</dt><dd>Live preview</dd></div></dl></div>
       <div class="product-story"><p class="product-lede">{product.summary}</p>{product.description.map((paragraph) => <p>{paragraph}</p>)}<div class="product-actions"><a class="product-button product-button-outline" href={product.previewUrl} target="_blank" rel="noopener noreferrer">Show preview <Icon name="ArrowUpRight" size={18} /></a><a class="product-button product-button-primary" href={product.checkoutUrl} target="_blank" rel="noopener noreferrer">Buy now — {product.price} <Icon name="ArrowUpRight" size={20} /></a></div></div>
@@ -37,7 +38,7 @@ const schema = graph(
         <div class="live-browser-bar"><span class="live-browser-address"><span class="browser-dots" aria-hidden="true"><i></i><i></i><i></i></span>{new URL(product.previewUrl).hostname}</span><span class="live-browser-actions">{previewMode === 'embed' && <button class="live-browser-refresh" type="button" data-preview-refresh aria-label={`Refresh ${product.name} preview`} title="Refresh preview"><Icon name="ArrowClockwise" size={18} /></button>}<span class="live-browser-sizes" role="group" aria-label="Preview size"><button class="active" type="button" data-preview-size="desktop" aria-pressed="true">Desktop</button><button type="button" data-preview-size="mobile" aria-pressed="false">Mobile</button></span><a href={product.previewUrl} target="_blank" rel="noopener noreferrer" aria-label={`Open ${product.name} preview in a new tab`}><Icon name="ArrowUpRight" size={19} /></a></span></div>
         <div class:list={['live-browser-stage', { 'is-fallback': previewMode === 'image' }]} data-preview-mode={previewMode}><div class="live-browser-window">
           <div class="preview-fallback" aria-label={`${product.name} preview image`}>
-            {previewImage ? <img src={previewImage} alt={product.coverAlt ?? `${product.name} preview artwork`} loading="lazy" /> : <ProductVisual product={product} />}
+            {previewImage ? <img src={imageUrl(previewImage, 1200)} srcset={imageSrcSet(previewImage, [480, 800, 1200])} sizes="(max-width: 700px) 100vw, 80vw" alt={product.coverAlt ?? `${product.name} preview artwork`} loading="lazy" decoding="async" /> : <ProductVisual product={product} />}
             <div class="preview-fallback-action"><span>Explore it on the live site</span><a href={product.previewUrl} target="_blank" rel="noopener noreferrer">Show preview <Icon name="ArrowUpRight" size={22} /></a></div>
           </div>
           {previewMode === 'embed' && <iframe src={product.previewUrl} title={`${product.name} interactive live preview`} loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="fullscreen" tabindex="-1"></iframe>}
@@ -48,7 +49,7 @@ const schema = graph(
     <section class="product-includes" aria-labelledby="product-includes-title"><div><span>{product.name}</span><h2 id="product-includes-title">WHAT YOU<br />GET<span>.</span></h2></div><ul>{product.features.map((feature) => <li>{feature}</li>)}</ul></section>
     <section class="product-purchase"><p>Ready to make it yours?</p><h2>{product.name}<span>.</span></h2><a href={product.checkoutUrl} target="_blank" rel="noopener noreferrer">Buy now — {product.price} <Icon name="ArrowUpRight" size={24} /></a><small>Secure checkout on Lemon Squeezy.</small></section>
     <a class="product-next" href={`/shop/${next.slug}/`}>
-      {next.coverImage && <img src={next.coverImage} alt="" loading="lazy" />}
+      {next.coverImage && <img src={imageUrl(next.coverImage, 1600)} srcset={imageSrcSet(next.coverImage, [640, 960, 1280, 1600])} sizes="100vw" alt="" loading="lazy" decoding="async" />}
       <span>Explore another</span><strong>{next.name}<Icon name="ArrowUpRight" size={30} /></strong>
     </a>
   </article>

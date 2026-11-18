@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Icon from '../../components/Icon.astro';
 import { projectAsset, type Project } from '../../data/projects';
+import { imageUrl, imageSrcSet } from '../../lib/image';
 import { getProjects } from '../../lib/work';
 import { graph, organizationSchema, personSchema, siteUrl } from '../../data/seo';
 
@@ -27,12 +28,12 @@ const schema = graph(
 
     <figure class="case-hero parallax-frame">
       {project.heroVideo ? <>
-        <video data-case-hero-video data-parallax data-parallax-strength="8" muted loop playsinline preload="metadata" poster={projectAsset(project, 'hero')} aria-label={project.heroAlt}>
+        <video data-case-hero-video data-parallax data-parallax-strength="8" muted loop playsinline preload="metadata" poster={imageUrl(projectAsset(project, 'hero'), 1920)} aria-label={project.heroAlt}>
           <source src={project.heroVideo.url} type={project.heroVideo.mimeType} />
-          <img src={projectAsset(project, 'hero')} alt={project.heroAlt} />
+          <img src={imageUrl(projectAsset(project, 'hero'), 1920)} alt={project.heroAlt} />
         </video>
         <button class="case-video-toggle" type="button" data-video-toggle hidden>Play video</button>
-      </> : <img src={projectAsset(project, 'hero')} alt={project.heroAlt} fetchpriority="high" data-parallax data-parallax-strength="8" />}
+      </> : <img src={imageUrl(projectAsset(project, 'hero'), 1920)} srcset={imageSrcSet(projectAsset(project, 'hero'), [640, 960, 1440, 1920])} sizes="100vw" alt={project.heroAlt} fetchpriority="high" decoding="async" data-parallax data-parallax-strength="8" />}
       <figcaption><span>{project.eyebrow}</span><span>Jennie Muso / Selected work</span></figcaption>
     </figure>
 
@@ -51,12 +52,12 @@ const schema = graph(
       <div class="case-device-scene">
         <div class="case-browser" data-reveal>
           <div class="browser-chrome"><span class="browser-dots"><i></i><i></i><i></i></span><span>{new URL(project.liveUrl).hostname}</span><Icon name="ArrowUpRight" size={14} /></div>
-          <img src={projectAsset(project, 'desktop')} alt={project.imageAlts?.desktop || `${project.name} website homepage shown in a desktop browser`} loading="lazy" />
+          <img src={imageUrl(projectAsset(project, 'desktop'), 1200)} srcset={imageSrcSet(projectAsset(project, 'desktop'), [480, 800, 1200])} sizes="80vw" alt={project.imageAlts?.desktop || `${project.name} website homepage shown in a desktop browser`} loading="lazy" decoding="async" />
         </div>
-        <div class="case-phone" data-reveal><div class="phone-speaker"></div><img src={projectAsset(project, 'mobile')} alt={project.imageAlts?.mobile || `${project.name} website homepage on a phone`} loading="lazy" /></div>
+        <div class="case-phone" data-reveal><div class="phone-speaker"></div><img src={imageUrl(projectAsset(project, 'mobile'), 640)} srcset={imageSrcSet(projectAsset(project, 'mobile'), [320, 480, 640])} sizes="22vw" alt={project.imageAlts?.mobile || `${project.name} website homepage on a phone`} loading="lazy" decoding="async" /></div>
         {project.slug === 'jin-restaurant' && <>
-          <span class="floating-food food-one" aria-hidden="true"><img src={projectAsset(project, 'detail')} alt="" /></span>
-          <span class="floating-food food-two" aria-hidden="true"><img src={projectAsset(project, 'secondary')} alt="" /></span>
+          <span class="floating-food food-one" aria-hidden="true"><img src={imageUrl(projectAsset(project, 'detail'), 480)} alt="" loading="lazy" decoding="async" /></span>
+          <span class="floating-food food-two" aria-hidden="true"><img src={imageUrl(projectAsset(project, 'secondary'), 320)} alt="" loading="lazy" decoding="async" /></span>
         </>}
       </div>
       <div class="case-image-caption"><span>01 / Homepage</span><span>Desktop &amp; mobile</span></div>
@@ -64,16 +65,16 @@ const schema = graph(
 
     <section class="case-gallery" aria-label="More project details">
       <div class="case-gallery-heading"><span class="case-label">03 / A closer look</span><h2>BUILT TO<br />BE FELT<span>.</span></h2></div>
-      <figure class="case-gallery-main parallax-frame"><img src={projectAsset(project, 'detail')} alt={project.imageAlts?.detail || project.detailCaption} loading="lazy" data-parallax /><figcaption>{project.detailCaption}</figcaption></figure>
+      <figure class="case-gallery-main parallax-frame"><img src={imageUrl(projectAsset(project, 'detail'), 1920)} srcset={imageSrcSet(projectAsset(project, 'detail'), [640, 960, 1440, 1920])} sizes="100vw" alt={project.imageAlts?.detail || project.detailCaption} loading="lazy" decoding="async" data-parallax /><figcaption>{project.detailCaption}</figcaption></figure>
       <div class="case-gallery-grid">
-        <figure class="case-shot case-shot-page" data-reveal><img src={projectAsset(project, 'interior')} alt={project.imageAlts?.interior || `${project.name} interior page design`} loading="lazy" /><figcaption>Inside the website / another page</figcaption></figure>
-        <figure class="case-shot case-shot-image" data-reveal><img src={projectAsset(project, 'secondary')} alt={project.imageAlts?.secondary || project.secondaryCaption} loading="lazy" /><figcaption>{project.secondaryCaption}</figcaption></figure>
+        <figure class="case-shot case-shot-page" data-reveal><img src={imageUrl(projectAsset(project, 'interior'), 1200)} srcset={imageSrcSet(projectAsset(project, 'interior'), [480, 800, 1200])} sizes="(max-width: 560px) 100vw, 50vw" alt={project.imageAlts?.interior || `${project.name} interior page design`} loading="lazy" decoding="async" /><figcaption>Inside the website / another page</figcaption></figure>
+        <figure class="case-shot case-shot-image" data-reveal><img src={imageUrl(projectAsset(project, 'secondary'), 1200)} srcset={imageSrcSet(projectAsset(project, 'secondary'), [480, 800, 1200])} sizes="(max-width: 560px) 100vw, 50vw" alt={project.imageAlts?.secondary || project.secondaryCaption} loading="lazy" decoding="async" /><figcaption>{project.secondaryCaption}</figcaption></figure>
       </div>
     </section>
 
     <section class="case-outro"><span class="case-label">Explore the project</span><a href={project.liveUrl} target="_blank" rel="noopener noreferrer">SEE IT LIVE <Icon name="ArrowUpRight" size={34} /></a></section>
     <a class="case-next" href={`/work/${next.slug}/`}>
-      <img src={projectAsset(next, 'hero')} alt="" loading="lazy" />
+      <img src={imageUrl(projectAsset(next, 'hero'), 1600)} srcset={imageSrcSet(projectAsset(next, 'hero'), [640, 960, 1280, 1600])} sizes="100vw" alt="" loading="lazy" decoding="async" />
       <span>Next project / {String((index + 1) % total + 1).padStart(2, '0')}</span><strong>{next.name}<Icon name="ArrowUpRight" size={36} /></strong>
     </a>
   </article>

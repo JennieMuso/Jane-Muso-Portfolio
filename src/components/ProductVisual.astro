@@ -1,17 +1,23 @@
 ---
 import type { Product } from '../data/products';
-const { product } = Astro.props as { product: Product };
+import { imageUrl, imageSrcSet } from '../lib/image';
+const { product, priority = false } = Astro.props as { product: Product; priority?: boolean };
+const cover = product.coverImage || '';
+const width = priority ? 1600 : 960;
+const src = imageUrl(cover, width);
+const srcset = imageSrcSet(cover, priority ? [640, 960, 1280, 1600] : [320, 640, 960]);
+const sizes = priority ? '100vw' : '(max-width: 700px) 100vw, 50vw';
 ---
 <div class:list={['product-visual', `product-visual-${product.visual ?? 'generic'}`]} aria-hidden="true">
   {product.visual === 'macula' ? <>
-    <img class="macula-image" src={product.coverImage} alt="" />
-    <div class="macula-veil"></div><img class="macula-revealed" src={product.coverImage} alt="" /><div class="macula-orbit"></div>
+    <img class="macula-image" src={src} srcset={srcset} sizes={sizes} alt="" loading={priority ? 'eager' : 'lazy'} fetchpriority={priority ? 'high' : 'low'} decoding="async" />
+    <div class="macula-veil"></div><img class="macula-revealed" src={src} srcset={srcset} sizes={sizes} alt="" loading="lazy" decoding="async" /><div class="macula-orbit"></div>
     <span class="macula-mark">MACULA<br /><em>REVEAL</em></span>
   </> : product.visual === 'onanni' ? <>
-    <img class="onanni-image" src={product.coverImage} alt="" />
+    <img class="onanni-image" src={src} srcset={srcset} sizes={sizes} alt="" loading={priority ? 'eager' : 'lazy'} fetchpriority={priority ? 'high' : 'low'} decoding="async" />
     <div class="onanni-overlay"><span>ONANNI</span><strong>VILLA</strong><small>A place to stay a little longer.</small></div>
   </> : <>
-    {product.coverImage && <img class="product-cover-image" src={product.coverImage} alt="" />}
+    {product.coverImage && <img class="product-cover-image" src={src} srcset={srcset} sizes={sizes} alt="" loading={priority ? 'eager' : 'lazy'} fetchpriority={priority ? 'high' : 'low'} decoding="async" />}
     {!product.coverImage && <span class="product-generic-name">{product.name}</span>}
   </>}
 </div>
