@@ -1,7 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
-import { servicePackages, serviceAddOns } from '../data/servicePackages';
+import Faq from '../components/Faq.astro';
+import { getServicePage } from '../lib/services';
+import { faqSchema } from '../data/seo';
+
+const servicePage = await getServicePage();
+const { packages: servicePackages, addOns: serviceAddOns } = servicePage;
 import { graph, organizationSchema, personSchema, siteUrl } from '../data/seo';
 
 const schema = graph(
@@ -20,23 +25,23 @@ const schema = graph(
         url: `${siteUrl}/services/#${item.id}`
       }))
     }
-  }
+  },
+  faqSchema(servicePage.faqs)
 );
 ---
 <Layout
-  title="Website Packages & Services — Muso Design Studio"
-  description="Explore Muso Launch, Signature, and Experience: bespoke website packages with clear scope, timelines, and starting prices. Add-ons and ongoing care are available."
+  title="Website Design Packages & Services — Jane Muso"
+  description={servicePage.seoDescription}
   current="services"
-  styles={['fonts.css', 'styles.css', 'services.css']}
+  styles={['fonts.css', 'styles.css', 'services.css', 'faq.css']}
   bodyClass="services-page"
-  image="/assets/service-web.jpg"
   schema={schema}
 >
   <section class="services-hero" aria-labelledby="services-title">
     <div class="services-eyebrow"><span>Muso Design Studio / Services</span><span>Website design &amp; development</span></div>
-    <h1 id="services-title">MADE TO<br />MOVE YOU<br /><span>FORWARD.</span></h1>
+    <h1 id="services-title">{servicePage.heroTitle.split('\n').map((line, index) => <>{index > 0 && <br />}{line}</>)}</h1>
     <div class="services-hero-bottom">
-      <p>Beautifully considered websites, built to make businesses more credible, easier to discover, and simpler to contact. Every project begins with a goal, not just a page count.</p>
+      <p>{servicePage.heroIntro}</p>
       <a href="#packages">Explore the packages <Icon name="ArrowDown" size={20} /></a>
     </div>
   </section>
@@ -57,26 +62,24 @@ const schema = graph(
         <div class="tier-facts"><div><span>Typical delivery</span><strong>{item.duration}</strong></div><div><span>Unique pages</span><strong>{item.pages}</strong></div></div>
         <div class="tier-audience"><h3>Who it’s for</h3><p>{item.audience}</p></div>
         <div class="tier-includes"><h3>What you receive</h3><ul>{item.deliverables.map((deliverable) => <li>{deliverable}</li>)}</ul></div>
-        <a class="tier-action" href={`/contact/?package=${encodeURIComponent(item.name)}#project-brief`}>Discuss {item.name} <Icon name="ArrowUpRight" size={22} /></a>
+        <a class="tier-action" href={`/contact/?package=${encodeURIComponent(item.id)}#project-brief`}>Discuss {item.name} <Icon name="ArrowUpRight" size={22} /></a>
       </div>
     </div>
     <div class="tier-benefit"><span>The business benefit</span><p>{item.benefit}</p></div>
   </section>)}
 
   <section class="services-process" aria-labelledby="process-title">
-    <div><span class="section-kicker">The way we work</span><h2 id="process-title">CLEAR FROM<br />FIRST CALL<br />TO LAUNCH<span>.</span></h2></div>
-    <div class="process-copy"><p>Every package follows a transparent journey: discovery, strategy, design, development, testing, and launch. You work directly with Jennie, with scheduled feedback checkpoints, an agreed scope, handover assets, and a defined bug-fix window.</p><p>You provide brand assets, approved copy and media, legal or privacy text, third-party credentials, and one decision-maker to consolidate feedback. Delayed content or approvals may change the schedule.</p></div>
+    <div><span class="section-kicker">The way we work</span><h2 id="process-title">{servicePage.processTitle.split('\n').map((line, index) => <>{index > 0 && <br />}{line}</>)}<span>.</span></h2></div>
+    <div class="process-copy">{servicePage.processParagraphs.map((paragraph) => <p>{paragraph}</p>)}</div>
   </section>
 
   <section class="services-addons" id="add-ons" aria-labelledby="addons-title">
-    <div class="addons-header"><span class="section-kicker">Optional add-ons &amp; ongoing care</span><h2 id="addons-title">MAKE IT<br />YOUR OWN<span>.</span></h2><p>Need another page, a deeper CMS, or support after launch? We can shape the right extras around the work.</p></div>
+    <div class="addons-header"><span class="section-kicker">Optional add-ons &amp; ongoing care</span><h2 id="addons-title">MAKE IT<br />YOUR OWN<span>.</span></h2><p>{servicePage.addOnsIntro}</p></div>
     <div class="addons-list" aria-label="Optional add-on prices">{serviceAddOns.map((addon) => <div class="addon-row"><div><h3>{addon.name}</h3>{addon.note && <p>{addon.note}</p>}</div><strong>{addon.price}</strong></div>)}</div>
     <div class="care-intro"><span class="section-kicker">Stay in good shape</span><h3>Care after launch<span>.</span></h3></div>
-    <div class="care-options">
-      <div><span>01 / Essential Care</span><strong>From AED 500 <small>/ month</small></strong><p>Light monitoring and up to one hour of website updates each month.</p></div>
-      <div><span>02 / Growth Care</span><strong>From AED 1,200 <small>/ month</small></strong><p>Up to three hours of updates, an analytics review, and priority support each month.</p></div>
-    </div>
-    <div class="services-terms"><p>Prices are starting guides, not fixed quotations. AED and USD figures are separate rounded guides, not live currency conversions. Final scope, currency, applicable taxes, and any third-party costs are confirmed in your proposal. A suggested payment schedule is 50% at booking, 30% after design approval, and 20% before launch. Business outcomes are goals, not guaranteed results.</p><details><summary>What is outside the package scope?</summary><p>Brand identity, logo design, full copywriting and translation, photo or video production, paid advertising, ongoing SEO, domain and hosting charges, platform subscriptions, ecommerce, online ordering, custom reservation engines, additional languages, extensive integrations, and ongoing content publishing are quoted separately unless included in your proposal. A CMS for Muso Launch is also an optional add-on.</p></details></div>
+    <div class="care-options">{servicePage.careOptions.map((care, index) => <div><span>{String(index + 1).padStart(2, '0')} / {care.name}</span><strong>{care.price}</strong><p>{care.description}</p></div>)}</div>
+    <div class="services-terms"><p>{servicePage.terms}</p><details><summary>What is outside the package scope?</summary><p>{servicePage.scopeExclusions}</p></details></div>
     <div class="services-end"><span>Have something in mind?</span><a href="/contact/#project-brief">LET’S MAKE<br />IT HAPPEN<Icon name="ArrowUpRight" size={42} /></a></div>
   </section>
+  <Faq id="services-faq-title" title={servicePage.faqHeading} intro={servicePage.faqIntro} questions={servicePage.faqs} />
 </Layout>

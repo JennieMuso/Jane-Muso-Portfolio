@@ -13,6 +13,7 @@
     "shop:import": "node scripts/import-shop.mjs",
     "work:import": "node scripts/import-work.mjs",
     "home:import": "node scripts/import-home.mjs",
+    "services:import": "node scripts/import-services-and-faqs.mjs",
     "deploy": "npm run build && wrangler pages deploy dist --project-name musodesigns"
   },
   "dependencies": {

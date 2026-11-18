@@ -32,7 +32,7 @@ export const contactFaqs: Faq[] = [
   },
   {
     question: 'What if I do not know my budget yet?',
-    answer: 'Choose the project budget closest to your plans, or enter your own amount in US dollars and the number of pages you need. The listed prices are guides, and we can discuss the final scope together.'
+    answer: 'Choose the project budget closest to your plans, or enter your own amount and estimated page count in your chosen currency. The listed prices are guides, and we can discuss the final scope together.'
   },
   {
     question: 'What happens when I submit the form?',

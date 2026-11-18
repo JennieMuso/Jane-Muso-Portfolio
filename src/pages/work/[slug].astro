@@ -15,10 +15,10 @@ const { project, index, total, next } = Astro.props as { project: Project; index
 const schema = graph(
   organizationSchema,
   personSchema,
-  { '@type': 'CreativeWork', name: `${project.name} website`, url: `${siteUrl}/work/${project.slug}/`, image: new URL(projectAsset(project, 'hero'), siteUrl).href, description: project.intro, creator: { '@id': `${siteUrl}/#jennie-muso` }, sameAs: project.liveUrl }
+  { '@type': 'CreativeWork', name: `${project.name} website`, url: `${siteUrl}/work/${project.slug}/`, image: new URL(projectAsset(project, 'hero'), siteUrl).href, description: project.intro, creator: { '@id': `${siteUrl}/#jane-muso` }, sameAs: project.liveUrl }
 );
 ---
-<Layout title={`${project.name} — Work by Jennie Muso`} description={`${project.name}: ${project.intro} A website design and development case study by Jennie Muso.`} current="work" styles={['fonts.css', 'styles.css', 'case-study.css']} bodyClass={`case-study case-${project.slug}`} image={projectAsset(project, 'hero')} schema={schema}>
+<Layout title={`${project.name} Website Case Study — Jane Muso`} description={`${project.name}: ${project.intro} Explore the website design and development case study by Jane Muso.`} current="work" styles={['fonts.css', 'styles.css', 'case-study.css']} bodyClass={`case-study case-${project.slug}`} image={projectAsset(project, 'hero')} schema={schema}>
   <article style={`--case-accent:${project.accent};--case-canvas:${project.canvas}`}>
     <header class="case-heading">
       <div class="case-index"><a href="/work/"><Icon name="ArrowLeft" size={16} /> All work</a><span>{String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')} &nbsp; {project.eyebrow}</span></div>
@@ -34,7 +34,7 @@ const schema = graph(
         </video>
         <button class="case-video-toggle" type="button" data-video-toggle hidden>Play video</button>
       </> : <img src={imageUrl(projectAsset(project, 'hero'), 1920)} srcset={imageSrcSet(projectAsset(project, 'hero'), [640, 960, 1440, 1920])} sizes="100vw" alt={project.heroAlt} fetchpriority="high" decoding="async" data-parallax data-parallax-strength="8" />}
-      <figcaption><span>{project.eyebrow}</span><span>Jennie Muso / Selected work</span></figcaption>
+      <figcaption><span>{project.eyebrow}</span><span>Jane Muso / Selected work</span></figcaption>
     </figure>
 
     <section class="case-overview" aria-labelledby="case-overview-title">

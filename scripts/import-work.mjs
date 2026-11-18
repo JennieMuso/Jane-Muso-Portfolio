@@ -28,7 +28,7 @@ if (!(await client.getDocument('work-page'))) {
     title: 'THE WORK.',
     intro: 'Four websites. Four very different businesses. Each one starts with the same question: what does this audience need to feel, understand, and do?',
     endNote: 'Four different briefs, each shaped around its audience. Select a project to explore the design, the build and the details behind it.',
-    seoDescription: 'Selected websites by Jennie Muso: Veyra Cargo, Bayline Legal, JIN Restaurant, and Nacre Dental.'
+    seoDescription: 'Selected websites by Jane Muso: Veyra Cargo, Bayline Legal, JIN Restaurant, and Nacre Dental.'
   });
   console.log('Imported Work page content');
 }

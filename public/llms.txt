@@ -1,10 +1,10 @@
 # Muso.designs
 
-> Muso.designs is the portfolio and digital design studio of Jennie Muso (also known as Jane Muso). The site presents selected website projects, design articles, digital products, and ways to get in touch.
+> Muso.designs is the portfolio and digital design studio of Jane Muso (also known as Jane Muso). The site presents selected website projects, design articles, digital products, and ways to get in touch.
 
 ## Main pages
 
-- [Home](https://musodesigns.pages.dev/): Introduction to Jennie Muso, selected work, services, and recent writing.
+- [Home](https://musodesigns.pages.dev/): Introduction to Jane Muso, selected work, services, and recent writing.
 - [Work](https://musodesigns.pages.dev/work/): Website design and development case studies.
 - [Services](https://musodesigns.pages.dev/services/): Website packages, starting prices, deliverables, add-ons, and ongoing care.
 - [Blog](https://musodesigns.pages.dev/blog/): Articles about design, strategy, tools, and user experience.

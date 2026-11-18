@@ -2,9 +2,11 @@
 import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
 import Faq from '../components/Faq.astro';
-import { contactFaqs } from '../data/faqs';
-import { servicePackages } from '../data/servicePackages';
+import { getContactPage } from '../lib/contactPage';
+import { getServicePage } from '../lib/services';
 import { contentUpdated, faqSchema, graph, personSchema, siteUrl } from '../data/seo';
+const [contactPage, servicePage] = await Promise.all([getContactPage(), getServicePage()]);
+const servicePackages = servicePage.packages;
 const budgetBands = [
   { value: 'first', usd: 'USD 1,500–3,000', aed: 'AED 5,000–8,500' },
   { value: 'second', usd: 'USD 3,000–4,500', aed: 'AED 8,500–15,000' },
@@ -13,13 +15,13 @@ const budgetBands = [
 ];
 const schema = graph(
   personSchema,
-  { '@type': 'ContactPage', '@id': `${siteUrl}/contact/#webpage`, url: `${siteUrl}/contact/`, name: 'Contact Jennie Muso', mainEntity: { '@id': `${siteUrl}/#jennie-muso` }, dateModified: contentUpdated },
-  faqSchema(contactFaqs)
+  { '@type': 'ContactPage', '@id': `${siteUrl}/contact/#webpage`, url: `${siteUrl}/contact/`, name: 'Contact Jane Muso', mainEntity: { '@id': `${siteUrl}/#jane-muso` }, dateModified: contentUpdated },
+  faqSchema(contactPage.faqs)
 );
 ---
 <Layout
-  title="Contact — Jennie Muso"
-  description="Tell Jennie Muso about your business and the website, app, or digital experience you want to create."
+  title="Contact Jane Muso | Start a Website Project"
+  description="Tell Jane Muso about your business and website goals. Choose a package, share your budget and timeline, and start a project with Muso Design Studio."
   current="contact"
   styles={['fonts.css', 'styles.css', 'editorial.css', 'projects.css', 'reference-layout.css', 'refinements.css', 'contact.css', 'faq.css', 'contact-steps.css']}
   bodyClass="contact-page"
@@ -27,7 +29,7 @@ const schema = graph(
   modified={contentUpdated}
 >
   <section class="contact-hero" aria-labelledby="contact-page-title">
-    <div class="contact-page-meta"><span>Jennie Muso / Founder & Designer</span><span>Open to thoughtful collaborations</span><span>Contact / Start here</span></div>
+    <div class="contact-page-meta"><span>Jane Muso / Founder & Designer</span><span>Open to thoughtful collaborations</span><span>Contact / Start here</span></div>
     <h1 id="contact-page-title">LET’S TALK<span>.</span><br>ABOUT IT<span>.</span></h1>
     <div class="contact-hero-stage">
       <div class="contact-hero-note">
@@ -36,7 +38,7 @@ const schema = graph(
         <span class="contact-hero-caption">A little curiosity makes the best work.</span>
       </div>
       <figure class="contact-portrait">
-        <img src="/assets/jennie-portrait-preview.jpg" alt="Jennie Muso working at her desk with a tablet" width="1086" height="1448" fetchpriority="high" />
+        <img src="/assets/jennie-portrait-preview.jpg" alt="Jane Muso working at her desk with a tablet" width="1086" height="1448" fetchpriority="high" />
       </figure>
     </div>
   </section>
@@ -71,7 +73,7 @@ const schema = graph(
           <label class="choice-option"><input type="radio" name="projectType" value="other" /><span>Something else</span></label>
         </div></fieldset>
         <fieldset class="choice-group"><legend>Which package feels right? <span class="required">*</span></legend><div class="choice-stack">
-          {servicePackages.map((item, index) => <label class="choice-option"><input type="radio" name="package" value={item.id} required={index === 0} /><span>{item.name} <small data-price data-usd={`from USD ${item.priceUsd}`} data-aed={`from AED ${item.priceAed}`}>from USD {item.priceUsd}</small></span></label>)}
+          {servicePackages.map((item, index) => <label class="choice-option"><input type="radio" name="package" value={item.id} data-package-name={item.name} required={index === 0} /><span>{item.name} <small data-price data-usd={`from USD ${item.priceUsd}`} data-aed={`from AED ${item.priceAed}`}>from USD {item.priceUsd}</small></span></label>)}
           <label class="choice-option"><input type="radio" name="package" value="unsure" /><span>Not sure yet <small>Guide me</small></span></label>
         </div><p class="choice-note">These are starting prices. <a href="/services/" target="_blank" rel="noopener noreferrer">Compare the packages <Icon name="ArrowUpRight" size={14} /></a></p></fieldset>
         <div class="step-actions"><button type="button" class="step-back" data-back><Icon name="ArrowLeft" size={18} /> Back</button><button type="button" class="step-next" data-next>Next: investment <Icon name="ArrowUpRight" size={19} /></button></div>
@@ -110,7 +112,7 @@ const schema = graph(
     </form>
   </section>
 
-  <Faq id="contact-faq-title" title="BEFORE YOU ASK" questions={contactFaqs} />
+  <Faq id="contact-faq-title" title={contactPage.faqHeading} intro={contactPage.faqIntro} questions={contactPage.faqs} />
   <section class="contact-outro" aria-labelledby="contact-outro-title"><p>THE NEXT GOOD THING / STARTS WITH A HELLO</p><h2 id="contact-outro-title">SEE YOU IN<br>MY INBOX<span>.</span></h2><a href="mailto:hello@jenniemuso.com">hello@jenniemuso.com <Icon name="ArrowUpRight" size={22} /></a></section>
   <script src="/contact.js" defer></script>
 </Layout>

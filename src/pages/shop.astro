@@ -10,7 +10,7 @@ const [products, shopPage] = await Promise.all([getProducts(), getShopPage()]);
 const visibleCategories = productCategories.map((category) => ({ ...category, count: products.filter((product) => product.category === category.value).length })).filter((category) => category.count > 0);
 const schema = graph(organizationSchema, { '@type': 'CollectionPage', name: 'Components, templates, and websites by Jane Muso', url: `${siteUrl}/shop/`, mainEntity: { '@type': 'ItemList', itemListElement: products.map((product, index) => ({ '@type': 'ListItem', position: index + 1, name: product.name, url: `${siteUrl}/shop/${product.slug}/` })) } }, faqSchema(shopPage.faqs));
 ---
-<Layout title="Shop — Jennie Muso" description="Framer and code components, website templates, and coded websites by Jane Muso. Explore live previews before you buy." current="shop" styles={['fonts.css', 'styles.css', 'shop-catalog.css', 'faq.css']} bodyClass="shop-catalog-page" schema={schema}>
+<Layout title="Website Templates & Components — Jane Muso" description="Shop Framer components, website templates, code components, and coded websites by Jane Muso. Explore interactive previews before you buy." current="shop" styles={['fonts.css', 'styles.css', 'shop-catalog.css', 'faq.css']} bodyClass="shop-catalog-page" schema={schema}>
   <section class="shop-heading" aria-labelledby="shop-title">
     <div class="shop-heading-top"><span>Made by Jane Muso</span><span>Components &amp; websites</span></div>
     <h1 id="shop-title">THE SHOP<span>.</span></h1>

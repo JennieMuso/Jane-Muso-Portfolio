@@ -1,6 +1,6 @@
 # Muso Designs
 
-Jennie Muso's portfolio, built with Astro and Phosphor icons.
+Jane Muso's portfolio, built with Astro and Phosphor icons.
 
 ## Local development
 

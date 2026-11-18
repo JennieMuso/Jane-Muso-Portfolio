@@ -1,0 +1,19 @@
+.work-page .page-intro {
+  padding: clamp(105px, 11vw, 170px) clamp(24px, 5vw, 80px) clamp(88px, 8vw, 130px);
+}
+.work-page .page-intro h1 {
+  max-width: 100%;
+  margin: 0 0 clamp(30px, 4vw, 58px);
+  font-size: clamp(76px, 15vw, 235px);
+  line-height: .9;
+}
+.work-page .page-intro p {
+  max-width: 630px;
+  margin: 0;
+  font-size: clamp(20px, 2vw, 27px);
+  line-height: 1.35;
+}
+@media (max-width: 560px) {
+  .work-page .page-intro { padding-top: 100px; padding-bottom: 90px; }
+  .work-page .page-intro h1 { font-size: 15vw; }
+}

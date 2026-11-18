@@ -13,12 +13,12 @@ window.addEventListener('load', () => {
   let currentStep = 0;
 
   const requestedPackage = new URLSearchParams(window.location.search).get('package');
-  const packageByName = { 'Muso Launch': 'launch', 'Muso Signature': 'signature', 'Muso Experience': 'experience' };
-  const selectedPackage = packageByName[requestedPackage];
+  const selectedPackage = [...form.querySelectorAll('input[name="package"]')]
+    .find((input) => input.value === requestedPackage || input.dataset.packageName === requestedPackage);
   if (selectedPackage) {
-    form.querySelector(`input[name="package"][value="${selectedPackage}"]`).checked = true;
+    selectedPackage.checked = true;
     const referral = document.getElementById('package-referral');
-    referral.textContent = `Interested in ${requestedPackage}? Tell me about your idea below.`;
+    referral.textContent = `Interested in ${selectedPackage.dataset.packageName}? Tell me about your idea below.`;
     referral.hidden = false;
   }
 
@@ -91,7 +91,7 @@ window.addEventListener('load', () => {
     const data = new FormData(form);
     const value = (key) => String(data.get(key) || '').trim();
     const projectTypes = { new: 'A brand-new website', redesign: 'Redesigning an existing website', development: 'Development of an existing design', other: 'Something else' };
-    const packageNames = { launch: 'Muso Launch', signature: 'Muso Signature', experience: 'Muso Experience', unsure: 'Not sure yet' };
+    const packageName = form.querySelector('input[name="package"]:checked')?.dataset.packageName || 'Not sure yet';
     const timelines = { 'as-soon-as-possible': 'As soon as possible', 'within-one-month': 'Within 1 month', 'two-to-three-months': 'In 2–3 months', flexible: 'I’m flexible' };
     const band = value('budgetBand');
     const budgetLabel = band === 'custom'
@@ -103,7 +103,7 @@ window.addEventListener('load', () => {
       'Muso website enquiry',
       `Currency: ${value('currency')}`,
       `Project type: ${value('projectType')} — ${projectTypes[value('projectType')]}`,
-      `Package: ${value('package')} — ${packageNames[value('package')]}`,
+      `Package: ${value('package')} — ${packageName}`,
       `Budget band: ${band} — ${budgetLabel}`,
       `Timeline: ${value('timeline')} — ${timelines[value('timeline')]}`,
       '',

@@ -21,10 +21,10 @@ const shareTitle = encodeURIComponent(article.title);
 const schema = graph(
   organizationSchema,
   personSchema,
-  { '@type': 'BlogPosting', '@id': `${articleUrl}#article`, headline: article.title, description: article.excerpt, image: new URL(article.hero, siteUrl).href, url: articleUrl, author: { '@id': `${siteUrl}/#jennie-muso` }, publisher: { '@id': `${siteUrl}/#organization` }, articleSection: article.topic }
+  { '@type': 'BlogPosting', '@id': `${articleUrl}#article`, headline: article.title, description: article.excerpt, image: new URL(article.hero, siteUrl).href, url: articleUrl, author: { '@id': `${siteUrl}/#jane-muso` }, publisher: { '@id': `${siteUrl}/#organization` }, articleSection: article.topic }
 );
 ---
-<Layout title={`${article.title} — Jennie Muso`} description={article.excerpt} current="blog" styles={['fonts.css','styles.css','editorial.css','article.css']} bodyClass="article-page" image={article.hero} type="article" schema={schema}>
+<Layout title={`${article.title} — Jane Muso`} description={article.excerpt} current="blog" styles={['fonts.css','styles.css','editorial.css','article.css']} bodyClass="article-page" image={article.hero} type="article" schema={schema}>
   <article>
     <header class="article-header">
       <div class="article-topline"><a href="/blog/"><Icon name="ArrowLeft" size={16} /> All insights</a><span>{article.topic} / {article.readTime}</span></div>

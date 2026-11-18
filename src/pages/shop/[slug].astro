@@ -21,7 +21,7 @@ const schema = graph(
   { '@type': 'Product', name: product.name, description: product.summary, url: `${siteUrl}/shop/${product.slug}/`, image: product.coverImage ? new URL(product.coverImage, siteUrl).href : undefined, brand: { '@id': `${siteUrl}/#organization` }, offers: { '@type': 'Offer', price: product.price.replace(/[^0-9.]/g, ''), priceCurrency: 'USD', url: product.checkoutUrl } }
 );
 ---
-<Layout title={`${product.name} — Shop by Jane Muso`} description={product.summary} current="shop" styles={['fonts.css', 'styles.css', 'shop-catalog.css']} bodyClass="shop-detail-page" image={product.coverImage} schema={schema}>
+<Layout title={`${product.name} — ${product.category} | Jane Muso`} description={`${product.summary} Explore the live preview and details of this ${product.category.toLowerCase()} by Jane Muso.`} current="shop" styles={['fonts.css', 'styles.css', 'shop-catalog.css']} bodyClass="shop-detail-page" image={product.coverImage} schema={schema}>
   <article>
     <header class="product-heading">
       <div class="product-topline"><a href="/shop/"><Icon name="ArrowLeft" size={16} /> The shop</a><span>{category.label} / {product.price}</span></div>
