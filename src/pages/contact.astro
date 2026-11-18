@@ -3,7 +3,14 @@ import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
 import Faq from '../components/Faq.astro';
 import { contactFaqs } from '../data/faqs';
+import { servicePackages } from '../data/servicePackages';
 import { contentUpdated, faqSchema, graph, personSchema, siteUrl } from '../data/seo';
+const budgetBands = [
+  { value: 'first', usd: 'USD 1,500–3,000', aed: 'AED 5,000–8,500' },
+  { value: 'second', usd: 'USD 3,000–4,500', aed: 'AED 8,500–15,000' },
+  { value: 'third', usd: 'USD 4,500–7,500', aed: 'AED 15,000–25,000' },
+  { value: 'fourth', usd: 'USD 7,500+', aed: 'AED 25,000+' }
+];
 const schema = graph(
   personSchema,
   { '@type': 'ContactPage', '@id': `${siteUrl}/contact/#webpage`, url: `${siteUrl}/contact/`, name: 'Contact Jennie Muso', mainEntity: { '@id': `${siteUrl}/#jennie-muso` }, dateModified: contentUpdated },
@@ -14,7 +21,7 @@ const schema = graph(
   title="Contact — Jennie Muso"
   description="Tell Jennie Muso about your business and the website, app, or digital experience you want to create."
   current="contact"
-  styles={['fonts.css', 'styles.css', 'editorial.css', 'projects.css', 'reference-layout.css', 'refinements.css', 'contact.css', 'faq.css']}
+  styles={['fonts.css', 'styles.css', 'editorial.css', 'projects.css', 'reference-layout.css', 'refinements.css', 'contact.css', 'faq.css', 'contact-steps.css']}
   bodyClass="contact-page"
   schema={schema}
   modified={contentUpdated}
@@ -41,48 +48,64 @@ const schema = graph(
       <div class="brief-direct"><span>Prefer to keep it simple?</span><a href="mailto:hello@jenniemuso.com">Email me directly <Icon name="ArrowUpRight" size={18} /></a></div>
     </div>
 
-    <form class="project-form" id="project-form" action="mailto:hello@jenniemuso.com" method="post" enctype="text/plain">
+    <form class="project-form enquiry-form" id="project-form" action="mailto:hello@jenniemuso.com" method="post" enctype="text/plain" novalidate>
+      <div class="enquiry-progress"><span>Muso website enquiry</span><span id="step-count" aria-live="polite">Step 1 of 4</span></div>
+      <div class="enquiry-progress-track" role="progressbar" aria-label="Enquiry progress" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1"><span data-progress-bar></span></div>
       <p class="package-referral" id="package-referral" hidden></p>
-      <div class="form-field">
-        <label for="full-name"><span>FULL NAME <span class="required">*</span></span></label>
-        <input id="full-name" name="fullName" type="text" autocomplete="name" placeholder="Your name" required maxlength="120" />
-      </div>
-      <div class="form-field">
-        <label for="email"><span>EMAIL ADDRESS <span class="required">*</span></span></label>
-        <input id="email" name="email" type="email" autocomplete="email" placeholder="you@yourbusiness.com" required maxlength="254" />
-      </div>
-      <div class="form-field">
-        <label for="business"><span>YOUR BUSINESS <span class="required">*</span></span><span class="label-hint">What do you do?</span></label>
-        <textarea id="business" name="business" rows="3" placeholder="Tell me what you’re building and who it’s for." required maxlength="1800"></textarea>
-      </div>
-      <div class="form-field form-select-field">
-        <label for="service"><span>WHAT CAN I HELP WITH? <span class="required">*</span></span></label>
-        <div class="select-wrap"><select id="service" name="service" required><option value="" disabled selected>Choose a service</option><option>Website or app design</option><option>UX design</option><option>No-code website build</option><option>Custom website development</option><option>Design and development together</option><option>Something else — let’s talk</option></select><Icon name="CaretDown" size={20} /></div>
-      </div>
-      <fieldset class="form-field budget-field">
-        <legend>PROJECT BUDGET <span class="required">*</span></legend>
-        <p class="budget-intro">Choose the closest fit, or share your own budget and page count. These are guides; the final scope is shaped around your project.</p>
-        <div class="budget-options">
-          <label class="budget-option"><input type="radio" name="budget" value="$1,500 — starter project" required /><span><strong>$1,500</strong><small>Starter project</small></span></label>
-          <label class="budget-option"><input type="radio" name="budget" value="$2,500 — 4 pages" /><span><strong>$2,500</strong><small>4 pages</small></span></label>
-          <label class="budget-option"><input type="radio" name="budget" value="$5,000 — 5–8 pages" /><span><strong>$5,000</strong><small>5–8 pages</small></span></label>
-          <label class="budget-option"><input type="radio" name="budget" value="$8,000 — 10–14 pages" /><span><strong>$8,000</strong><small>10–14 pages</small></span></label>
-          <label class="budget-option budget-option-custom"><input type="radio" name="budget" value="custom" /><span><strong>My own budget</strong><small>Tell me what works for you</small></span></label>
-        </div>
-        <div class="budget-custom-fields" id="budget-custom-fields" hidden>
-          <div><label for="custom-budget">YOUR BUDGET / USD</label><div class="budget-input-wrap"><span aria-hidden="true">$</span><input id="custom-budget" name="customBudget" type="number" inputmode="numeric" min="1" step="1" placeholder="Your amount" disabled /></div></div>
-          <div><label for="page-count">NUMBER OF PAGES</label><div class="budget-input-wrap"><input id="page-count" name="pageCount" type="number" inputmode="numeric" min="1" step="1" placeholder="Your estimate" disabled /></div></div>
-        </div>
-      </fieldset>
-      <div class="form-field form-select-field">
-        <label for="timeline"><span>TIMING</span></label>
-        <div class="select-wrap"><select id="timeline" name="timeline"><option value="" selected>When are you hoping to start?</option><option>As soon as possible</option><option>In the next 1–2 months</option><option>In 3–6 months</option><option>I’m flexible</option></select><Icon name="CaretDown" size={20} /></div>
-      </div>
-      <div class="form-field">
-        <label for="project-details"><span>THE BIG PICTURE <span class="required">*</span></span><span class="label-hint">Dream a little</span></label>
-        <textarea id="project-details" name="projectDetails" rows="5" placeholder="What would you love this project to make possible? Any links, goals, or questions I should know about?" required maxlength="4000"></textarea>
-      </div>
-      <div class="form-submit-row"><p>Submitting opens an email draft with your answers. Send the draft to complete your enquiry.</p><button type="submit">Prepare my enquiry <Icon name="ArrowUpRight" size={22} /></button></div>
+
+      <section class="enquiry-step" data-step="0" aria-labelledby="market-title">
+        <div class="enquiry-step-heading"><span>01 / Your market</span><h3 id="market-title" tabindex="-1">Where is your business based?</h3><p>Choose the currency you’d like to discuss your project in.</p></div>
+        <fieldset class="choice-group"><legend>Preferred currency <span class="required">*</span></legend><div class="choice-grid currency-grid">
+          <label class="choice-option"><input type="radio" name="currency" value="AED" required /><span>AED <small>UAE</small></span></label>
+          <label class="choice-option"><input type="radio" name="currency" value="USD" checked /><span>USD <small>International</small></span></label>
+        </div></fieldset>
+        <div class="step-actions"><button type="button" class="step-next" data-next>Next: your project <Icon name="ArrowUpRight" size={19} /></button></div>
+      </section>
+
+      <section class="enquiry-step" data-step="1" aria-labelledby="project-step-title" hidden>
+        <div class="enquiry-step-heading"><span>02 / Your project</span><h3 id="project-step-title" tabindex="-1">What are we making?</h3><p>A little about what you need and which package feels right.</p></div>
+        <fieldset class="choice-group"><legend>What are we working on? <span class="required">*</span></legend><div class="choice-stack">
+          <label class="choice-option"><input type="radio" name="projectType" value="new" required /><span>A brand-new website</span></label>
+          <label class="choice-option"><input type="radio" name="projectType" value="redesign" /><span>Redesigning an existing website</span></label>
+          <label class="choice-option"><input type="radio" name="projectType" value="development" /><span>Development of an existing design</span></label>
+          <label class="choice-option"><input type="radio" name="projectType" value="other" /><span>Something else</span></label>
+        </div></fieldset>
+        <fieldset class="choice-group"><legend>Which package feels right? <span class="required">*</span></legend><div class="choice-stack">
+          {servicePackages.map((item, index) => <label class="choice-option"><input type="radio" name="package" value={item.id} required={index === 0} /><span>{item.name} <small data-price data-usd={`from USD ${item.priceUsd}`} data-aed={`from AED ${item.priceAed}`}>from USD {item.priceUsd}</small></span></label>)}
+          <label class="choice-option"><input type="radio" name="package" value="unsure" /><span>Not sure yet <small>Guide me</small></span></label>
+        </div><p class="choice-note">These are starting prices. <a href="/services/" target="_blank" rel="noopener noreferrer">Compare the packages <Icon name="ArrowUpRight" size={14} /></a></p></fieldset>
+        <div class="step-actions"><button type="button" class="step-back" data-back><Icon name="ArrowLeft" size={18} /> Back</button><button type="button" class="step-next" data-next>Next: investment <Icon name="ArrowUpRight" size={19} /></button></div>
+      </section>
+
+      <section class="enquiry-step" data-step="2" aria-labelledby="investment-title" hidden>
+        <div class="enquiry-step-heading"><span>03 / Investment &amp; timing</span><h3 id="investment-title" tabindex="-1">What feels comfortable?</h3><p>These ranges help us recommend the right scope. Your proposal will reflect your project’s needs.</p></div>
+        <fieldset class="choice-group"><legend>What investment range have you set aside? <span class="required">*</span></legend><div class="choice-stack">
+          {budgetBands.map((band, index) => <label class="choice-option"><input type="radio" name="budgetBand" value={band.value} required={index === 0} /><span data-budget-label data-usd={band.usd} data-aed={band.aed}>{band.usd}</span></label>)}
+          <label class="choice-option"><input type="radio" name="budgetBand" value="guidance" /><span>I’d like your guidance</span></label>
+          <label class="choice-option"><input type="radio" name="budgetBand" value="custom" /><span>My own budget</span></label>
+        </div><div class="budget-custom-fields" id="budget-custom-fields" hidden>
+          <div class="form-field"><label for="custom-budget">YOUR BUDGET / <span data-currency-code>USD</span></label><input id="custom-budget" name="customBudget" type="number" inputmode="numeric" min="1" step="1" placeholder="Your amount" disabled /></div>
+          <div class="form-field"><label for="page-count">NUMBER OF PAGES</label><input id="page-count" name="pageCount" type="number" inputmode="numeric" min="1" step="1" placeholder="Your estimate" disabled /></div>
+        </div></fieldset>
+        <fieldset class="choice-group"><legend>When are you hoping to launch? <span class="required">*</span></legend><div class="choice-stack">
+          <label class="choice-option"><input type="radio" name="timeline" value="as-soon-as-possible" required /><span>As soon as possible</span></label>
+          <label class="choice-option"><input type="radio" name="timeline" value="within-one-month" /><span>Within 1 month</span></label>
+          <label class="choice-option"><input type="radio" name="timeline" value="two-to-three-months" /><span>In 2–3 months</span></label>
+          <label class="choice-option"><input type="radio" name="timeline" value="flexible" /><span>I’m flexible</span></label>
+        </div></fieldset>
+        <div class="step-actions"><button type="button" class="step-back" data-back><Icon name="ArrowLeft" size={18} /> Back</button><button type="button" class="step-next" data-next>Next: your details <Icon name="ArrowUpRight" size={19} /></button></div>
+      </section>
+
+      <section class="enquiry-step" data-step="3" aria-labelledby="details-title" hidden>
+        <div class="enquiry-step-heading"><span>04 / Tell me about you</span><h3 id="details-title" tabindex="-1">Almost there.</h3><p>Share the story behind the project and the best way to reach you.</p></div>
+        <div class="form-field"><label for="full-name">FULL NAME <span class="required">*</span></label><input id="full-name" name="fullName" type="text" autocomplete="name" placeholder="Your full name" required maxlength="120" /></div>
+        <div class="form-field"><label for="email">EMAIL ADDRESS <span class="required">*</span></label><input id="email" name="email" type="email" autocomplete="email" placeholder="you@yourbusiness.com" required maxlength="254" /></div>
+        <div class="form-field"><label for="business">BUSINESS OR BRAND NAME</label><input id="business" name="business" type="text" autocomplete="organization" placeholder="Your business name" maxlength="180" /></div>
+        <div class="form-field"><label for="website">EXISTING WEBSITE <span class="label-hint">If you have one</span></label><input id="website" name="website" type="url" inputmode="url" autocomplete="url" placeholder="https://yourwebsite.com" maxlength="500" /></div>
+        <div class="form-field"><label for="project-details">TELL ME ABOUT YOUR PROJECT <span class="required">*</span></label><textarea id="project-details" name="projectDetails" rows="5" placeholder="What does your business do, and what would you like your website to achieve?" required maxlength="4000"></textarea></div>
+        <div class="step-actions step-actions-final"><button type="button" class="step-back" data-back><Icon name="ArrowLeft" size={18} /> Back</button><button type="submit" class="step-next">Prepare my enquiry <Icon name="ArrowUpRight" size={19} /></button></div>
+        <p class="enquiry-send-note">This opens an email draft with your answers. Send the draft to complete your enquiry.</p>
+      </section>
       <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
     </form>
   </section>
