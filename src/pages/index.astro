@@ -9,6 +9,7 @@ import { getArticles } from '../lib/blog';
 import { getHomePage } from '../lib/home';
 import { getProjects } from '../lib/work';
 import { projectAsset } from '../data/projects';
+import { imageUrl, imageSrcSet } from '../lib/image';
 import { contentUpdated, faqSchema, graph, organizationSchema, personSchema, siteUrl } from '../data/seo';
 const [articles, projects, home] = await Promise.all([getArticles(), getProjects(), getHomePage()]);
 const aboutWords = home.aboutStatement.split(' ');
@@ -31,7 +32,7 @@ const schema = graph(
         <div class="hero-meta">{home.heroMeta.map((label) => <span>{label}</span>)}</div>
         <h1 id="hero-title">Muso<span>.designs</span></h1>
         <div class="editorial-gallery" aria-label="Featured projects">
-          {featuredProjects.map((project, index) => <figure class:list={['project-mini', miniClasses[index]]}><img src={projectAsset(project, 'hero')} alt={project.heroAlt} width="768" height="512"><figcaption><strong>{project.name}</strong><span>Website design &amp; development</span></figcaption><a class="mini-link" href={`/work/${project.slug}/`} aria-label={`View ${project.name} case study`}><span class="project-view-cue">View work <Icon name="ArrowUpRight" size={17} /></span></a></figure>)}
+          {featuredProjects.map((project, index) => <figure class:list={['project-mini', miniClasses[index]]}><img src={imageUrl(projectAsset(project, 'hero'), 768)} srcset={imageSrcSet(projectAsset(project, 'hero'), [320, 480, 768])} sizes="(max-width: 560px) 50vw, 25vw" alt={project.heroAlt} width="768" height="512" loading={index === 0 ? 'eager' : 'lazy'} fetchpriority={index === 0 ? 'high' : 'low'} decoding="async" /><figcaption><strong>{project.name}</strong><span>Website design &amp; development</span></figcaption><a class="mini-link" href={`/work/${project.slug}/`} aria-label={`View ${project.name} case study`}><span class="project-view-cue">View work <Icon name="ArrowUpRight" size={17} /></span></a></figure>)}
           <p class="gallery-thesis">{home.galleryThesis.split('\n').map((line, index) => <>{index > 0 && <br />}{line}</>)}</p>
           <a class="gallery-link" href="/work/">View more work <Icon name="ArrowUpRight" size={20} /></a>
         </div>
@@ -41,12 +42,12 @@ const schema = graph(
       <section class="solutions" id="solutions" aria-labelledby="solutions-title">
         <div class="solutions-intro"><h2 id="solutions-title">{home.servicesHeading.split('\n').map((line, index) => <>{index > 0 && <br />}{line}</>)}<span>.</span></h2><p>{home.servicesIntro}</p></div>
         <div class="solutions-list">
-          {home.services.map((service, index) => <details class="solution" open={index === 0}><summary><span>{service.title}</span><img src={service.image} alt="" width="630" height="624" loading="lazy" /></summary><div class="solution-content"><div class="solution-copy">{service.paragraphs.map((paragraph) => <p>{paragraph}</p>)}<span>{service.audience}</span></div></div></details>)}
+          {home.services.map((service, index) => <details class="solution" open={index === 0}><summary><span>{service.title}</span><img src={imageUrl(service.image, 640)} srcset={imageSrcSet(service.image, [320, 480, 640])} sizes="(max-width: 560px) 96px, (max-width: 800px) 180px, 40vw" alt="" width="630" height="624" loading="lazy" decoding="async" /></summary><div class="solution-content"><div class="solution-copy">{service.paragraphs.map((paragraph) => <p>{paragraph}</p>)}<span>{service.audience}</span></div></div></details>)}
         </div>
       </section>
 
       <section class="manifesto about-story" id="about" aria-labelledby="about-title">
-        <div class="about-top"><span class="about-photo"><img src={home.aboutPortrait} alt={home.aboutPortraitAlt} width="1086" height="1448" loading="lazy" /></span><span class="about-name">{home.aboutName}<br />{home.aboutRole}</span></div>
+        <div class="about-top"><span class="about-photo"><img src={imageUrl(home.aboutPortrait, 480)} srcset={imageSrcSet(home.aboutPortrait, [160, 320, 480])} sizes="(max-width: 560px) 90px, 180px" alt={home.aboutPortraitAlt} width="1086" height="1448" loading="lazy" decoding="async" /></span><span class="about-name">{home.aboutName}<br />{home.aboutRole}</span></div>
         <h2 id="about-title" class="about-statement" aria-label={home.aboutStatement}>{aboutWords.map((word, index) => <><span class:list={['reveal-word', { revealed: index < 4 }]}>{word}</span>{index < aboutWords.length - 1 ? ' ' : ''}</>)}</h2>
         <a class="text-link about-link" href={home.aboutLinkUrl} target="_blank" rel="noopener noreferrer">{home.aboutLinkLabel} <Icon name="ArrowUpRight" size={20} /></a>
       </section>

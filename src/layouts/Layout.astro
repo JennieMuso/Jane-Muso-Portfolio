@@ -6,6 +6,7 @@ const { title, description, current = 'home', styles = [], bodyClass = '', image
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const socialImage = image ? new URL(image, Astro.site).href : undefined;
 const structuredData = schema ? JSON.stringify(schema).replace(/</g, '\\u003c') : undefined;
+const needsMotion = ['home', 'work', 'blog'].includes(current);
 ---
 <!doctype html>
 <html lang="en">
@@ -24,6 +25,9 @@ const structuredData = schema ? JSON.stringify(schema).replace(/</g, '\\u003c') 
     <meta name="twitter:card" content={socialImage ? 'summary_large_image' : 'summary'} />
     {structuredData && <script type="application/ld+json" set:html={structuredData} />}
     <link rel="icon" type="image/png" href="/assets/jennie-favicon.png" />
+    <link rel="preconnect" href="https://cdn.sanity.io" crossorigin />
+    <link rel="preload" href="/assets/oswald-700.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/dm-sans-400.woff2" as="font" type="font/woff2" crossorigin />
     <title>{title}</title>
     {styles.map((sheet) => <link rel="stylesheet" href={`/${sheet}`} />)}
     <link rel="stylesheet" href="/phosphor.css" />
@@ -36,8 +40,8 @@ const structuredData = schema ? JSON.stringify(schema).replace(/</g, '\\u003c') 
       <main><slot /></main>
       <Footer />
     </div>
-    <script src="/assets/gsap.min.js" defer></script>
-    <script src="/assets/ScrollTrigger.min.js" defer></script>
+    {needsMotion && <script src="/assets/gsap.min.js" defer></script>}
+    {needsMotion && <script src="/assets/ScrollTrigger.min.js" defer></script>}
     <script src="/script.js" defer></script>
   </body>
 </html>
