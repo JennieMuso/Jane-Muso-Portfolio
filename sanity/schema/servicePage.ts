@@ -25,6 +25,13 @@ export const servicePageSchema = defineType({
     ], preview: { select: { title: 'name', media: 'image' } } })], validation: (Rule) => Rule.required().min(1) }),
     defineField({ name: 'processTitle', title: 'Process heading', type: 'text', rows: 3 }),
     defineField({ name: 'processParagraphs', title: 'Process paragraphs', type: 'array', of: [defineArrayMember({ type: 'text', rows: 4 })] }),
+    defineField({ name: 'processSteps', title: 'How we work', description: 'These stages appear in order on the Services page. Use landscape images; 1600 × 1200 px or larger is recommended.', type: 'array', of: [defineArrayMember({ type: 'object', fields: [
+      defineField({ name: 'title', title: 'Stage title', type: 'string', validation: (Rule) => Rule.required() }),
+      defineField({ name: 'description', title: 'What happens', type: 'text', rows: 4, validation: (Rule) => Rule.required() }),
+      defineField({ name: 'clientRole', title: 'What we need from the client', type: 'text', rows: 2 }),
+      defineField({ name: 'outcome', title: 'What the client receives', type: 'text', rows: 2 }),
+      defineField({ name: 'image', title: 'Stage image', type: 'image', options: { hotspot: true }, fields: [defineField({ name: 'alt', title: 'Image description', type: 'string', validation: (Rule) => Rule.required() })] })
+    ], preview: { select: { title: 'title', media: 'image' } } })] }),
     defineField({ name: 'addOnsIntro', title: 'Add-ons introduction', type: 'text', rows: 2 }),
     defineField({ name: 'addOns', title: 'Add-ons', type: 'array', of: [defineArrayMember({ type: 'object', fields: [
       defineField({ name: 'name', type: 'string', validation: (Rule) => Rule.required() }),

@@ -69,8 +69,24 @@ const schema = graph(
   </section>)}
 
   <section class="services-process" aria-labelledby="process-title">
-    <div><span class="section-kicker">The way we work</span><h2 id="process-title">{servicePage.processTitle.split('\n').map((line, index) => <>{index > 0 && <br />}{line}</>)}<span>.</span></h2></div>
-    <div class="process-copy">{servicePage.processParagraphs.map((paragraph) => <p>{paragraph}</p>)}</div>
+    <div class="process-intro">
+      <div><span class="section-kicker">The way we work</span><h2 id="process-title">{servicePage.processTitle.split('\n').map((line, index) => <>{index > 0 && <br />}{line}</>)}<span>.</span></h2></div>
+      <div class="process-copy">{servicePage.processParagraphs.map((paragraph) => <p>{paragraph}</p>)}</div>
+    </div>
+    <ol class="process-steps">
+      {servicePage.processSteps.map((step, index) => <li class="process-step">
+        <div class="process-step-content">
+          <span class="process-step-number">{String(index + 1).padStart(2, '0')} / {String(servicePage.processSteps.length).padStart(2, '0')}</span>
+          <h3>{step.title}<span>.</span></h3>
+          <p class="process-step-description">{step.description}</p>
+          <div class="process-step-facts">
+            {step.clientRole && <p><strong>What we need from you</strong>{step.clientRole}</p>}
+            {step.outcome && <p><strong>What you leave with</strong>{step.outcome}</p>}
+          </div>
+        </div>
+        {step.image && <figure class="process-step-image"><img src={step.image} alt={step.imageAlt} width="630" height="630" loading="lazy" decoding="async" /></figure>}
+      </li>)}
+    </ol>
   </section>
 
   <section class="services-addons" id="add-ons" aria-labelledby="addons-title">

@@ -3,6 +3,7 @@ import { resolve, basename } from 'node:path';
 import { createClient } from '@sanity/client';
 import { servicePackages, serviceAddOns } from '../src/data/servicePackages.ts';
 import { contactFaqs } from '../src/data/faqs.ts';
+import { serviceProcessSteps } from '../src/data/serviceProcess.ts';
 
 const token = process.env.SANITY_WRITE_TOKEN || process.env.SANITY_ORGANIZATION_TOKEN;
 if (!token) throw new Error('A Sanity write token is required.');
@@ -13,6 +14,15 @@ async function uploadImage(path, alt) {
   const localPath = resolve('public', path.replace(/^\//, ''));
   const asset = await client.assets.upload('image', createReadStream(localPath), { filename: basename(localPath) });
   return { _type: 'image', asset: { _type: 'reference', _ref: asset._id }, alt };
+}
+
+async function buildProcessSteps() {
+  const steps = [];
+  for (const [index, item] of serviceProcessSteps.entries()) {
+    const { image, imageAlt, ...copy } = item;
+    steps.push({ _type: 'object', _key: `process-${index + 1}`, ...copy, image: await uploadImage(image, imageAlt) });
+  }
+  return steps;
 }
 
 if (!(await client.getDocument('services-page'))) {
@@ -32,6 +42,7 @@ if (!(await client.getDocument('services-page'))) {
       'Every package follows a transparent journey: discovery, strategy, design, development, testing, and launch. You work directly with Jane, with scheduled feedback checkpoints, an agreed scope, handover assets, and a defined bug-fix window.',
       'You provide brand assets, approved copy and media, legal or privacy text, third-party credentials, and one decision-maker to consolidate feedback. Delayed content or approvals may change the schedule.'
     ],
+    processSteps: await buildProcessSteps(),
     addOnsIntro: 'Need another page, a deeper CMS, or support after launch? We can shape the right extras around the work.',
     addOns: keyed(serviceAddOns, 'addon'),
     careOptions: keyed([
@@ -55,6 +66,10 @@ if (services?.heroTitle === 'LAUNCH & GROW') {
   await client.patch('services-page').set({ heroTitle: 'Launch & Grow' }).commit();
 }
 if (services) {
+  if (!Array.isArray(services.processSteps) || services.processSteps.length === 0) {
+    await client.patch('services-page').set({ processSteps: await buildProcessSteps() }).commit();
+    console.log('Added process stages and images to Services page');
+  }
   const addOnUsd = new Map(serviceAddOns.map((item) => [item.name, item.priceUsd]));
   const careUsd = new Map([['Essential Care', 'From USD 150 / month'], ['Growth Care', 'From USD 350 / month']]);
   const addOns = (services.addOns || []).map((item) => item.priceUsd ? item : { ...item, priceUsd: addOnUsd.get(item.name) || 'Quoted after discovery' });

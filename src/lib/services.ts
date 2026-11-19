@@ -1,13 +1,14 @@
 import { createClient } from '@sanity/client';
 import { servicePackages, serviceAddOns, type ServicePackage } from '../data/servicePackages';
 import type { Faq } from '../data/faqs';
+import { serviceProcessSteps, type ServiceProcessStep } from '../data/serviceProcess';
 
 const client = createClient({ projectId: import.meta.env.SANITY_PROJECT_ID || 'lpyuxxi7', dataset: import.meta.env.SANITY_DATASET || 'production', apiVersion: '2025-02-19', useCdn: false });
 
 type CareOption = { name: string; price: string; priceUsd: string; description: string };
 export type ServicePage = {
   seoDescription: string; heroTitle: string; heroIntro: string; packages: ServicePackage[];
-  processTitle: string; processParagraphs: string[]; addOnsIntro: string;
+  processTitle: string; processParagraphs: string[]; processSteps: ServiceProcessStep[]; addOnsIntro: string;
   addOns: typeof serviceAddOns; careOptions: CareOption[]; terms: string; scopeExclusions: string;
   faqHeading: string; faqIntro: string; faqs: Faq[];
 };
@@ -22,6 +23,7 @@ const fallback: ServicePage = {
     'Every package follows a transparent journey: discovery, strategy, design, development, testing, and launch. You work directly with Jane, with scheduled feedback checkpoints, an agreed scope, handover assets, and a defined bug-fix window.',
     'You provide brand assets, approved copy and media, legal or privacy text, third-party credentials, and one decision-maker to consolidate feedback. Delayed content or approvals may change the schedule.'
   ],
+  processSteps: serviceProcessSteps,
   addOnsIntro: 'Need another page, a deeper CMS, or support after launch? We can shape the right extras around the work.',
   addOns: serviceAddOns,
   careOptions: [
@@ -38,14 +40,18 @@ const fallback: ServicePage = {
   ]
 };
 
-type SanityServicePage = Omit<ServicePage, 'packages'> & { packages?: (Omit<ServicePackage, 'image' | 'imageAlt'> & { image?: { alt?: string; asset?: { url?: string } } })[] };
+type SanityServicePage = Omit<ServicePage, 'packages' | 'processSteps'> & {
+  packages?: (Omit<ServicePackage, 'image' | 'imageAlt'> & { image?: { alt?: string; asset?: { url?: string } } })[];
+  processSteps?: (Omit<ServiceProcessStep, 'image' | 'imageAlt'> & { image?: { alt?: string; asset?: { url?: string } } })[];
+};
 let promise: Promise<ServicePage> | undefined;
 
 export function getServicePage(): Promise<ServicePage> {
   return promise ??= client.fetch<SanityServicePage | null>(`*[_id == "services-page"][0]{
     seoDescription, heroTitle, heroIntro,
     packages[]{id, name, tagline, priceAed, priceUsd, duration, pages, audience, deliverables, benefit, image{alt, asset->{url}}},
-    processTitle, processParagraphs, addOnsIntro, addOns[]{name, price, priceUsd, note}, careOptions[]{name, price, priceUsd, description},
+    processTitle, processParagraphs, processSteps[]{title, description, clientRole, outcome, image{alt, asset->{url}}},
+    addOnsIntro, addOns[]{name, price, priceUsd, note}, careOptions[]{name, price, priceUsd, description},
     terms, scopeExclusions, faqHeading, faqIntro, faqs[]{question, answer}
   }`).then((document) => document ? {
     ...fallback, ...document,
@@ -54,6 +60,11 @@ export function getServicePage(): Promise<ServicePage> {
       imageAlt: item.image?.alt || servicePackages[index]?.imageAlt || item.name,
       deliverables: item.deliverables || []
     })),
+    processSteps: document.processSteps?.length ? document.processSteps.map((item, index) => ({
+      ...item,
+      image: item.image?.asset?.url || serviceProcessSteps[index]?.image || '',
+      imageAlt: item.image?.alt || serviceProcessSteps[index]?.imageAlt || item.title
+    })) : serviceProcessSteps,
     addOns: document.addOns || [], careOptions: document.careOptions || [], faqs: document.faqs || []
   } : fallback);
 }
