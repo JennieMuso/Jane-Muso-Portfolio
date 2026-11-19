@@ -14,8 +14,8 @@ export const servicePageSchema = defineType({
       defineField({ name: 'id', title: 'Anchor ID', description: 'Keep launch, signature or experience so package links continue to work.', type: 'string', validation: (Rule) => Rule.required() }),
       defineField({ name: 'name', type: 'string', validation: (Rule) => Rule.required() }),
       defineField({ name: 'tagline', type: 'string' }),
-      defineField({ name: 'priceAed', title: 'Starting price in AED', type: 'string' }),
-      defineField({ name: 'priceUsd', title: 'Starting price in USD', type: 'string' }),
+      defineField({ name: 'priceUsd', title: 'Starting price in USD (shown large)', type: 'string' }),
+      defineField({ name: 'priceAed', title: 'Starting price in AED (shown below USD)', type: 'string' }),
       defineField({ name: 'duration', title: 'Typical delivery', type: 'string' }),
       defineField({ name: 'pages', title: 'Unique pages', type: 'string' }),
       defineField({ name: 'audience', title: 'Who it is for', type: 'text', rows: 3 }),
@@ -28,11 +28,15 @@ export const servicePageSchema = defineType({
     defineField({ name: 'addOnsIntro', title: 'Add-ons introduction', type: 'text', rows: 2 }),
     defineField({ name: 'addOns', title: 'Add-ons', type: 'array', of: [defineArrayMember({ type: 'object', fields: [
       defineField({ name: 'name', type: 'string', validation: (Rule) => Rule.required() }),
-      defineField({ name: 'price', type: 'string' }),
+      defineField({ name: 'priceUsd', title: 'USD price (shown large)', type: 'string' }),
+      defineField({ name: 'price', title: 'AED price (shown below USD)', type: 'string' }),
       defineField({ name: 'note', type: 'string' })
     ], preview: { select: { title: 'name', subtitle: 'price' } } })] }),
     defineField({ name: 'careOptions', title: 'Ongoing care', type: 'array', of: [defineArrayMember({ type: 'object', fields: [
-      defineField({ name: 'name', type: 'string' }), defineField({ name: 'price', type: 'string' }), defineField({ name: 'description', type: 'text', rows: 2 })
+      defineField({ name: 'name', type: 'string' }),
+      defineField({ name: 'priceUsd', title: 'USD price (shown large)', type: 'string' }),
+      defineField({ name: 'price', title: 'AED price (shown below USD)', type: 'string' }),
+      defineField({ name: 'description', type: 'text', rows: 2 })
     ], preview: { select: { title: 'name', subtitle: 'price' } } })] }),
     defineField({ name: 'terms', title: 'Pricing terms', type: 'text', rows: 4 }),
     defineField({ name: 'scopeExclusions', title: 'What is outside the package scope?', type: 'text', rows: 4 }),

@@ -65,14 +65,17 @@
 .addon-row { display: flex; justify-content: space-between; gap: 30px; align-items: baseline; padding: 20px 0; border-bottom: 1px solid rgba(25,21,21,.3); }
 .addon-row h3 { margin: 0; font-size: clamp(20px, 2vw, 30px); font-weight: 600; letter-spacing: -.035em; }
 .addon-row p { margin: 6px 0 0; font-size: 12px; }
-.addon-row strong { font-size: clamp(16px, 1.4vw, 21px); white-space: nowrap; }
+.addon-price { flex: 0 0 auto; text-align: right; }
+.addon-price strong { display: block; font-size: clamp(16px, 1.4vw, 21px); white-space: nowrap; }
+.addon-price small { display: block; margin-top: 5px; color: var(--muted); font-size: 12px; font-weight: 600; }
 .care-intro { margin-top: 125px; }
 .care-intro h3 { margin: 20px 0 48px; color: var(--red); font: 700 clamp(60px, 7vw, 110px)/.9 Oswald, sans-serif; text-transform: uppercase; letter-spacing: -.045em; }
 .care-options { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(20px, 3vw, 50px); }
 .care-options > div { display: flex; flex-direction: column; min-height: 290px; padding: 25px; border: 1px solid var(--ink); }
 .care-options span { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .care-options strong { display: block; margin-top: auto; color: var(--red); font: 700 clamp(35px, 3.8vw, 60px)/1 Oswald, sans-serif; }
-.care-options small { font: 600 14px 'DM Sans', sans-serif; color: var(--ink); }
+.care-options strong em { color: var(--ink); font: 600 14px 'DM Sans', sans-serif; font-style: normal; white-space: nowrap; }
+.care-options small { display: block; margin-top: 8px; font: 600 14px 'DM Sans', sans-serif; color: var(--ink); }
 .care-options p { max-width: 420px; margin: 18px 0 0; font-size: 17px; line-height: 1.4; }
 .services-terms { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin: 60px 0 110px; font-size: 13px; line-height: 1.5; }
 .services-terms > p { margin: 0; }
@@ -128,7 +131,8 @@
   .addons-header p { font-size: 21px; }
   .addon-row { display: block; padding: 17px 0; }
   .addon-row h3 { font-size: 23px; }
-  .addon-row strong { display: block; margin-top: 8px; font-size: 17px; }
+  .addon-price { margin-top: 8px; text-align: left; }
+  .addon-price strong { font-size: 17px; }
   .care-intro { margin-top: 100px; }
   .care-intro h3 { font-size: 13vw; }
   .care-options, .services-terms { display: block; }

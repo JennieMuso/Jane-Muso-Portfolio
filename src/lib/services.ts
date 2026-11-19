@@ -4,7 +4,7 @@ import type { Faq } from '../data/faqs';
 
 const client = createClient({ projectId: import.meta.env.SANITY_PROJECT_ID || 'lpyuxxi7', dataset: import.meta.env.SANITY_DATASET || 'production', apiVersion: '2025-02-19', useCdn: false });
 
-type CareOption = { name: string; price: string; description: string };
+type CareOption = { name: string; price: string; priceUsd: string; description: string };
 export type ServicePage = {
   seoDescription: string; heroTitle: string; heroIntro: string; packages: ServicePackage[];
   processTitle: string; processParagraphs: string[]; addOnsIntro: string;
@@ -25,8 +25,8 @@ const fallback: ServicePage = {
   addOnsIntro: 'Need another page, a deeper CMS, or support after launch? We can shape the right extras around the work.',
   addOns: serviceAddOns,
   careOptions: [
-    { name: 'Essential Care', price: 'From AED 500 / month', description: 'Light monitoring and up to one hour of website updates each month.' },
-    { name: 'Growth Care', price: 'From AED 1,200 / month', description: 'Up to three hours of updates, an analytics review, and priority support each month.' }
+    { name: 'Essential Care', price: 'From AED 500 / month', priceUsd: 'From USD 150 / month', description: 'Light monitoring and up to one hour of website updates each month.' },
+    { name: 'Growth Care', price: 'From AED 1,200 / month', priceUsd: 'From USD 350 / month', description: 'Up to three hours of updates, an analytics review, and priority support each month.' }
   ],
   terms: 'Prices are starting guides, not fixed quotations. AED and USD figures are separate rounded guides, not live currency conversions. Final scope, currency, applicable taxes, and any third-party costs are confirmed in your proposal. A suggested payment schedule is 50% at booking, 30% after design approval, and 20% before launch. Business outcomes are goals, not guaranteed results.',
   scopeExclusions: 'Brand identity, logo design, full copywriting and translation, photo or video production, paid advertising, ongoing SEO, domain and hosting charges, platform subscriptions, ecommerce, online ordering, custom reservation engines, additional languages, extensive integrations, and ongoing content publishing are quoted separately unless included in your proposal. A CMS for Muso Launch is also an optional add-on.',
@@ -45,7 +45,7 @@ export function getServicePage(): Promise<ServicePage> {
   return promise ??= client.fetch<SanityServicePage | null>(`*[_id == "services-page"][0]{
     seoDescription, heroTitle, heroIntro,
     packages[]{id, name, tagline, priceAed, priceUsd, duration, pages, audience, deliverables, benefit, image{alt, asset->{url}}},
-    processTitle, processParagraphs, addOnsIntro, addOns[]{name, price, note}, careOptions[]{name, price, description},
+    processTitle, processParagraphs, addOnsIntro, addOns[]{name, price, priceUsd, note}, careOptions[]{name, price, priceUsd, description},
     terms, scopeExclusions, faqHeading, faqIntro, faqs[]{question, answer}
   }`).then((document) => document ? {
     ...fallback, ...document,

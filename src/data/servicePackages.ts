@@ -92,11 +92,11 @@ export const servicePackages: ServicePackage[] = [
 ];
 
 export const serviceAddOns = [
-  { name: 'Additional standard page', price: 'AED 750–1,500' },
-  { name: 'Advanced page', price: 'AED 1,500–3,000+' },
-  { name: 'Further CMS scope', price: 'From AED 1,500' },
-  { name: 'Additional language implementation', price: 'From AED 2,500', note: 'Translation is priced separately.' },
-  { name: 'Custom animation', price: 'AED 750–2,500+' },
-  { name: 'Extra revision round', price: 'From AED 750' },
-  { name: 'Complex integration', price: 'Quoted after discovery' }
+  { name: 'Additional standard page', price: 'AED 750–1,500', priceUsd: 'USD 200–400' },
+  { name: 'Advanced page', price: 'AED 1,500–3,000+', priceUsd: 'USD 400–800+' },
+  { name: 'Further CMS scope', price: 'From AED 1,500', priceUsd: 'From USD 400' },
+  { name: 'Additional language implementation', price: 'From AED 2,500', priceUsd: 'From USD 700', note: 'Translation is priced separately.' },
+  { name: 'Custom animation', price: 'AED 750–2,500+', priceUsd: 'USD 200–700+' },
+  { name: 'Extra revision round', price: 'From AED 750', priceUsd: 'From USD 200' },
+  { name: 'Complex integration', price: 'Quoted after discovery', priceUsd: 'Quoted after discovery' }
 ];

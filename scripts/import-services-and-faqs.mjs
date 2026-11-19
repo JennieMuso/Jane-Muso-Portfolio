@@ -35,8 +35,8 @@ if (!(await client.getDocument('services-page'))) {
     addOnsIntro: 'Need another page, a deeper CMS, or support after launch? We can shape the right extras around the work.',
     addOns: keyed(serviceAddOns, 'addon'),
     careOptions: keyed([
-      { name: 'Essential Care', price: 'From AED 500 / month', description: 'Light monitoring and up to one hour of website updates each month.' },
-      { name: 'Growth Care', price: 'From AED 1,200 / month', description: 'Up to three hours of updates, an analytics review, and priority support each month.' }
+      { name: 'Essential Care', price: 'From AED 500 / month', priceUsd: 'From USD 150 / month', description: 'Light monitoring and up to one hour of website updates each month.' },
+      { name: 'Growth Care', price: 'From AED 1,200 / month', priceUsd: 'From USD 350 / month', description: 'Up to three hours of updates, an analytics review, and priority support each month.' }
     ], 'care'),
     terms: 'Prices are starting guides, not fixed quotations. AED and USD figures are separate rounded guides, not live currency conversions. Final scope, currency, applicable taxes, and any third-party costs are confirmed in your proposal. A suggested payment schedule is 50% at booking, 30% after design approval, and 20% before launch. Business outcomes are goals, not guaranteed results.',
     scopeExclusions: 'Brand identity, logo design, full copywriting and translation, photo or video production, paid advertising, ongoing SEO, domain and hosting charges, platform subscriptions, ecommerce, online ordering, custom reservation engines, additional languages, extensive integrations, and ongoing content publishing are quoted separately unless included in your proposal. A CMS for Muso Launch is also an optional add-on.',
@@ -53,6 +53,16 @@ if (!(await client.getDocument('services-page'))) {
 const services = await client.getDocument('services-page');
 if (services?.heroTitle === 'LAUNCH & GROW') {
   await client.patch('services-page').set({ heroTitle: 'Launch & Grow' }).commit();
+}
+if (services) {
+  const addOnUsd = new Map(serviceAddOns.map((item) => [item.name, item.priceUsd]));
+  const careUsd = new Map([['Essential Care', 'From USD 150 / month'], ['Growth Care', 'From USD 350 / month']]);
+  const addOns = (services.addOns || []).map((item) => item.priceUsd ? item : { ...item, priceUsd: addOnUsd.get(item.name) || 'Quoted after discovery' });
+  const careOptions = (services.careOptions || []).map((item) => item.priceUsd ? item : { ...item, priceUsd: careUsd.get(item.name) || 'Quoted after discovery' });
+  if (JSON.stringify(addOns) !== JSON.stringify(services.addOns) || JSON.stringify(careOptions) !== JSON.stringify(services.careOptions)) {
+    await client.patch('services-page').set({ addOns, careOptions }).commit();
+    console.log('Added USD guides to Services add-ons and care options');
+  }
 }
 
 if (!(await client.getDocument('contact-page'))) {

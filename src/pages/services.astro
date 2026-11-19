@@ -54,7 +54,7 @@ const schema = graph(
   {servicePackages.map((item, index) => <section class:list={['service-tier', { 'service-tier-dark': index === 2 }]} id={item.id} aria-labelledby={`${item.id}-title`}>
     <div class="tier-heading">
       <div><span class="tier-kicker">{item.number} / Website package</span><h2 id={`${item.id}-title`}>{item.name}<span>.</span></h2><p>{item.tagline}</p></div>
-      <div class="tier-price"><span>Starting at</span><strong>AED {item.priceAed}</strong><small>International guide: USD {item.priceUsd}</small></div>
+      <div class="tier-price"><span>Starting at</span><strong>USD {item.priceUsd}</strong><small>UAE guide: AED {item.priceAed}</small></div>
     </div>
     <div class="tier-content">
       <figure class="tier-image"><img src={item.image} alt={item.imageAlt} width="630" height="630" loading="lazy" decoding="async" /><figcaption>{item.name} / A website shaped for your next step</figcaption></figure>
@@ -75,9 +75,9 @@ const schema = graph(
 
   <section class="services-addons" id="add-ons" aria-labelledby="addons-title">
     <div class="addons-header"><span class="section-kicker">Optional add-ons &amp; ongoing care</span><h2 id="addons-title">MAKE IT<br />YOUR OWN<span>.</span></h2><p>{servicePage.addOnsIntro}</p></div>
-    <div class="addons-list" aria-label="Optional add-on prices">{serviceAddOns.map((addon) => <div class="addon-row"><div><h3>{addon.name}</h3>{addon.note && <p>{addon.note}</p>}</div><strong>{addon.price}</strong></div>)}</div>
+    <div class="addons-list" aria-label="Optional add-on prices">{serviceAddOns.map((addon) => <div class="addon-row"><div><h3>{addon.name}</h3>{addon.note && <p>{addon.note}</p>}</div><div class="addon-price"><strong>{addon.priceUsd || addon.price}</strong>{addon.priceUsd && addon.priceUsd !== addon.price && <small>{addon.price}</small>}</div></div>)}</div>
     <div class="care-intro"><span class="section-kicker">Stay in good shape</span><h3>Care after launch<span>.</span></h3></div>
-    <div class="care-options">{servicePage.careOptions.map((care, index) => <div><span>{String(index + 1).padStart(2, '0')} / {care.name}</span><strong>{care.price}</strong><p>{care.description}</p></div>)}</div>
+    <div class="care-options">{servicePage.careOptions.map((care, index) => <div><span>{String(index + 1).padStart(2, '0')} / {care.name}</span><strong>{(care.priceUsd || care.price).replace(/\s*\/\s*month$/i, '')}{/\/\s*month$/i.test(care.priceUsd || care.price) && <em> / month</em>}</strong>{care.priceUsd && <small>{care.price}</small>}<p>{care.description}</p></div>)}</div>
     <div class="services-terms"><p>{servicePage.terms}</p><details><summary>What is outside the package scope?</summary><p>{servicePage.scopeExclusions}</p></details></div>
     <div class="services-end"><span>Have something in mind?</span><a href="/contact/#project-brief">LET’S MAKE<br />IT HAPPEN<Icon name="ArrowUpRight" size={42} /></a></div>
   </section>
