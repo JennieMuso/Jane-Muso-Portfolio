@@ -41,6 +41,7 @@ const needsMotion = ['home', 'work', 'blog'].includes(current);
     <link rel="stylesheet" href="/phosphor.css" />
     <link rel="stylesheet" href="/mobile-menu.css" />
     <link rel="stylesheet" href="/heading-weight.css" />
+    <link rel="stylesheet" href="/editorial-motion.css" />
   </head>
   <body class={bodyClass}>
     <div class="site-shell" id="top">
@@ -51,5 +52,6 @@ const needsMotion = ['home', 'work', 'blog'].includes(current);
     {needsMotion && <script src="/assets/gsap.min.js" defer></script>}
     {needsMotion && <script src="/assets/ScrollTrigger.min.js" defer></script>}
     <script src="/script.js" defer></script>
+    <script src="/editorial-motion.js" defer></script>
   </body>
 </html>

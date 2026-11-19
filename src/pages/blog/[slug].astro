@@ -31,7 +31,7 @@ const schema = graph(
       <h1>{article.title}<span>.</span></h1>
       <div class="article-byline"><span class="article-author"><img src="/assets/jennie-favicon.png" alt="" width="44" height="44" /><span>Jane Muso <small>Founder &amp; Designer</small></span></span></div>
     </header>
-    <figure class="article-hero"><img src={imageUrl(article.hero, 1920)} srcset={imageSrcSet(article.hero, [640, 960, 1440, 1920])} sizes="100vw" alt={article.heroAlt} fetchpriority="high" decoding="async" data-parallax data-parallax-strength="8" /></figure>
+    <figure class="article-hero"><img src={imageUrl(article.hero, 1920)} srcset={imageSrcSet(article.hero, [640, 960, 1440, 1920])} sizes="100vw" alt={article.heroAlt} fetchpriority="high" decoding="async" data-parallax data-parallax-strength="8" style={`view-transition-name: article-${article.slug}`} /></figure>
     <div class="article-layout">
       <aside class="article-rail" aria-label="Article tools">
         <div class="article-rail-inner">
@@ -54,7 +54,7 @@ const schema = graph(
       </div>
     </div>
     <a class="article-next" href={`/blog/${next.slug}/`}>
-      <img src={imageUrl(next.hero, 1600)} srcset={imageSrcSet(next.hero, [640, 960, 1280, 1600])} sizes="100vw" alt="" loading="lazy" decoding="async" />
+      <img src={imageUrl(next.hero, 1600)} srcset={imageSrcSet(next.hero, [640, 960, 1280, 1600])} sizes="100vw" alt="" loading="lazy" decoding="async" style={next.slug !== article.slug ? `view-transition-name: article-${next.slug}` : undefined} />
       <span>Read next</span><strong>{next.title}<Icon name="ArrowUpRight" size={30} /></strong>
     </a>
   </article>

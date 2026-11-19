@@ -6,7 +6,7 @@ import { imageUrl, imageSrcSet } from '../lib/image';
 const { article, featured = false } = Astro.props as { article: Article; featured?: boolean };
 ---
 <a class:list={['insight', featured && 'insight-featured']} href={`/blog/${article.slug}/`} aria-label={`Read ${article.title}`}>
-  <div class="insight-media"><img src={imageUrl(article.hero, 1200)} srcset={imageSrcSet(article.hero, [360, 640, 960, 1200])} sizes="(max-width: 560px) 100vw, (max-width: 800px) 50vw, 34vw" alt={article.heroAlt} loading="lazy" decoding="async" /></div>
+  <div class="insight-media"><img src={imageUrl(article.hero, 1200)} srcset={imageSrcSet(article.hero, [360, 640, 960, 1200])} sizes="(max-width: 560px) 100vw, (max-width: 800px) 50vw, 34vw" alt={article.heroAlt} loading="lazy" decoding="async" style={`view-transition-name: article-${article.slug}`} /></div>
   <div class="insight-details">
     <span class="insight-category">{article.topic}</span>
     <h3>{article.title}</h3>

@@ -7,7 +7,7 @@ const category = productCategoryInfo(product.category);
 ---
 <article class:list={['shop-product', `shop-product-${product.visual ?? 'generic'}`]} data-category={product.category}>
   <a href={productPath(product)} aria-label={`Explore ${product.name}`}>
-    <div class="shop-card-art"><ProductVisual product={product} /><span class="shop-card-cue">View details <Icon name="ArrowUpRight" size={22} /></span></div>
+    <div class="shop-card-art" style={`view-transition-name: product-${product.slug}`}><ProductVisual product={product} /><span class="shop-card-cue">View details <Icon name="ArrowUpRight" size={22} /></span></div>
     <div class="shop-card-caption"><div><span>{category.label}</span><h2>{product.name}</h2></div><Icon name="ArrowUpRight" size={24} /></div>
     <p>{product.summary}</p>
   </a>

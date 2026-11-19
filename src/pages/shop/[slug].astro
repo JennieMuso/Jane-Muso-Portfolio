@@ -28,7 +28,7 @@ const schema = graph(
       <h1>{product.name}<span>.</span></h1>
       <div class="product-title-foot"><span>Made by Jane Muso</span><span>Digital goods / {category.platform}</span></div>
     </header>
-    <div class="product-hero-art"><ProductVisual product={product} priority /></div>
+    <div class="product-hero-art" style={`view-transition-name: product-${product.slug}`}><ProductVisual product={product} priority /></div>
     <section class="product-intro" aria-labelledby="product-intro-title">
       <div class="product-facts"><h2 id="product-intro-title">{category.detailHeading}</h2><dl><div><dt>Format</dt><dd>{category.label}</dd></div><div><dt>Price</dt><dd>{product.price}</dd></div><div><dt>Preview</dt><dd>Live preview</dd></div></dl></div>
       <div class="product-story"><p class="product-lede">{product.summary}</p>{product.description.map((paragraph) => <p>{paragraph}</p>)}<div class="product-actions"><a class="product-button product-button-outline" href={product.previewUrl} target="_blank" rel="noopener noreferrer">Show preview <Icon name="ArrowUpRight" size={18} /></a><a class="product-button product-button-primary" href={product.checkoutUrl} target="_blank" rel="noopener noreferrer">Buy now — {product.price} <Icon name="ArrowUpRight" size={20} /></a></div></div>
@@ -49,7 +49,7 @@ const schema = graph(
     <section class="product-includes" aria-labelledby="product-includes-title"><div><span>{product.name}</span><h2 id="product-includes-title">WHAT YOU<br />GET<span>.</span></h2></div><ul>{product.features.map((feature) => <li>{feature}</li>)}</ul></section>
     <section class="product-purchase"><p>Ready to make it yours?</p><h2>{product.name}<span>.</span></h2><a href={product.checkoutUrl} target="_blank" rel="noopener noreferrer">Buy now — {product.price} <Icon name="ArrowUpRight" size={24} /></a><small>Secure checkout on Lemon Squeezy.</small></section>
     <a class="product-next" href={`/shop/${next.slug}/`}>
-      {next.coverImage && <img src={imageUrl(next.coverImage, 1600)} srcset={imageSrcSet(next.coverImage, [640, 960, 1280, 1600])} sizes="100vw" alt="" loading="lazy" decoding="async" />}
+      {next.coverImage && <img src={imageUrl(next.coverImage, 1600)} srcset={imageSrcSet(next.coverImage, [640, 960, 1280, 1600])} sizes="100vw" alt="" loading="lazy" decoding="async" style={next.slug !== product.slug ? `view-transition-name: product-${next.slug}` : undefined} />}
       <span>Explore another</span><strong>{next.name}<Icon name="ArrowUpRight" size={30} /></strong>
     </a>
   </article>

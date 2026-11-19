@@ -28,12 +28,12 @@ const schema = graph(
 
     <figure class="case-hero parallax-frame">
       {project.heroVideo ? <>
-        <video data-case-hero-video data-parallax data-parallax-strength="8" muted loop playsinline preload="metadata" poster={imageUrl(projectAsset(project, 'hero'), 1920)} aria-label={project.heroAlt}>
+        <video data-case-hero-video data-parallax data-parallax-strength="8" muted loop playsinline preload="metadata" poster={imageUrl(projectAsset(project, 'hero'), 1920)} aria-label={project.heroAlt} style={`view-transition-name: project-${project.slug}`}>
           <source src={project.heroVideo.url} type={project.heroVideo.mimeType} />
           <img src={imageUrl(projectAsset(project, 'hero'), 1920)} alt={project.heroAlt} />
         </video>
         <button class="case-video-toggle" type="button" data-video-toggle hidden>Play video</button>
-      </> : <img src={imageUrl(projectAsset(project, 'hero'), 1920)} srcset={imageSrcSet(projectAsset(project, 'hero'), [640, 960, 1440, 1920])} sizes="100vw" alt={project.heroAlt} fetchpriority="high" decoding="async" data-parallax data-parallax-strength="8" />}
+      </> : <img src={imageUrl(projectAsset(project, 'hero'), 1920)} srcset={imageSrcSet(projectAsset(project, 'hero'), [640, 960, 1440, 1920])} sizes="100vw" alt={project.heroAlt} fetchpriority="high" decoding="async" data-parallax data-parallax-strength="8" style={`view-transition-name: project-${project.slug}`} />}
       <figcaption><span>{project.eyebrow}</span><span>Jane Muso / Selected work</span></figcaption>
     </figure>
 
@@ -74,7 +74,7 @@ const schema = graph(
 
     <section class="case-outro"><span class="case-label">Explore the project</span><a href={project.liveUrl} target="_blank" rel="noopener noreferrer">SEE IT LIVE <Icon name="ArrowUpRight" size={34} /></a></section>
     <a class="case-next" href={`/work/${next.slug}/`}>
-      <img src={imageUrl(projectAsset(next, 'hero'), 1600)} srcset={imageSrcSet(projectAsset(next, 'hero'), [640, 960, 1280, 1600])} sizes="100vw" alt="" loading="lazy" decoding="async" />
+      <img src={imageUrl(projectAsset(next, 'hero'), 1600)} srcset={imageSrcSet(projectAsset(next, 'hero'), [640, 960, 1280, 1600])} sizes="100vw" alt="" loading="lazy" decoding="async" style={next.slug !== project.slug ? `view-transition-name: project-${next.slug}` : undefined} />
       <span>Next project / {String((index + 1) % total + 1).padStart(2, '0')}</span><strong>{next.name}<Icon name="ArrowUpRight" size={36} /></strong>
     </a>
   </article>

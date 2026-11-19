@@ -16,7 +16,7 @@ const schema = graph(organizationSchema, { '@type': 'CollectionPage', name: 'Sel
     <div class="section-head"><h2>Selected work</h2></div>
     <div class="work-grid">
       {projects.map((project, index) => <article class:list={['work-item', `work-item-${positions[index % positions.length]}`]}>
-        <div class="work-media"><img src={imageUrl(projectAsset(project, 'hero'), 1400)} srcset={imageSrcSet(projectAsset(project, 'hero'), [480, 800, 1100, 1400])} sizes="(max-width: 560px) 100vw, 55vw" alt={project.heroAlt} loading="lazy" decoding="async" /></div>
+        <div class="work-media"><img src={imageUrl(projectAsset(project, 'hero'), 1400)} srcset={imageSrcSet(projectAsset(project, 'hero'), [480, 800, 1100, 1400])} sizes="(max-width: 560px) 100vw, 55vw" alt={project.heroAlt} loading="lazy" decoding="async" style={`view-transition-name: project-${project.slug}`} /></div>
         <div class="work-caption"><h3>{project.name}</h3><span>Website design &amp; development</span></div>
         <a class="work-card-link" href={`/work/${project.slug}/`} aria-label={`View ${project.name} case study`}></a>
       </article>)}

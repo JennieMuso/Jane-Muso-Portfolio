@@ -80,21 +80,11 @@ if (window.gsap && window.ScrollTrigger && !window.matchMedia('(prefers-reduced-
       }
     });
   }
-  if (document.querySelector('.insights')) {
-    gsap.from('.insights-head > *', { y: 28, opacity: 0, duration: .8, stagger: .12, ease: 'power3.out', scrollTrigger: { trigger: '.insights', start: 'top 78%', once: true } });
-    gsap.from('.insight', { y: 60, opacity: 0, duration: 1, stagger: .16, ease: 'power3.out', scrollTrigger: { trigger: '.insights-grid', start: 'top 82%', once: true } });
-  }
-  document.querySelectorAll('.insight-media img, .blog-article-image img').forEach(image => {
+  if (!window.matchMedia('(max-width: 700px)').matches && !navigator.connection?.saveData) document.querySelectorAll('.insight-media img, .blog-article-image img').forEach(image => {
     gsap.fromTo(image, { yPercent: -6 }, {
       yPercent: 6,
       ease: 'none',
       scrollTrigger: { trigger: image.parentElement, start: 'top bottom', end: 'bottom top', scrub: .6 }
-    });
-  });
-  document.querySelectorAll('.manifesto:not(.about-story), .work, .shop-teaser, .contact').forEach(section => {
-    gsap.from(section.querySelectorAll('h2, p, .work-item, .contact-link'), {
-      y: 34, opacity: 0, duration: .9, stagger: .11, ease: 'power3.out',
-      scrollTrigger: { trigger: section, start: 'top 82%', once: true }
     });
   });
 }
