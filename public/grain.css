@@ -2,11 +2,21 @@
 body::before {
   content: '';
   position: fixed;
-  inset: 0;
+  inset: -24px;
   z-index: 0;
   pointer-events: none;
   background: url('/assets/grain.webp') repeat;
   opacity: 0.12;
+  animation: grain-drift 16s ease-in-out infinite alternate;
+}
+
+@keyframes grain-drift {
+  from { transform: translate3d(-12px, -8px, 0); }
+  to { transform: translate3d(12px, 8px, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: none; transform: none; }
 }
 
 .site-shell {
