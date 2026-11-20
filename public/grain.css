@@ -1,10 +1,15 @@
-/* A small static tile adds the paper grain without a full-screen image or animation. */
-body::after {
+/* Keep the grain on the paper, beneath typography and images. */
+body::before {
   content: '';
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: 0;
   pointer-events: none;
   background: url('/assets/grain.webp') repeat;
-  opacity: 0.24;
+  opacity: 0.12;
+}
+
+.site-shell {
+  position: relative;
+  z-index: 1;
 }
