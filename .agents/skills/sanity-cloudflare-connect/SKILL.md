@@ -7,6 +7,8 @@ description: Connect a website to Sanity Studio and published content, then trig
 
 Use this checklist for a new project. Copy this skill directory into that repository's `.agents/skills/` folder, then invoke `sanity-cloudflare-connect`. First inspect the repository and current hosting setup; reuse what already works. Keep all credentials in the host's secret store, never in source, logs, screenshots, or chat.
 
+**Start with the guided setup** in [references/setup-guide.md](references/setup-guide.md). Walk the user through the dashboard clicks and the safe handoffs before attempting a connection. Present one stage at a time when guiding a person through the UI. Show the known values, ask only for missing non-secret identifiers, and explain what each credential is for. Never ask the user to paste a token, GitHub secret, or Cloudflare Deploy Hook URL into chat. Let them enter secrets directly in the destination UI. After each handoff, resume work that is authorized and verify the next link in the chain. The guide separates Studio deployment, one-time content import, and ongoing content-triggered Pages builds.
+
 ## 1. Collect the facts before coding
 
 Ask for only missing facts. Project ID is in Sanity project settings or the project URL; dataset is under **Datasets** (often `production`). Verify them separately from the organization ID. Record:
