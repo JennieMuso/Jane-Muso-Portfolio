@@ -29,6 +29,14 @@ For a manual deployment after Cloudflare authentication, run `npm run deploy`.
 
 ## Sanity content
 
-The Home page, blog articles, shop products, the Work page, and project case studies are edited in the Muso Designs Sanity Studio. The site reads published documents from project `lpyuxxi7`, dataset `production`, when it builds. After publishing an edit, rebuild the Cloudflare Pages site to show it online. The import scripts in `scripts/` are for initial migration and skip documents already in Sanity.
+The Home, Services, Contact, blog, shop, and Work content is edited in the Muso Designs Sanity Studio. The site reads published documents from project `lpyuxxi7`, dataset `production`, when it builds. A new Cloudflare Pages build is needed after publishing an edit. The import scripts in `scripts/` are for initial migration and skip documents already in Sanity.
+
+To automate content updates, create a **Cloudflare Pages Deploy Hook** for the `main` branch, then add its URL as a **Sanity webhook** for the `production` dataset. Choose Create, Update, and Delete; leave Drafts and Versions off. Use this filter (the document types used by this site):
+
+```groq
+_type in ["article", "product", "project", "homePage", "workPage", "shopPage", "servicePage", "contactPage"]
+```
+
+Use `POST`, leave the projection and webhook secret empty for a direct Deploy Hook, and keep the hook URL private. Publish a small edit and check both Sanity's delivery log and Cloudflare's deployment log. The complete reusable setup and troubleshooting checklist is in [.agents/skills/sanity-cloudflare-connect/SKILL.md](.agents/skills/sanity-cloudflare-connect/SKILL.md). The webhook is not configured by this repository alone; it must be added in the two dashboards.
 
 The Work page lists every published project. The Home page can select and order up to four featured projects. Each project may also have an optional MP4 or WebM hero video; its required hero image is used as the poster and as the fallback when no video is uploaded. Video playback loops silently and can be paused by visitors.
