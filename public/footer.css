@@ -42,11 +42,18 @@
 .footer-links a, .footer-intro > a, .footer-bottom a { transition: color .2s ease; }
 .footer-links a:hover, .footer-intro > a:hover, .footer-bottom a:hover,
 .footer-links a:focus-visible, .footer-intro > a:focus-visible, .footer-bottom a:focus-visible { color: #e6a6a8; }
+.footer-signature {
+  position: relative;
+  isolation: isolate;
+  margin: clamp(95px, 10vw, 165px) 0 clamp(32px, 5vw, 72px);
+}
 .footer-wordmark {
+  position: relative;
+  z-index: 1;
   display: block;
   width: max-content;
   max-width: 100%;
-  margin: clamp(95px, 10vw, 165px) 0 clamp(32px, 5vw, 72px);
+  margin: 0;
   font: 700 min(39vw, 580px)/.8 Oswald, Impact, sans-serif;
   letter-spacing: -.06em;
   white-space: nowrap;
@@ -55,6 +62,28 @@
 .footer-wordmark span { color: #e6a6a8; font-size: inherit; }
 .footer-wordmark:hover { color: #e6a6a8; }
 .footer-wordmark:hover span { color: var(--paper); }
+.footer-character {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: -1%;
+  width: min(30vw, 430px);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.footer-character-view {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity .22s ease;
+}
+.footer-character[data-facing="left"] [data-view="left"],
+.footer-character[data-facing="center"] [data-view="center"],
+.footer-character[data-facing="right"] [data-view="right"] { opacity: 1; }
 .footer-bottom {
   display: flex;
   align-items: center;
@@ -73,7 +102,9 @@
 @media (max-width: 800px) {
   .footer-top { grid-template-columns: minmax(0, 1.3fr) minmax(0, .8fr); }
   .footer-intro { grid-column: 1 / -1; }
-  .footer-wordmark { margin-top: 85px; font-size: 37vw; }
+  .footer-signature { margin-top: 85px; }
+  .footer-wordmark { font-size: 37vw; }
+  .footer-character { width: 32vw; }
   .footer-bottom > span:nth-child(2) { display: none; }
 }
 @media (max-width: 560px) {
@@ -81,9 +112,12 @@
   .footer-top { gap: 70px 15px; }
   .footer-intro p { margin-top: 25px; font-size: clamp(42px, 10.5vw, 60px); }
   .footer-links { font-size: 24px; gap: 10px; }
-  .footer-wordmark { margin-top: 96px; margin-bottom: 32px; font-size: 36vw; }
+  .footer-signature { margin-top: 96px; margin-bottom: 32px; }
+  .footer-wordmark { font-size: 36vw; }
+  .footer-character { width: 50vw; bottom: 5%; }
   .footer-bottom { flex-wrap: nowrap; gap: 12px; font-size: 11px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .footer-links a, .footer-intro > a, .footer-bottom a, .footer-wordmark { transition: none; }
+  .footer-character-view { transition: none; }
 }
