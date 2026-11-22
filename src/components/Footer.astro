@@ -13,6 +13,7 @@ const socials = [
   { label: 'GitHub', href: 'https://github.com/muchirijane' },
   { label: 'X / Twitter', href: 'https://x.com/TracyCss' }
 ];
+const floatingObjects = ['coffee', 'keyboard', 'car', 'character', 'pizza', 'bag', 'laptop'];
 ---
 <footer class="footer">
   <div class="footer-top">
@@ -30,10 +31,12 @@ const socials = [
   </div>
   <div class="footer-signature">
     <a class="footer-wordmark" href="/" aria-label="Muso Design Studio, home">MUSO<span>.</span></a>
-    <div class="footer-character" data-facing="center" aria-hidden="true">
-      <img class="footer-character-view" data-view="left" src="/assets/footer-character/left.webp" alt="" width="640" height="640" loading="lazy" decoding="async" />
-      <img class="footer-character-view" data-view="center" src="/assets/footer-character/front.webp" alt="" width="640" height="640" loading="lazy" decoding="async" />
-      <img class="footer-character-view" data-view="right" src="/assets/footer-character/right.webp" alt="" width="640" height="640" loading="lazy" decoding="async" />
+    <div class="footer-objects" aria-hidden="true">
+      {floatingObjects.map((file) => (
+        <span class={`footer-object footer-object--${file}`}>
+          <img src={`/assets/footer-objects/${file}.webp`} alt="" width="480" height="480" loading="lazy" decoding="async" />
+        </span>
+      ))}
     </div>
   </div>
   <div class="footer-bottom">

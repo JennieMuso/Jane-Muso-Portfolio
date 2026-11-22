@@ -45,7 +45,7 @@
 .footer-signature {
   position: relative;
   isolation: isolate;
-  margin: clamp(95px, 10vw, 165px) 0 clamp(32px, 5vw, 72px);
+  margin: clamp(145px, 14vw, 220px) 0 clamp(32px, 5vw, 72px);
 }
 .footer-wordmark {
   position: relative;
@@ -62,28 +62,46 @@
 .footer-wordmark span { color: #e6a6a8; font-size: inherit; }
 .footer-wordmark:hover { color: #e6a6a8; }
 .footer-wordmark:hover span { color: var(--paper); }
-.footer-character {
+.footer-objects {
   position: absolute;
   z-index: 2;
-  left: 50%;
-  bottom: -1%;
-  width: min(30vw, 430px);
-  aspect-ratio: 1;
-  transform: translateX(-50%);
+  inset: 0;
   pointer-events: none;
 }
-.footer-character-view {
+.footer-object {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  opacity: 0;
-  transition: opacity .22s ease;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  transform: translate(-50%, -50%) rotate(var(--tilt, 0deg));
+  pointer-events: auto;
 }
-.footer-character[data-facing="left"] [data-view="left"],
-.footer-character[data-facing="center"] [data-view="center"],
-.footer-character[data-facing="right"] [data-view="right"] { opacity: 1; }
+.footer-object img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  animation: footer-float var(--duration, 5s) ease-in-out infinite alternate;
+  animation-delay: var(--delay, 0s);
+  will-change: transform;
+}
+.footer-object:hover img { animation: footer-hop .56s ease-in-out infinite; }
+.footer-object--coffee { --x: 9%; --y: 13%; --size: clamp(105px, 13vw, 195px); --tilt: -12deg; --duration: 4.8s; }
+.footer-object--keyboard { --x: 25%; --y: 49%; --size: clamp(150px, 18vw, 260px); --tilt: 11deg; --duration: 5.6s; --delay: -2.4s; }
+.footer-object--car { --x: 39%; --y: 2%; --size: clamp(140px, 17vw, 240px); --tilt: -8deg; --duration: 5.1s; --delay: -1.1s; }
+.footer-object--character { --x: 53%; --y: 39%; --size: clamp(140px, 17vw, 245px); --duration: 5.8s; --delay: -3s; }
+.footer-object--pizza { --x: 68%; --y: 9%; --size: clamp(115px, 13vw, 185px); --tilt: 13deg; --duration: 4.9s; --delay: -1.8s; }
+.footer-object--bag { --x: 81%; --y: 49%; --size: clamp(115px, 14vw, 205px); --tilt: -9deg; --duration: 5.4s; --delay: -3.8s; }
+.footer-object--laptop { --x: 94%; --y: 10%; --size: clamp(130px, 15vw, 215px); --tilt: 8deg; --duration: 6s; --delay: -2.7s; }
+@keyframes footer-float {
+  from { transform: translateY(5px) rotate(-2deg); }
+  to { transform: translateY(-12px) rotate(2deg); }
+}
+@keyframes footer-hop {
+  0%, 100% { transform: translateY(0); }
+  45% { transform: translateY(-22px); }
+  70% { transform: translateY(-7px); }
+}
 .footer-bottom {
   display: flex;
   align-items: center;
@@ -102,9 +120,15 @@
 @media (max-width: 800px) {
   .footer-top { grid-template-columns: minmax(0, 1.3fr) minmax(0, .8fr); }
   .footer-intro { grid-column: 1 / -1; }
-  .footer-signature { margin-top: 85px; }
+  .footer-signature { margin-top: 145px; }
   .footer-wordmark { font-size: 37vw; }
-  .footer-character { width: 32vw; }
+  .footer-object--coffee { --size: 13vw; }
+  .footer-object--keyboard { --size: 18vw; }
+  .footer-object--car { --size: 17vw; }
+  .footer-object--character { --size: 17vw; }
+  .footer-object--pizza { --size: 13vw; }
+  .footer-object--bag { --size: 14vw; }
+  .footer-object--laptop { --size: 15vw; }
   .footer-bottom > span:nth-child(2) { display: none; }
 }
 @media (max-width: 560px) {
@@ -112,12 +136,18 @@
   .footer-top { gap: 70px 15px; }
   .footer-intro p { margin-top: 25px; font-size: clamp(42px, 10.5vw, 60px); }
   .footer-links { font-size: 24px; gap: 10px; }
-  .footer-signature { margin-top: 96px; margin-bottom: 32px; }
+  .footer-signature { margin-top: 58px; margin-bottom: 32px; padding-top: 175px; }
   .footer-wordmark { font-size: 36vw; }
-  .footer-character { width: 50vw; bottom: 5%; }
+  .footer-object--coffee { --x: 9%; --y: 42px; --size: 70px; }
+  .footer-object--keyboard { --x: 31%; --y: 112px; --size: 100px; }
+  .footer-object--car { --x: 54%; --y: 33px; --size: 94px; }
+  .footer-object--character { --x: 54%; --y: 184px; --size: 90px; }
+  .footer-object--pizza { --x: 78%; --y: 98px; --size: 70px; }
+  .footer-object--bag { --x: 13%; --y: 182px; --size: 75px; }
+  .footer-object--laptop { --x: 88%; --y: 185px; --size: 86px; }
   .footer-bottom { flex-wrap: nowrap; gap: 12px; font-size: 11px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .footer-links a, .footer-intro > a, .footer-bottom a, .footer-wordmark { transition: none; }
-  .footer-character-view { transition: none; }
+  .footer-object img, .footer-object:hover img { animation: none; }
 }
