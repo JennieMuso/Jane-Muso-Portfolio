@@ -2,14 +2,14 @@ import type { APIRoute } from 'astro';
 import { getArticles } from '../lib/blog';
 import { getProducts } from '../lib/shop';
 import { getProjects } from '../lib/work';
-import { contentUpdated, siteUrl } from '../data/seo';
+import { aeoContentUpdated, contentUpdated, siteUrl } from '../data/seo';
 
 const staticPaths = [
   { path: '/', lastmod: contentUpdated },
-  { path: '/contact/', lastmod: contentUpdated },
+  { path: '/contact/', lastmod: aeoContentUpdated },
   { path: '/services/', lastmod: '2026-11-18' },
-  { path: '/work/' },
-  { path: '/blog/' },
+  { path: '/work/', lastmod: aeoContentUpdated },
+  { path: '/blog/', lastmod: aeoContentUpdated },
   { path: '/shop/' }
 ];
 

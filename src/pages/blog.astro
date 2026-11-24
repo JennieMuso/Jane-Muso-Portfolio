@@ -2,11 +2,11 @@
 import Layout from '../layouts/Layout.astro';
 import InsightCard from '../components/InsightCard.astro';
 import { getArticles } from '../lib/blog';
-import { graph, personSchema, siteUrl } from '../data/seo';
+import { aeoContentUpdated, graph, personSchema, siteUrl } from '../data/seo';
 const articles = await getArticles();
-const schema = graph(personSchema, { '@type': 'Blog', name: 'Insights by Jane Muso', url: `${siteUrl}/blog/`, author: { '@id': `${siteUrl}/#jane-muso` }, blogPost: articles.map((article) => ({ '@type': 'BlogPosting', headline: article.title, url: `${siteUrl}/blog/${article.slug}/` })) });
+const schema = graph(personSchema, { '@type': 'Blog', name: 'Insights by Jane Muso', url: `${siteUrl}/blog/`, dateModified: aeoContentUpdated, author: { '@id': `${siteUrl}/#jane-muso` }, blogPost: articles.map((article) => ({ '@type': 'BlogPosting', headline: article.title, url: `${siteUrl}/blog/${article.slug}/` })) });
 ---
-<Layout title="Website Design Insights & Strategy — Jane Muso" description="Practical articles by Jane Muso on website strategy, user experience, design, trust, and building digital experiences for real people." current="blog" styles={['fonts.css','styles.css','editorial.css','projects.css','reference-layout.css','refinements.css','final-touches.css','insights.css','iteration.css','content-updates.css','aeo-content.css']} bodyClass="insights-index" schema={schema}>
+<Layout title="Website Design Insights & Strategy — Jane Muso" description="Practical articles by Jane Muso on website strategy, user experience, design, trust, and building digital experiences for real people." current="blog" styles={['fonts.css','styles.css','editorial.css','projects.css','reference-layout.css','refinements.css','final-touches.css','insights.css','iteration.css','content-updates.css','aeo-content.css']} bodyClass="insights-index" schema={schema} modified={aeoContentUpdated}>
   <section class="blog-intro" aria-labelledby="blog-title"><p>Notes from the studio / {String(articles.length).padStart(2, '0')} stories</p><h1 id="blog-title">INSIGHTS<span>.</span></h1><p>Ideas about design, clarity, and building for real people.</p></section>
   <section class="insights blog-list" aria-label="Articles">
     <div class="editorial-context"><h2>What can you find here?</h2><p>These notes look at the decisions behind a useful website: understanding the people who will use it, making a business easier to trust, and choosing tools that suit the work. Each article starts with a practical question and follows it through content, design, or development. If you are planning a new site, begin with <a href="/blog/better-questions/">the questions worth asking</a>. For a closer look at how clear content supports confidence, read <a href="/blog/designing-trust/">designing trust</a>. When the brief is taking shape, <a href="/blog/right-way-to-build/">compare ways to build</a> before choosing a platform.</p></div>

@@ -4,13 +4,13 @@ import Icon from '../components/Icon.astro';
 import { projectAsset } from '../data/projects';
 import { imageUrl, imageSrcSet } from '../lib/image';
 import { getProjects, getWorkPage } from '../lib/work';
-import { graph, organizationSchema, siteUrl } from '../data/seo';
+import { aeoContentUpdated, graph, organizationSchema, siteUrl } from '../data/seo';
 
 const [projects, workPage] = await Promise.all([getProjects(), getWorkPage()]);
 const positions = ['a', 'b', 'c', 'd'];
-const schema = graph(organizationSchema, { '@type': 'CollectionPage', name: 'Selected work by Jane Muso', url: `${siteUrl}/work/`, mainEntity: { '@type': 'ItemList', itemListElement: projects.map((project, index) => ({ '@type': 'ListItem', position: index + 1, name: project.name, url: `${siteUrl}/work/${project.slug}/` })) } });
+const schema = graph(organizationSchema, { '@type': 'CollectionPage', name: 'Selected work by Jane Muso', url: `${siteUrl}/work/`, dateModified: aeoContentUpdated, mainEntity: { '@type': 'ItemList', itemListElement: projects.map((project, index) => ({ '@type': 'ListItem', position: index + 1, name: project.name, url: `${siteUrl}/work/${project.slug}/` })) } });
 ---
-<Layout title="Website Design Portfolio & Case Studies — Jane Muso" description={workPage.seoDescription || workPage.intro} current="work" styles={['fonts.css','styles.css','editorial.css','projects.css','reference-layout.css','refinements.css','work-intro.css','aeo-content.css']} bodyClass="work-page" schema={schema}>
+<Layout title="Website Design Portfolio & Case Studies — Jane Muso" description={workPage.seoDescription || workPage.intro} current="work" styles={['fonts.css','styles.css','editorial.css','projects.css','reference-layout.css','refinements.css','work-intro.css','aeo-content.css']} bodyClass="work-page" schema={schema} modified={aeoContentUpdated}>
   <div class="page-intro"><h1>{workPage.title}</h1><p>{workPage.intro}</p></div>
   <section class="editorial-context" aria-labelledby="work-approach-title"><h2 id="work-approach-title">What goes into these websites?</h2><p>Each case study shows how a brief becomes a website people can understand and use. The work spans different kinds of decisions: <a href="/work/veyra-cargo/">Veyra Cargo</a> explains a complex shipping journey, <a href="/work/bayline-legal/">Bayline Legal</a> guides visitors toward relevant expertise, and <a href="/work/jin-restaurant/">JIN Restaurant</a> introduces a dining experience through atmosphere and practical detail. Explore the images, read the project story, and open each live site to see how the design works beyond a still frame. If you are considering a similar project, the <a href="/services/">services page</a> explains the available website packages and process.</p></section>
   <section class="work" id="work" aria-label="Selected websites">

@@ -2,6 +2,7 @@ import type { Faq } from './faqs';
 
 export const siteUrl = 'https://musodesigns.pages.dev';
 export const contentUpdated = '2026-11-18';
+export const aeoContentUpdated = '2026-11-24';
 export const personId = `${siteUrl}/#jane-muso`;
 export const organizationId = `${siteUrl}/#organization`;
 
