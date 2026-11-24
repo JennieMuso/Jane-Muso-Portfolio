@@ -3,6 +3,8 @@
 export type ArticleSection = { id: string; heading: string; paragraphs: string[] };
 export type Article = {
   slug: string;
+  publishedAt?: string;
+  modifiedAt?: string;
   title: string;
   topic: string;
   excerpt: string;

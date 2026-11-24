@@ -2,6 +2,7 @@
 export type ProjectImageKind = 'hero' | 'desktop' | 'mobile' | 'detail' | 'interior' | 'secondary';
 export type Project = {
   slug: string;
+  modifiedAt?: string;
   name: string;
   eyebrow: string;
   liveUrl: string;

@@ -18,7 +18,7 @@ const schema = graph(
   { '@type': 'CreativeWork', name: `${project.name} website`, url: `${siteUrl}/work/${project.slug}/`, image: new URL(projectAsset(project, 'hero'), siteUrl).href, description: project.intro, creator: { '@id': `${siteUrl}/#jane-muso` }, sameAs: project.liveUrl }
 );
 ---
-<Layout title={`${project.name} Website Case Study — Jane Muso`} description={`${project.name}: ${project.intro} Explore the website design and development case study by Jane Muso.`} current="work" styles={['fonts.css', 'styles.css', 'case-study.css', 'case-preview.css']} bodyClass={`case-study case-${project.slug}`} image={projectAsset(project, 'hero')} schema={schema}>
+<Layout title={`${project.name} Website Case Study — Jane Muso`} description={`${project.name}: ${project.intro} Explore the website design and development case study by Jane Muso.`} current="work" styles={['fonts.css', 'styles.css', 'case-study.css', 'case-preview.css', 'aeo-content.css']} bodyClass={`case-study case-${project.slug}`} image={projectAsset(project, 'hero')} schema={schema}>
   <article style={`--case-accent:${project.accent};--case-canvas:${project.canvas}`}>
     <header class="case-heading">
       <div class="case-index"><a href="/work/"><Icon name="ArrowLeft" size={16} /> All work</a><span>{String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')} &nbsp; {project.eyebrow}</span></div>
@@ -44,7 +44,7 @@ const schema = graph(
         <div class="case-fact-block"><h3>Technology</h3><ul class="case-stack">{project.stack.map((item) => <li>{item}</li>)}</ul></div>
         <a class="case-visit" href={project.liveUrl} target="_blank" rel="noopener noreferrer">Visit the live website <Icon name="ArrowUpRight" size={20} /></a>
       </div>
-      <div class="case-story"><p class="case-lede">{project.intro}</p>{project.story.map((paragraph) => <p>{paragraph}</p>)}</div>
+      <div class="case-story"><p class="case-lede">{project.intro}</p>{project.story.map((paragraph) => <p>{paragraph}</p>)}<p>Explore <a href="/work/">more website projects</a>, read about <a href="/services/">Jane’s design and development services</a>, or <a href="/contact/">start a conversation</a> about your own site.</p></div>
     </section>
 
     <section class="case-showcase" aria-label="Website views">

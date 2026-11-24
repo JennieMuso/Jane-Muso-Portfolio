@@ -15,7 +15,8 @@ const staticPaths = [
 
 export const GET: APIRoute = async () => {
   const [articles, products, projects] = await Promise.all([getArticles(), getProducts(), getProjects()]);
-  const paths = [...staticPaths, ...articles.map(({ slug }) => ({ path: `/blog/${slug}/` })), ...products.map(({ slug }) => ({ path: `/shop/${slug}/` })), ...projects.map(({ slug }) => ({ path: `/work/${slug}/` }))];
+  const lastmod = (date?: string) => date && /^\d{4}-\d{2}-\d{2}/.test(date) ? date.slice(0, 10) : undefined;
+  const paths = [...staticPaths, ...articles.map(({ slug, modifiedAt }) => ({ path: `/blog/${slug}/`, lastmod: lastmod(modifiedAt) })), ...products.map(({ slug, modifiedAt }) => ({ path: `/shop/${slug}/`, lastmod: lastmod(modifiedAt) })), ...projects.map(({ slug, modifiedAt }) => ({ path: `/work/${slug}/`, lastmod: lastmod(modifiedAt) }))];
   const urls = paths.map(({ path, lastmod }) =>
     `  <url><loc>${new URL(path, siteUrl).href}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ''}</url>`
   ).join('\n');

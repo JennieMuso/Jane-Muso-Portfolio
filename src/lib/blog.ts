@@ -19,7 +19,7 @@ async function loadArticles(): Promise<Article[]> {
   const client = createClient({ projectId, dataset, apiVersion: '2025-02-19', useCdn: false });
   const documents = await client.fetch<SanityArticle[]>(
     `*[_type == "article" && defined(slug.current) && defined(heroImage.asset)] | order(sortOrder asc, publishedAt desc) {
-      "slug": slug.current, title, topic, excerpt, readTime,
+      "slug": slug.current, "modifiedAt": _updatedAt, publishedAt, title, topic, excerpt, readTime,
       inlineCaption,
       sections[] { "id": id.current, heading, paragraphs },
       references[] { label, url },

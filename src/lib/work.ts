@@ -34,7 +34,7 @@ export function getWorkPage(): Promise<WorkPage> {
 async function loadProjects(): Promise<Project[]> {
   const documents = await client.fetch<SanityProject[]>(
     `*[_type == "project" && defined(slug.current) && defined(heroImage.asset)] | order(sortOrder asc, name asc) {
-      "slug": slug.current, name, eyebrow, liveUrl, intro, story, designNote,
+      "slug": slug.current, "modifiedAt": _updatedAt, name, eyebrow, liveUrl, intro, story, designNote,
       detailCaption, secondaryCaption, accent, canvas, disciplines, stack,
       heroImage { alt, asset->{url} }, heroVideo { asset->{url, mimeType} }, desktopImage { alt, asset->{url} },
       mobileImage { alt, asset->{url} }, detailImage { alt, asset->{url} },

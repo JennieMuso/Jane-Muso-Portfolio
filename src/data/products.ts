@@ -21,6 +21,7 @@ export const productCategoryInfo = (category: ProductCategory) => productCategor
 
 export type Product = {
   slug: string;
+  modifiedAt?: string;
   name: string;
   category: ProductCategory;
   summary: string;

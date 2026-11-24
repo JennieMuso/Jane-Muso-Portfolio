@@ -21,7 +21,7 @@ const schema = graph(
   { '@type': 'Product', name: product.name, description: product.summary, url: `${siteUrl}/shop/${product.slug}/`, image: product.coverImage ? new URL(product.coverImage, siteUrl).href : undefined, brand: { '@id': `${siteUrl}/#organization` }, offers: { '@type': 'Offer', price: product.price.replace(/[^0-9.]/g, ''), priceCurrency: 'USD', url: product.checkoutUrl } }
 );
 ---
-<Layout title={`${product.name} — ${product.category} | Jane Muso`} description={`${product.summary} Explore the live preview and details of this ${product.category.toLowerCase()} by Jane Muso.`} current="shop" styles={['fonts.css', 'styles.css', 'shop-catalog.css']} bodyClass="shop-detail-page" image={product.coverImage} schema={schema}>
+<Layout title={`${product.name} — ${product.category} | Jane Muso`} description={`${product.summary} Explore the live preview and details of this ${product.category.toLowerCase()} by Jane Muso.`} current="shop" styles={['fonts.css', 'styles.css', 'shop-catalog.css', 'aeo-content.css']} bodyClass="shop-detail-page" image={product.coverImage} schema={schema}>
   <article>
     <header class="product-heading">
       <div class="product-topline"><a href="/shop/"><Icon name="ArrowLeft" size={16} /> The shop</a><span>{category.label} / {product.price}</span></div>
@@ -31,7 +31,7 @@ const schema = graph(
     <div class="product-hero-art" style={`view-transition-name: product-${product.slug}`}><ProductVisual product={product} priority /></div>
     <section class="product-intro" aria-labelledby="product-intro-title">
       <div class="product-facts"><h2 id="product-intro-title">{category.detailHeading}</h2><dl><div><dt>Format</dt><dd>{category.label}</dd></div><div><dt>Price</dt><dd>{product.price}</dd></div><div><dt>Preview</dt><dd>Live preview</dd></div></dl></div>
-      <div class="product-story"><p class="product-lede">{product.summary}</p>{product.description.map((paragraph) => <p>{paragraph}</p>)}<div class="product-actions"><a class="product-button product-button-outline" href={product.previewUrl} target="_blank" rel="noopener noreferrer">Show preview <Icon name="ArrowUpRight" size={18} /></a><a class="product-button product-button-primary" href={product.checkoutUrl} target="_blank" rel="noopener noreferrer">Buy now — {product.price} <Icon name="ArrowUpRight" size={20} /></a></div></div>
+      <div class="product-story"><p class="product-lede">{product.summary}</p>{product.description.map((paragraph) => <p>{paragraph}</p>)}<p>See the <a href="/shop/">full collection</a> for other digital products. For a website built around your own brief, explore <a href="/services/">Jane’s services</a> and <a href="/work/">selected projects</a>.</p><div class="product-actions"><a class="product-button product-button-outline" href={product.previewUrl} target="_blank" rel="noopener noreferrer">Show preview <Icon name="ArrowUpRight" size={18} /></a><a class="product-button product-button-primary" href={product.checkoutUrl} target="_blank" rel="noopener noreferrer">Buy now — {product.price} <Icon name="ArrowUpRight" size={20} /></a></div></div>
     </section>
     <section class="product-preview-section" id="live-preview" aria-labelledby="preview-title"><div class="product-preview-header"><div><span>Try before you buy</span><h2 id="preview-title">SEE IT<br />IN ACTION<span>.</span></h2></div><p>Explore the {category.previewNoun} here, or open the full site in a new tab.</p></div>
       <div class="live-browser">

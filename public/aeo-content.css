@@ -1,0 +1,29 @@
+.editorial-context {
+  display: grid;
+  grid-template-columns: minmax(180px, .7fr) minmax(0, 1.3fr);
+  gap: clamp(24px, 6vw, 96px);
+  padding: clamp(32px, 5vw, 70px) clamp(18px, 3vw, 48px);
+  border-top: 1px solid currentColor;
+}
+.editorial-context h2 {
+  max-width: 420px;
+  margin: 0;
+  font: 600 clamp(30px, 3.5vw, 52px)/1.05 Oswald, sans-serif;
+  text-transform: uppercase;
+}
+.editorial-context p {
+  max-width: 780px;
+  margin: 0;
+  font-size: clamp(17px, 1.5vw, 21px);
+  line-height: 1.55;
+}
+.editorial-context a { color: var(--red); text-decoration: underline; text-underline-offset: .18em; }
+.editorial-context a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+.case-story a, .product-story p a, .project-brief-intro p a {
+  color: var(--red);
+  text-decoration: underline;
+  text-underline-offset: .18em;
+}
+@media (max-width: 700px) {
+  .editorial-context { grid-template-columns: 1fr; }
+}

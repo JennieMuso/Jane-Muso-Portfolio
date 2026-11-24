@@ -30,7 +30,7 @@ async function loadProducts(): Promise<Product[]> {
   const client = createClient({ projectId, dataset, apiVersion: '2025-02-19', useCdn: false });
   const documents = await client.fetch<SanityProduct[]>(
     `*[_type == "product" && defined(slug.current) && defined(coverImage.asset) && defined(previewUrl) && defined(checkoutUrl)] | order(sortOrder asc, name asc) {
-      "slug": slug.current, name, category, price, summary, description, features,
+      "slug": slug.current, "modifiedAt": _updatedAt, name, category, price, summary, description, features,
       previewMode, previewUrl, checkoutUrl, framerUrl,
       coverImage { alt, asset->{url} }, previewImage { asset->{url} }
     }`
