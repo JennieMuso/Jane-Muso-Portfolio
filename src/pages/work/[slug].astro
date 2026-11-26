@@ -12,6 +12,8 @@ export async function getStaticPaths() {
 }
 
 const { project, index, total, next } = Astro.props as { project: Project; index: number; total: number; next: Project };
+const sanityProjectId = import.meta.env.SANITY_PROJECT_ID || 'lpyuxxi7';
+const sanityDataset = import.meta.env.SANITY_DATASET || 'production';
 const schema = graph(
   organizationSchema,
   personSchema,
@@ -72,7 +74,7 @@ const schema = graph(
       </div>
     </section>
 
-    <section class="case-live-preview" id="live-preview" aria-labelledby="case-live-preview-title">
+    <section class="case-live-preview" id="live-preview" aria-labelledby="case-live-preview-title" data-project-id={`project-${project.slug}`} data-sanity-project={sanityProjectId} data-sanity-dataset={sanityDataset} hidden={project.showLivePreview === false}>
       <div class="case-live-preview-heading">
         <span class="case-label">Explore the finished website</span>
         <h2 id="case-live-preview-title">THE SITE<br />IN ACTION<span>.</span></h2>
@@ -111,5 +113,6 @@ const schema = graph(
   </article>
   <script src="/hero-parallax.js" defer></script>
   <script src="/case-study.js" defer></script>
+  <script src="/work-preview-visibility.js" defer></script>
   <script src="/shop-preview.js" defer></script>
 </Layout>

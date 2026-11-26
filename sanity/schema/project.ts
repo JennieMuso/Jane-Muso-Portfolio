@@ -15,6 +15,7 @@ export const projectSchema = defineType({
     defineField({ name: 'slug', title: 'URL slug', type: 'slug', options: { source: 'name', maxLength: 96 }, validation: (Rule) => Rule.required() }),
     defineField({ name: 'eyebrow', title: 'Project category and location', description: 'For example: Dining / Dubai', type: 'string', validation: (Rule) => Rule.required() }),
     defineField({ name: 'liveUrl', title: 'Live website URL', type: 'url', validation: (Rule) => Rule.required().uri({ scheme: ['https'] }) }),
+    defineField({ name: 'showLivePreview', title: 'Show live website preview', description: 'Show the interactive website preview on this case study. Turning this off keeps the live URL, images and all project content in Sanity. Publish the project to update the website.', type: 'boolean', initialValue: true }),
     defineField({ name: 'intro', title: 'Opening statement', type: 'text', rows: 2, validation: (Rule) => Rule.required() }),
     defineField({ name: 'story', title: 'Project story', type: 'array', of: [defineArrayMember({ type: 'text', rows: 5 })], validation: (Rule) => Rule.required().min(1) }),
     defineField({ name: 'designNote', title: 'Design note', type: 'text', rows: 3, validation: (Rule) => Rule.required() }),

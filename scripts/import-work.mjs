@@ -47,6 +47,7 @@ for (const [index, project] of projects.entries()) {
     slug: { _type: 'slug', current: project.slug },
     eyebrow: project.eyebrow,
     liveUrl: project.liveUrl,
+    showLivePreview: project.showLivePreview ?? true,
     intro: project.intro,
     story: project.story,
     designNote: project.designNote,

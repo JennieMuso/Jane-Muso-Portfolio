@@ -6,6 +6,7 @@ export type Project = {
   name: string;
   eyebrow: string;
   liveUrl: string;
+  showLivePreview?: boolean;
   heroAlt: string;
   intro: string;
   story: string[];
