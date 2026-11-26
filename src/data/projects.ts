@@ -85,6 +85,38 @@ export const projects: Project[] = [
     accent: '#d8b4a4', canvas: '#e8e5df',
     disciplines: ['Web design', 'Website development'],
     stack: ['GSAP', 'Cloudflare', 'Git', 'GitHub']
+  },
+  {
+    slug: 'tupo-pamoja', name: 'Tupo Pamoja', eyebrow: 'Nonprofit / Kenya',
+    liveUrl: 'https://tuko-pamoja.pages.dev/',
+    heroAlt: 'Teacher and children exploring a plant in a school courtyard',
+    intro: 'A better school day starts together.',
+    story: [
+      'Tupo Pamoja brings education, clean water, school meals and family homes into one connected story. The website needed to make that relationship clear to supporters while keeping the children and communities at the centre of the experience.',
+      'A photographic opening leads into four program paths, stories and practical ways to get involved. Colour and confident type give the foundation a warm identity, while the navigation makes it easy to move from an idea to a specific program. The live site labels its figures and campaign content as previews.'
+    ],
+    designNote: 'One child, four connected needs: the structure shows how each part of a school day supports the next.',
+    detailCaption: 'Learning / a classroom shaped around possibility',
+    secondaryCaption: 'Clean water / an essential part of every school day',
+    accent: '#f8d279', canvas: '#275d49',
+    disciplines: ['Web design', 'Website development'],
+    stack: ['Astro', 'Cloudflare', 'Git', 'GitHub']
+  },
+  {
+    slug: 'solace-living', name: 'Solace Living', eyebrow: 'Senior living / Concept',
+    liveUrl: 'https://solace-living.pages.dev/',
+    heroAlt: 'Two older adults enjoying a conversation in a garden',
+    intro: 'The best chapters are still ahead.',
+    story: [
+      'Solace Living is a senior living website concept built around personal choice and everyday connection. It speaks to older adults first, while giving families a calm route to the practical questions that shape a decision.',
+      'The site moves from a welcoming garden scene to living options, community life, support and family guidance. A restrained green palette and human photography create warmth; clear links and plain language help visitors compare what matters. Operational details and the tour request remain illustrative until a real provider confirms them.'
+    ],
+    designNote: 'An inviting first impression gives way to straightforward information about life, support and next steps.',
+    detailCaption: 'Living spaces / room for independence and comfort',
+    secondaryCaption: 'Everyday connection / sharing time around the table',
+    accent: '#d8f0a8', canvas: '#1f382d',
+    disciplines: ['Web design', 'Website development'],
+    stack: ['Astro', 'Cloudflare', 'Git', 'GitHub']
   }
 ];
 
