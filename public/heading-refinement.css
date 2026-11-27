@@ -1,0 +1,78 @@
+/* Let the H1s keep their display treatment. Supporting headings read like prose. */
+.site-shell main h2:not(.about-statement) {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -.045em;
+  text-transform: none;
+}
+
+.site-shell main h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -.025em;
+  text-transform: none;
+}
+
+.site-shell main :is(.work-caption, .insight, .process-step, .care-intro, .enquiry-step-heading) h3 {
+  font-size: clamp(1.75rem, 3vw, 3.25rem);
+}
+
+.site-shell main :is(.case-fact-block, .tier-audience, .tier-includes) h3 {
+  font-size: .875rem;
+  letter-spacing: .01em;
+}
+
+.site-shell main :is(.editorial-context, .article-references) h2 {
+  font-size: clamp(1.75rem, 3vw, 2.75rem);
+}
+
+.site-shell main .shop-card-caption h2 {
+  font-size: clamp(1.75rem, 3.2vw, 2.75rem);
+}
+
+.site-shell main .article-section h2 {
+  font-size: clamp(2rem, 3.5vw, 3.5rem);
+}
+
+.site-shell main :is(.article-rail, .article-toc, .share-group) h2 {
+  font-size: .8125rem;
+  letter-spacing: .02em;
+}
+
+.site-shell main :is(.gallery-thesis, .solution summary, .faq-question, .case-next strong) {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -.025em;
+  text-transform: none;
+}
+
+.site-shell main .gallery-thesis {
+  font-size: clamp(1.4rem, 2.8vw, 2.5rem);
+}
+
+.site-shell main .solution summary {
+  font-size: clamp(1.6rem, 3vw, 3rem);
+}
+
+.site-shell main .faq-question {
+  font-size: clamp(1.2rem, 2vw, 2rem);
+}
+
+.site-shell main .case-next strong {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+@media (max-width: 600px) {
+  .site-shell main h2:not(.about-statement) {
+    font-size: clamp(2.25rem, 9vw, 3rem);
+  }
+
+  .site-shell main :is(.editorial-context, .article-references) h2,
+  .site-shell main .shop-card-caption h2 {
+    font-size: clamp(1.65rem, 7vw, 2.25rem);
+  }
+}

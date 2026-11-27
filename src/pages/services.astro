@@ -90,7 +90,7 @@ const schema = graph(
   </section>
 
   <section class="services-addons" id="add-ons" aria-labelledby="addons-title">
-    <div class="addons-header"><span class="section-kicker">Optional add-ons &amp; ongoing care</span><h2 id="addons-title">MAKE IT<br />YOUR OWN<span>.</span></h2><p>{servicePage.addOnsIntro}</p></div>
+    <div class="addons-header"><span class="section-kicker">Optional add-ons &amp; ongoing care</span><h2 id="addons-title">Make it<br />your own<span>.</span></h2><p>{servicePage.addOnsIntro}</p></div>
     <div class="addons-list" aria-label="Optional add-on prices">{serviceAddOns.map((addon) => <div class="addon-row"><div><h3>{addon.name}</h3>{addon.note && <p>{addon.note}</p>}</div><div class="addon-price"><strong>{addon.priceUsd || addon.price}</strong>{addon.priceUsd && addon.priceUsd !== addon.price && <small>{addon.price}</small>}</div></div>)}</div>
     <div class="care-intro"><span class="section-kicker">Stay in good shape</span><h3>Care after launch<span>.</span></h3></div>
     <div class="care-options">{servicePage.careOptions.map((care, index) => <div><span>{String(index + 1).padStart(2, '0')} / {care.name}</span><strong>{(care.priceUsd || care.price).replace(/\s*\/\s*month$/i, '')}{/\/\s*month$/i.test(care.priceUsd || care.price) && <em> / month</em>}</strong>{care.priceUsd && <small>{care.price}</small>}<p>{care.description}</p></div>)}</div>
