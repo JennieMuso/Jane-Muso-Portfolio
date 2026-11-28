@@ -1,6 +1,7 @@
 const RECIPIENT = 'jane.framer.expert@gmail.com';
 const SENDER = 'Muso Design Studio <enquiries@musodesign.com>';
 const MAX_BODY_BYTES = 16_384;
+const ALLOWED_HOSTNAMES = new Set(['musodesign.com', 'www.musodesign.com']);
 
 const choices = {
   currency: ['AED', 'USD'],
@@ -45,8 +46,7 @@ async function readBody(request) {
 
 export async function onRequestPost({ request, env }) {
   const requestHostname = new URL(request.url).hostname;
-  const hostnames = new Set((env.TURNSTILE_HOSTNAMES || '').split(',').map((host) => host.trim()).filter(Boolean));
-  if (!hostnames.has(requestHostname)) return reply('Invalid host', 403);
+  if (!ALLOWED_HOSTNAMES.has(requestHostname)) return reply('Invalid host', 403);
   const origin = request.headers.get('Origin');
   if (origin && origin !== new URL(request.url).origin) return reply('Invalid origin', 403);
   if (!request.headers.get('Content-Type')?.startsWith('application/json')) return reply('Invalid content type', 415);
@@ -78,7 +78,7 @@ export async function onRequestPost({ request, env }) {
     return reply('Please complete your budget and page count', 400);
   }
   const token = field(data, 'cf-turnstile-response', 2048);
-  if (!env.TURNSTILE_SECRET || hostnames.size === 0) return reply('Verification unavailable', 503);
+  if (!env.TURNSTILE_SECRET) return reply('Verification unavailable', 503);
   if (!token) return reply('Please complete verification', 403);
   try {
     const verification = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
