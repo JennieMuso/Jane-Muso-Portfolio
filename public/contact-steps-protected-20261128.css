@@ -41,6 +41,7 @@
 .step-back { display: inline-flex; align-items: center; gap: 8px; padding: 8px 0; border: 0; border-bottom: 1px solid currentColor; background: transparent; color: var(--ink); cursor: pointer; font-size: 14px; font-weight: 700; }
 .step-back:hover { color: var(--red); }
 .enquiry-send-note { max-width: 43ch; margin: 17px 0 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
+.contact-turnstile { min-height: 65px; margin-top: 26px; }
 .enquiry-success[hidden] { display: none; }
 .enquiry-success { padding: 38px 0 52px; }
 .enquiry-success h3 { margin: 0 0 18px; color: var(--red); font: 600 clamp(38px, 4vw, 64px)/1.05 Oswald, sans-serif; }

@@ -11,7 +11,23 @@ window.addEventListener('load', () => {
   const customFields = document.getElementById('budget-custom-fields');
   const customBudget = document.getElementById('custom-budget');
   const pageCount = document.getElementById('page-count');
+  const turnstileContainer = document.getElementById('contact-turnstile');
+  let turnstileWidgetId;
   let currentStep = 0;
+
+  function renderTurnstile() {
+    if (!window.turnstile || turnstileWidgetId !== undefined) return;
+    turnstileWidgetId = window.turnstile.render(turnstileContainer, {
+      sitekey: turnstileContainer.dataset.sitekey,
+      action: 'contact'
+    });
+  }
+
+  const turnstileScript = document.createElement('script');
+  turnstileScript.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+  turnstileScript.async = true;
+  turnstileScript.addEventListener('load', renderTurnstile, { once: true });
+  document.head.appendChild(turnstileScript);
 
   const requestedPackage = new URLSearchParams(window.location.search).get('package');
   const selectedPackage = [...form.querySelectorAll('input[name="package"]')]
@@ -89,7 +105,13 @@ window.addEventListener('load', () => {
       }
     }
 
+    const token = turnstileWidgetId === undefined ? '' : window.turnstile?.getResponse(turnstileWidgetId);
+    if (!token) {
+      status.textContent = 'Please complete the verification before sending your enquiry.';
+      return;
+    }
     const data = new FormData(form);
+    data.set('cf-turnstile-response', token);
     const submit = form.querySelector('button[type="submit"]');
     submit.disabled = true;
     status.textContent = 'Sending your enquiry…';
@@ -99,6 +121,8 @@ window.addEventListener('load', () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(Object.fromEntries(data))
       });
+      if (response.status === 429) throw new Error('rate-limit');
+      if (response.status === 403) throw new Error('verification');
       if (!response.ok) throw new Error('Unable to send');
       form.reset();
       updateCurrency();
@@ -111,9 +135,14 @@ window.addEventListener('load', () => {
       success.hidden = false;
       success.scrollIntoView({ behavior: 'smooth', block: 'center' });
       success.querySelector('h3').focus({ preventScroll: true });
-    } catch {
-      status.textContent = 'Sorry, your enquiry could not be sent. Please try again, or email me directly at jane.framer.expert@gmail.com.';
+    } catch (error) {
+      status.textContent = error.message === 'rate-limit'
+        ? 'Please wait a moment before sending another enquiry.'
+        : error.message === 'verification'
+          ? 'Verification expired. Please complete it and try again.'
+        : 'Sorry, your enquiry could not be sent. Please try again, or email me directly at jane.framer.expert@gmail.com.';
     } finally {
+      if (turnstileWidgetId !== undefined) window.turnstile?.reset(turnstileWidgetId);
       submit.disabled = false;
     }
   });

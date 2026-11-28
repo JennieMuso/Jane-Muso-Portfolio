@@ -44,6 +44,9 @@ async function readBody(request) {
 }
 
 export async function onRequestPost({ request, env }) {
+  const requestHostname = new URL(request.url).hostname;
+  const hostnames = new Set((env.TURNSTILE_HOSTNAMES || '').split(',').map((host) => host.trim()).filter(Boolean));
+  if (!hostnames.has(requestHostname)) return reply('Invalid host', 403);
   const origin = request.headers.get('Origin');
   if (origin && origin !== new URL(request.url).origin) return reply('Invalid origin', 403);
   if (!request.headers.get('Content-Type')?.startsWith('application/json')) return reply('Invalid content type', 415);
@@ -73,6 +76,28 @@ export async function onRequestPost({ request, env }) {
   if (budgetBand === 'custom' && (!customBudget || !pageCount ||
       !/^[1-9]\d*$/.test(customBudget) || !/^[1-9]\d*$/.test(pageCount))) {
     return reply('Please complete your budget and page count', 400);
+  }
+  const token = field(data, 'cf-turnstile-response', 2048);
+  if (!env.TURNSTILE_SECRET || hostnames.size === 0) return reply('Verification unavailable', 503);
+  if (!token) return reply('Please complete verification', 403);
+  try {
+    const verification = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      signal: AbortSignal.timeout(10_000),
+      body: new URLSearchParams({
+        secret: env.TURNSTILE_SECRET,
+        response: token,
+        remoteip: request.headers.get('CF-Connecting-IP') || ''
+      })
+    });
+    if (!verification.ok) return reply('Verification failed', 403);
+    const result = await verification.json();
+    if (result.success !== true || result.action !== 'contact' || result.hostname !== requestHostname) {
+      return reply('Verification failed', 403);
+    }
+  } catch {
+    return reply('Verification failed', 403);
   }
   if (!env.RESEND_API_KEY) return reply('Email service unavailable', 503);
 

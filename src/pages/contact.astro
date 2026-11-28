@@ -23,7 +23,7 @@ const schema = graph(
   title="Contact Jane Muso | Start a Website Project"
   description="Tell Jane Muso about your business and website goals. Choose a package, share your budget and timeline, and start a project with Muso Design Studio."
   current="contact"
-  styles={['fonts.css', 'styles.css', 'editorial.css', 'projects.css', 'reference-layout.css', 'refinements.css', 'contact.css', 'faq.css', 'contact-steps-20261128.css', 'aeo-content.css']}
+  styles={['fonts.css', 'styles.css', 'editorial.css', 'projects.css', 'reference-layout.css', 'refinements.css', 'contact.css', 'faq.css', 'contact-steps-protected-20261128.css', 'aeo-content.css']}
   bodyClass="contact-page"
   schema={schema}
   modified={aeoContentUpdated}
@@ -106,6 +106,7 @@ const schema = graph(
         <div class="form-field"><label for="business">BUSINESS OR BRAND NAME</label><input id="business" name="business" type="text" autocomplete="organization" placeholder="Your business name" maxlength="180" /></div>
         <div class="form-field"><label for="website">EXISTING WEBSITE <span class="label-hint">If you have one</span></label><input id="website" name="website" type="url" inputmode="url" autocomplete="url" placeholder="https://yourwebsite.com" maxlength="500" /></div>
         <div class="form-field"><label for="project-details">TELL ME ABOUT YOUR PROJECT <span class="required">*</span></label><textarea id="project-details" name="projectDetails" rows="5" placeholder="What does your business do, and what would you like your website to achieve?" required maxlength="4000"></textarea></div>
+        <div id="contact-turnstile" class="contact-turnstile" data-sitekey="0x4AAAAAAGXQeMLnrjoRTWy4"></div>
         <div class="step-actions step-actions-final"><button type="button" class="step-back" data-back><Icon name="ArrowLeft" size={18} /> Back</button><button type="submit" class="step-next">Send my enquiry <Icon name="ArrowUpRight" size={19} /></button></div>
         <p class="enquiry-send-note">Your enquiry will be sent directly to my inbox.</p>
       </section>
@@ -119,5 +120,5 @@ const schema = graph(
 
   <Faq id="contact-faq-title" title={contactPage.faqHeading} intro={contactPage.faqIntro} questions={contactPage.faqs} />
   <section class="contact-outro" aria-labelledby="contact-outro-title"><p>THE NEXT GOOD THING / STARTS WITH A HELLO</p><h2 id="contact-outro-title">See you in<br>my inbox<span>.</span></h2><a href="mailto:jane.framer.expert@gmail.com">jane.framer.expert@gmail.com <Icon name="ArrowUpRight" size={22} /></a></section>
-  <script src="/contact-form-20261128.js" defer></script>
+  <script src="/contact-form-protected-20261128.js" defer></script>
 </Layout>
