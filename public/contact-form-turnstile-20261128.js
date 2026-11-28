@@ -16,7 +16,7 @@ window.addEventListener('load', () => {
   let currentStep = 0;
 
   function renderTurnstile() {
-    if (!window.turnstile || turnstileWidgetId !== undefined) return;
+    if (currentStep !== steps.length - 1 || !window.turnstile || turnstileWidgetId !== undefined) return;
     turnstileWidgetId = window.turnstile.render(turnstileContainer, {
       sitekey: turnstileContainer.dataset.sitekey,
       action: 'contact'
@@ -64,6 +64,7 @@ window.addEventListener('load', () => {
   function showStep(index, moveFocus = true) {
     currentStep = index;
     steps.forEach((step, position) => { step.hidden = position !== index; });
+    renderTurnstile();
     count.textContent = `Step ${index + 1} of ${steps.length}`;
     progress.setAttribute('aria-valuenow', String(index + 1));
     progressBar.style.width = `${(index + 1) / steps.length * 100}%`;
