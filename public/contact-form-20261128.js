@@ -7,6 +7,7 @@ window.addEventListener('load', () => {
   const progress = form.querySelector('[role="progressbar"]');
   const progressBar = form.querySelector('[data-progress-bar]');
   const status = document.getElementById('form-status');
+  const success = document.getElementById('enquiry-success');
   const customFields = document.getElementById('budget-custom-fields');
   const customBudget = document.getElementById('custom-budget');
   const pageCount = document.getElementById('page-count');
@@ -102,9 +103,14 @@ window.addEventListener('load', () => {
       form.reset();
       updateCurrency();
       syncBudgetFields();
-      status.textContent = 'Thanks for reaching out. Your enquiry has been sent. I’ll be in touch soon.';
-      showStep(0, false);
-      status.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      status.textContent = '';
+      steps.forEach((step) => { step.hidden = true; });
+      form.querySelector('.enquiry-progress').hidden = true;
+      form.querySelector('.enquiry-progress-track').hidden = true;
+      form.querySelector('.package-referral').hidden = true;
+      success.hidden = false;
+      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      success.querySelector('h3').focus({ preventScroll: true });
     } catch {
       status.textContent = 'Sorry, your enquiry could not be sent. Please try again, or email me directly at jane.framer.expert@gmail.com.';
     } finally {

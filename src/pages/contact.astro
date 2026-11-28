@@ -23,7 +23,7 @@ const schema = graph(
   title="Contact Jane Muso | Start a Website Project"
   description="Tell Jane Muso about your business and website goals. Choose a package, share your budget and timeline, and start a project with Muso Design Studio."
   current="contact"
-  styles={['fonts.css', 'styles.css', 'editorial.css', 'projects.css', 'reference-layout.css', 'refinements.css', 'contact.css', 'faq.css', 'contact-steps.css', 'aeo-content.css']}
+  styles={['fonts.css', 'styles.css', 'editorial.css', 'projects.css', 'reference-layout.css', 'refinements.css', 'contact.css', 'faq.css', 'contact-steps-20261128.css', 'aeo-content.css']}
   bodyClass="contact-page"
   schema={schema}
   modified={aeoContentUpdated}
@@ -52,7 +52,6 @@ const schema = graph(
     </div>
 
     <form class="project-form enquiry-form" id="project-form" action="/api/contact" method="post" novalidate>
-      <div class="form-honeypot" aria-hidden="true"><label for="company-url">Leave this field empty</label><input id="company-url" name="companyUrl" type="text" tabindex="-1" autocomplete="off" /></div>
       <div class="enquiry-progress"><span>Muso website enquiry</span><span id="step-count" aria-live="polite">Step 1 of 4</span></div>
       <div class="enquiry-progress-track" role="progressbar" aria-label="Enquiry progress" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1"><span data-progress-bar></span></div>
       <p class="package-referral" id="package-referral" hidden></p>
@@ -111,10 +110,14 @@ const schema = graph(
         <p class="enquiry-send-note">Your enquiry will be sent directly to my inbox.</p>
       </section>
       <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+      <div class="enquiry-success" id="enquiry-success" hidden>
+        <h3 tabindex="-1">Your enquiry was sent.</h3>
+        <p>You will hear from the Muso Designs team within 48 hours. Thank you for trusting us. We look forward to launching your site.</p>
+      </div>
     </form>
   </section>
 
   <Faq id="contact-faq-title" title={contactPage.faqHeading} intro={contactPage.faqIntro} questions={contactPage.faqs} />
   <section class="contact-outro" aria-labelledby="contact-outro-title"><p>THE NEXT GOOD THING / STARTS WITH A HELLO</p><h2 id="contact-outro-title">See you in<br>my inbox<span>.</span></h2><a href="mailto:jane.framer.expert@gmail.com">jane.framer.expert@gmail.com <Icon name="ArrowUpRight" size={22} /></a></section>
-  <script src="/contact.js" defer></script>
+  <script src="/contact-form-20261128.js" defer></script>
 </Layout>

@@ -2,6 +2,7 @@
 .enquiry-progress { display: flex; justify-content: space-between; gap: 20px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .enquiry-progress-track { height: 2px; margin: 15px 0 42px; background: rgba(25,21,21,.22); }
 .enquiry-progress-track span { display: block; width: 25%; height: 100%; background: var(--red); transition: width .3s ease; }
+.enquiry-progress[hidden], .enquiry-progress-track[hidden] { display: none; }
 .enquiry-form .package-referral { margin: -12px 0 35px; }
 .enquiry-step[hidden] { display: none; }
 .enquiry-step-heading { margin-bottom: 42px; }
@@ -40,7 +41,10 @@
 .step-back { display: inline-flex; align-items: center; gap: 8px; padding: 8px 0; border: 0; border-bottom: 1px solid currentColor; background: transparent; color: var(--ink); cursor: pointer; font-size: 14px; font-weight: 700; }
 .step-back:hover { color: var(--red); }
 .enquiry-send-note { max-width: 43ch; margin: 17px 0 0; color: var(--muted); font-size: 12px; line-height: 1.45; }
-.form-honeypot { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.enquiry-success[hidden] { display: none; }
+.enquiry-success { padding: 38px 0 52px; }
+.enquiry-success h3 { margin: 0 0 18px; color: var(--red); font: 600 clamp(38px, 4vw, 64px)/1.05 Oswald, sans-serif; }
+.enquiry-success p { max-width: 48ch; margin: 0; font-size: 18px; line-height: 1.5; }
 @media (max-width: 700px) {
   .enquiry-progress-track { margin-bottom: 32px; }
   .enquiry-step-heading { margin-bottom: 32px; }

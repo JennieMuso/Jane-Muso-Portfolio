@@ -50,8 +50,6 @@ export async function onRequestPost({ request, env }) {
   if (Number(request.headers.get('Content-Length')) > MAX_BODY_BYTES) return reply('Enquiry too long', 413);
   const data = await readBody(request);
   if (!data || typeof data !== 'object' || Array.isArray(data)) return reply('Invalid enquiry', 400);
-  if (data.companyUrl) return reply('Enquiry received', 200);
-
   const currency = field(data, 'currency', 3);
   const projectType = field(data, 'projectType', 24);
   const packageId = field(data, 'package', 100);
