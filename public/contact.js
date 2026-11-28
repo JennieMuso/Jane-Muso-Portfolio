@@ -73,7 +73,7 @@ window.addEventListener('load', () => {
     showStep(currentStep - 1);
   }));
 
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
     if (currentStep < steps.length - 1) {
       form.querySelector('[data-step]:not([hidden]) [data-next]')?.click();
@@ -89,40 +89,27 @@ window.addEventListener('load', () => {
     }
 
     const data = new FormData(form);
-    const value = (key) => String(data.get(key) || '').trim();
-    const projectTypes = { new: 'A brand-new website', redesign: 'Redesigning an existing website', development: 'Development of an existing design', other: 'Something else' };
-    const packageName = form.querySelector('input[name="package"]:checked')?.dataset.packageName || 'Not sure yet';
-    const timelines = { 'as-soon-as-possible': 'As soon as possible', 'within-one-month': 'Within 1 month', 'two-to-three-months': 'In 2–3 months', flexible: 'I’m flexible' };
-    const band = value('budgetBand');
-    const budgetLabel = band === 'custom'
-      ? `${currency()} ${Number(value('customBudget')).toLocaleString('en-US')} for approximately ${value('pageCount')} pages`
-      : band === 'guidance' ? 'I’d like your guidance'
-        : form.querySelector('input[name="budgetBand"]:checked')?.closest('label')?.querySelector('[data-budget-label]')?.textContent || '';
-
-    const body = [
-      'Muso website enquiry',
-      `Currency: ${value('currency')}`,
-      `Project type: ${value('projectType')} — ${projectTypes[value('projectType')]}`,
-      `Package: ${value('package')} — ${packageName}`,
-      `Budget band: ${band} — ${budgetLabel}`,
-      `Timeline: ${value('timeline')} — ${timelines[value('timeline')]}`,
-      '',
-      `Name: ${value('fullName')}`,
-      `Email: ${value('email')}`,
-      `Business: ${value('business') || 'Not provided'}`,
-      `Existing website: ${value('website') || 'Not provided'}`,
-      '',
-      'Project details:', value('projectDetails')
-    ].join('\n');
-    const subject = `Muso website enquiry from ${value('fullName')}`;
-    const draft = `mailto:hello@jenniemuso.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    const retry = document.createElement('a');
-    retry.href = draft;
-    retry.target = '_blank';
-    retry.rel = 'noopener noreferrer';
-    retry.textContent = 'Open the email draft again';
-    status.replaceChildren(document.createTextNode('Your email app should open with your enquiry ready to send. Please send the draft to finish. '), retry);
-    window.open(draft, '_blank', 'noopener,noreferrer');
+    const submit = form.querySelector('button[type="submit"]');
+    submit.disabled = true;
+    status.textContent = 'Sending your enquiry…';
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(data))
+      });
+      if (!response.ok) throw new Error('Unable to send');
+      form.reset();
+      updateCurrency();
+      syncBudgetFields();
+      status.textContent = 'Thanks for reaching out. Your enquiry has been sent. I’ll be in touch soon.';
+      showStep(0, false);
+      status.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch {
+      status.textContent = 'Sorry, your enquiry could not be sent. Please try again, or email me directly at jane.framer.expert@gmail.com.';
+    } finally {
+      submit.disabled = false;
+    }
   });
 
   updateCurrency();

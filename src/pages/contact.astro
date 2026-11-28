@@ -48,10 +48,11 @@ const schema = graph(
       <h2 id="project-brief-title">Tell me<br>what’s on<br>your mind<span>.</span></h2>
       <p>Whether your idea is fully formed or still a few notes on a page, I’d love to hear it. The details below help me understand what matters most to you.</p>
       <p>Before sending a brief, you can <a href="/services/">compare website packages</a>, <a href="/work/">see selected projects</a>, or <a href="/blog/better-questions/">read the questions that help shape a useful site</a>.</p>
-      <div class="brief-direct"><span>Prefer to keep it simple?</span><a href="mailto:hello@jenniemuso.com">Email me directly <Icon name="ArrowUpRight" size={18} /></a></div>
+      <div class="brief-direct"><span>Prefer to keep it simple?</span><a href="mailto:jane.framer.expert@gmail.com">Email me directly <Icon name="ArrowUpRight" size={18} /></a></div>
     </div>
 
-    <form class="project-form enquiry-form" id="project-form" action="mailto:hello@jenniemuso.com" method="post" enctype="text/plain" novalidate>
+    <form class="project-form enquiry-form" id="project-form" action="/api/contact" method="post" novalidate>
+      <div class="form-honeypot" aria-hidden="true"><label for="company-url">Leave this field empty</label><input id="company-url" name="companyUrl" type="text" tabindex="-1" autocomplete="off" /></div>
       <div class="enquiry-progress"><span>Muso website enquiry</span><span id="step-count" aria-live="polite">Step 1 of 4</span></div>
       <div class="enquiry-progress-track" role="progressbar" aria-label="Enquiry progress" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1"><span data-progress-bar></span></div>
       <p class="package-referral" id="package-referral" hidden></p>
@@ -106,14 +107,14 @@ const schema = graph(
         <div class="form-field"><label for="business">BUSINESS OR BRAND NAME</label><input id="business" name="business" type="text" autocomplete="organization" placeholder="Your business name" maxlength="180" /></div>
         <div class="form-field"><label for="website">EXISTING WEBSITE <span class="label-hint">If you have one</span></label><input id="website" name="website" type="url" inputmode="url" autocomplete="url" placeholder="https://yourwebsite.com" maxlength="500" /></div>
         <div class="form-field"><label for="project-details">TELL ME ABOUT YOUR PROJECT <span class="required">*</span></label><textarea id="project-details" name="projectDetails" rows="5" placeholder="What does your business do, and what would you like your website to achieve?" required maxlength="4000"></textarea></div>
-        <div class="step-actions step-actions-final"><button type="button" class="step-back" data-back><Icon name="ArrowLeft" size={18} /> Back</button><button type="submit" class="step-next">Prepare my enquiry <Icon name="ArrowUpRight" size={19} /></button></div>
-        <p class="enquiry-send-note">This opens an email draft with your answers. Send the draft to complete your enquiry.</p>
+        <div class="step-actions step-actions-final"><button type="button" class="step-back" data-back><Icon name="ArrowLeft" size={18} /> Back</button><button type="submit" class="step-next">Send my enquiry <Icon name="ArrowUpRight" size={19} /></button></div>
+        <p class="enquiry-send-note">Your enquiry will be sent directly to my inbox.</p>
       </section>
       <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
     </form>
   </section>
 
   <Faq id="contact-faq-title" title={contactPage.faqHeading} intro={contactPage.faqIntro} questions={contactPage.faqs} />
-  <section class="contact-outro" aria-labelledby="contact-outro-title"><p>THE NEXT GOOD THING / STARTS WITH A HELLO</p><h2 id="contact-outro-title">See you in<br>my inbox<span>.</span></h2><a href="mailto:hello@jenniemuso.com">hello@jenniemuso.com <Icon name="ArrowUpRight" size={22} /></a></section>
+  <section class="contact-outro" aria-labelledby="contact-outro-title"><p>THE NEXT GOOD THING / STARTS WITH A HELLO</p><h2 id="contact-outro-title">See you in<br>my inbox<span>.</span></h2><a href="mailto:jane.framer.expert@gmail.com">jane.framer.expert@gmail.com <Icon name="ArrowUpRight" size={22} /></a></section>
   <script src="/contact.js" defer></script>
 </Layout>

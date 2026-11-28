@@ -36,6 +36,6 @@ export const contactFaqs: Faq[] = [
   },
   {
     question: 'What happens when I submit the form?',
-    answer: 'The form prepares an email with your answers in your mail app. Review it and press send there to deliver your enquiry. You can also email me directly at hello@jenniemuso.com.'
+    answer: 'Complete the form and press send to deliver your enquiry directly. You can also email me directly at jane.framer.expert@gmail.com.'
   }
 ];
